@@ -36,7 +36,7 @@ Criar um sistema de reserva e avaliação de restaurantes.
 # Setup do Projeto
 
 Para realizar o setup do projeto é necessário possuir o Java 17, docker 24 e docker-compose 1.29 instalado em sua máquina.
-Faca o download do projeto e atualize suas dependências com o gradle.
+Faca o download do projeto (https://github.com/EvolutionTeamFiapAluraPostech/fiapAluraTechChallengeFase03) e atualize suas dependências com o gradle.
 Antes de iniciar o projeto é necessário criar o banco de dados. O banco de dados está programado para ser criado em um container. 
 Para criar o container, execute o docker-compose.
 Acesse a pasta raiz do projeto, no mesmo local onde encontra-se o arquivo docker-compose.yml. Para executá-lo, execute o comando docker-compose up -d (para rodar detached e não prender o terminal).

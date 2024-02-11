@@ -33,11 +33,11 @@ class ArchUnitTest {
     layeredArchitecture().consideringAllDependencies()
         .layer("Presentation").definedBy("..presentation..")
         .layer("Application").definedBy("..application..")
-        .layer("Model").definedBy("..model..")
+        .layer("Domain").definedBy("..domain..")
         .layer("Infrastructure").definedBy("..infrastructure..")
         .whereLayer("Presentation").mayOnlyBeAccessedByLayers("Infrastructure")
         .whereLayer("Application").mayOnlyBeAccessedByLayers("Infrastructure", "Presentation")
-        .whereLayer("Model")
+        .whereLayer("Domain")
         .mayOnlyBeAccessedByLayers("Presentation", "Application", "Infrastructure")
         .check(mainPackages);
   }
@@ -123,7 +123,7 @@ class ArchUnitTest {
 
   @Test
   void shouldServicesHaveEquivalentTestClass() {
-    classes().that().haveSimpleNameEndingWith("Service")
+    classes().that().haveSimpleNameEndingWith("ServiceImpl")
         .should(haveEquivalentTestClass(testPackages))
         .check(mainPackages);
   }

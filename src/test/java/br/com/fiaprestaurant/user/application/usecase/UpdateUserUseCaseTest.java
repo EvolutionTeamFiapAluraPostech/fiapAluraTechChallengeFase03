@@ -9,11 +9,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.model.entity.validator.UuidValidator;
+import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
-import br.com.fiaprestaurant.user.model.entity.User;
-import br.com.fiaprestaurant.user.model.service.UserService;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

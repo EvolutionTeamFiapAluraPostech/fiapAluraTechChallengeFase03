@@ -1,7 +1,7 @@
 package br.com.fiaprestaurant.user.presentation.api;
 
 import br.com.fiaprestaurant.user.infrastructure.security.TokenService;
-import br.com.fiaprestaurant.user.model.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import br.com.fiaprestaurant.user.presentation.dto.AuthenticateInputDto;
 import br.com.fiaprestaurant.user.presentation.dto.TokenJwtInput;
 import jakarta.validation.Valid;

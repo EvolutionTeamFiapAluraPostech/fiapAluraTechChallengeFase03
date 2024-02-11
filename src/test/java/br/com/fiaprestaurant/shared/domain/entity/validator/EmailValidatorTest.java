@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.shared.model.entity.validator;
+package br.com.fiaprestaurant.shared.domain.entity.validator;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

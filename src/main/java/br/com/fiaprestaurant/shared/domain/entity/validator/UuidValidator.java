@@ -1,6 +1,6 @@
-package br.com.fiaprestaurant.shared.model.entity.validator;
+package br.com.fiaprestaurant.shared.domain.entity.validator;
 
-import static br.com.fiaprestaurant.shared.model.messages.SharedMessages.UUID_INVALID;
+import static br.com.fiaprestaurant.shared.domain.messages.SharedMessages.UUID_INVALID;
 
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.util.IsUUID;

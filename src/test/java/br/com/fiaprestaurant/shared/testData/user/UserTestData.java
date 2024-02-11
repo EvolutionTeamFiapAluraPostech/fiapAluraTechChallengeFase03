@@ -1,7 +1,6 @@
 package br.com.fiaprestaurant.shared.testData.user;
 
-import br.com.fiaprestaurant.shared.model.enums.PaymentMethod;
-import br.com.fiaprestaurant.user.model.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import java.util.UUID;
 
 public final class UserTestData {
@@ -38,13 +37,6 @@ public final class UserTestData {
       ALTERNATIVE_USER_NAME,
       ALTERNATIVE_USER_EMAIL,
       ALTERNATIVE_USER_CPF);
-
-  public static final String USER_PAYMENT_METHOD_TEMPLATE_UPDATE = """
-      {"paymentMethod": "%s"}""";
-
-  public static final String USER_PAYMENT_METHOD_UPDATE = USER_PAYMENT_METHOD_TEMPLATE_UPDATE.formatted(
-      PaymentMethod.PIX.name());
-
 
   public static User createUser() {
     var uuid = UUID.randomUUID();

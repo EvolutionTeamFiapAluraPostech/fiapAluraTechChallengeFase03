@@ -2,17 +2,12 @@ package br.com.fiaprestaurant.user.presentation.api;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.ALTERNATIVE_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
 import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
-import br.com.fiaprestaurant.shared.api.JsonUtil;
-import br.com.fiaprestaurant.user.model.entity.User;
-import br.com.fiaprestaurant.user.presentation.dto.UserOutputDto;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

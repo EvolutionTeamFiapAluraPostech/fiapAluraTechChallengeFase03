@@ -4,8 +4,8 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.user.model.entity.User;
-import br.com.fiaprestaurant.user.model.service.UserService;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;

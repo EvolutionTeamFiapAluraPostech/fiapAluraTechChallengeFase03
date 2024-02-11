@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.presentation.dto;
 
-import br.com.fiaprestaurant.user.model.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;

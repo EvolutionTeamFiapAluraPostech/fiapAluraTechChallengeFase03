@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.shared.model.entity;
+package br.com.fiaprestaurant.shared.domain.entity;
 
 import br.com.fiaprestaurant.user.infrastructure.security.UserFromSecurityContext;
 import jakarta.persistence.PrePersist;

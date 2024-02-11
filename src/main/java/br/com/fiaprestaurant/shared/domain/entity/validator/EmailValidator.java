@@ -1,6 +1,6 @@
-package br.com.fiaprestaurant.shared.model.entity.validator;
+package br.com.fiaprestaurant.shared.domain.entity.validator;
 
-import static br.com.fiaprestaurant.user.model.messages.UserMessages.USER_EMAIL_INVALID;
+import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_INVALID;
 
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import java.util.regex.Pattern;

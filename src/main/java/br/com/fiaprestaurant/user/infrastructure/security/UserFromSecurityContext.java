@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.infrastructure.security;
 
-import br.com.fiaprestaurant.user.model.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 

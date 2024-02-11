@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.model.entity;
+package br.com.fiaprestaurant.user.infrastructure.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

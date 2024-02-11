@@ -14,7 +14,7 @@ import br.com.fiaprestaurant.shared.testData.user.UserTestData;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserPasswordStrengthValidator;
-import br.com.fiaprestaurant.user.model.service.UserService;
+import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

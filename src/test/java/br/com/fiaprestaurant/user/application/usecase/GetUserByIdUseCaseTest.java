@@ -1,15 +1,15 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
-import static br.com.fiaprestaurant.user.model.messages.UserMessages.USER_ID_NOT_FOUND;
+import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
-import br.com.fiaprestaurant.shared.model.entity.validator.UuidValidator;
-import br.com.fiaprestaurant.user.model.service.UserService;
+import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
+import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;

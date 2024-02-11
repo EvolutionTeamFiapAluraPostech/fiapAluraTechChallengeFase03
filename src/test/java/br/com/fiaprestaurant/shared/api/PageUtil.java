@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.shared.api;
 
-import br.com.fiaprestaurant.user.model.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import java.util.List;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

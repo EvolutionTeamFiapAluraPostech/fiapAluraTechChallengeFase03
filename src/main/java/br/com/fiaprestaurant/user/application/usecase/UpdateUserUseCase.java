@@ -1,10 +1,10 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
-import br.com.fiaprestaurant.shared.model.entity.validator.UuidValidator;
+import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
-import br.com.fiaprestaurant.user.model.entity.User;
-import br.com.fiaprestaurant.user.model.service.UserService;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.domain.service.UserService;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

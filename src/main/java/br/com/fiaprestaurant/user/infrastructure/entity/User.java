@@ -1,6 +1,6 @@
-package br.com.fiaprestaurant.user.model.entity;
+package br.com.fiaprestaurant.user.infrastructure.entity;
 
-import br.com.fiaprestaurant.shared.model.entity.BaseEntity;
+import br.com.fiaprestaurant.shared.domain.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

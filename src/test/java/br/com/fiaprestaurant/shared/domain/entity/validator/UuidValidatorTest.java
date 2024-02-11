@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.shared.model.entity.validator;
+package br.com.fiaprestaurant.shared.domain.entity.validator;
 
 import static org.junit.jupiter.api.Assertions.*;
 

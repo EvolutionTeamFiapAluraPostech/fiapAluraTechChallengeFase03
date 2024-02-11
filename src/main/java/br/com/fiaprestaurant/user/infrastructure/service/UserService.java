@@ -1,11 +1,11 @@
-package br.com.fiaprestaurant.user.model.service;
+package br.com.fiaprestaurant.user.infrastructure.service;
 
-import static br.com.fiaprestaurant.user.model.messages.UserMessages.USER_EMAIL_NOT_FOUND;
-import static br.com.fiaprestaurant.user.model.messages.UserMessages.USER_ID_NOT_FOUND;
+import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_NOT_FOUND;
+import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NOT_FOUND;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import br.com.fiaprestaurant.user.infrastructure.repository.UserRepository;
-import br.com.fiaprestaurant.user.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
 @Service
-public class UserService {
+public class UserService implements br.com.fiaprestaurant.user.domain.service.UserService {
 
   private final UserRepository userRepository;
 
@@ -59,5 +59,4 @@ public class UserService {
             () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "cpf",
                 USER_ID_NOT_FOUND.formatted(userUuid))));
   }
-
 }

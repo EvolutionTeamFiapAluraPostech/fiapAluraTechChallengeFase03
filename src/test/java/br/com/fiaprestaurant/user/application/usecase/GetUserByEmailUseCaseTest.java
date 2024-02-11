@@ -2,15 +2,15 @@ package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
-import static br.com.fiaprestaurant.user.model.messages.UserMessages.USER_EMAIL_NOT_FOUND;
+import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
-import br.com.fiaprestaurant.shared.model.entity.validator.EmailValidator;
-import br.com.fiaprestaurant.user.model.service.UserService;
+import br.com.fiaprestaurant.shared.domain.entity.validator.EmailValidator;
+import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,8 +36,7 @@ class GetUserByEmailUseCaseTest {
 
     var userFound = getUserByEmailUseCase.execute(userEmail);
 
-    assertThat(userFound).isNotNull();
-    assertThat(userFound).isSameAs(user);
+    assertThat(userFound).isNotNull().isSameAs(user);
 
     verify(emailValidator).validate(userEmail);
   }

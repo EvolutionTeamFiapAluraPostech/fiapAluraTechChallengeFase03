@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.shared.model.entity;
+package br.com.fiaprestaurant.shared.domain.entity;
 
 public interface AuditableEntity {
 

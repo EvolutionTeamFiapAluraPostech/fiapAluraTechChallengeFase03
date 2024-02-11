@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.model.service;
+package br.com.fiaprestaurant.user.infrastructure.service;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID;
@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.user.infrastructure.repository.UserRepository;
-import br.com.fiaprestaurant.user.model.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +26,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
   private static final int PAGE_NUMBER = 0;
   private static final int PAGE_SIZE = 1;

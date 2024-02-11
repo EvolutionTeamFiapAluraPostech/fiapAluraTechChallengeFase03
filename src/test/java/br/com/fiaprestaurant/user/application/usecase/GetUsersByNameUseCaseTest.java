@@ -4,6 +4,7 @@ import static br.com.fiaprestaurant.shared.api.PageUtil.PAGE_NUMBER;
 import static br.com.fiaprestaurant.shared.api.PageUtil.PAGE_SIZE;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_NAME;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -30,8 +31,9 @@ class GetUsersByNameUseCaseTest {
   @Test
   void shouldGetUserByName() {
     var user = createUser();
-    var userName = user.getName();
-    var users = List.of(user);
+    var userSchema = createUserSchema(user);
+    var userName = userSchema.getName();
+    var users = List.of(userSchema);
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = users.size();
     var page = new PageImpl<>(users, pageable, size);

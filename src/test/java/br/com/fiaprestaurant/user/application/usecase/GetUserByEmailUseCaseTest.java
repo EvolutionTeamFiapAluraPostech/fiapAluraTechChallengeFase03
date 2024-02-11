@@ -2,6 +2,7 @@ package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -31,13 +32,14 @@ class GetUserByEmailUseCaseTest {
   @Test
   void shouldGetUserByEmailWhenUserExists() {
     var user = createUser();
-    var userEmail = user.getEmail();
-    when(userService.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    var userEmail = userSchema.getEmail();
+    when(userService.findByEmail(userSchema.getEmail())).thenReturn(Optional.of(userSchema));
 
     var userFound = getUserByEmailUseCase.execute(userEmail);
 
-    assertThat(userFound).isNotNull().isSameAs(user);
-
+    assertThat(userFound).isNotNull();
+    assertThat(userFound.getId()).isNotNull().isEqualTo(userSchema.getId());
     verify(emailValidator).validate(userEmail);
   }
 

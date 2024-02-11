@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.user.presentation.api;
 
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserSchema;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
 import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
 import br.com.fiaprestaurant.shared.api.JsonUtil;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.presentation.dto.UserOutputDto;
 import jakarta.persistence.EntityManager;
@@ -35,25 +37,27 @@ class GetUserByIdApiTest {
     this.entityManager = entityManager;
   }
 
-  private UserSchema createAndPersistNewUser() {
-    var user = createNewUser();
-    return entityManager.merge(user);
+  private UserSchema createAndPersistNewUser(User user) {
+    var userSchema = createNewUserSchema(user);
+    return entityManager.merge(userSchema);
   }
 
   @Test
   void shoudReturnUserWhenUserExists() throws Exception {
-    var user = createAndPersistNewUser();
-    var userOutputDtoExpected = UserOutputDto.from(user);
+    var user = createUser();
+    var userSchema = createAndPersistNewUser(user);
+    var userOutputDtoExpected = new UserOutputDto(userSchema.getId().toString(),
+        userSchema.getName(),
+        userSchema.getEmail(), userSchema.getCpf());
 
-    var request = get(URL_USERS + user.getId());
+    var request = get(URL_USERS + userSchema.getId());
     var mvcResult = mockMvc.perform(request)
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
         .andReturn();
 
     var contentAsString = mvcResult.getResponse().getContentAsString();
-    var userFound = JsonUtil.fromJson(contentAsString, UserSchema.class);
-    var userDtoFound = UserOutputDto.from(userFound);
+    var userDtoFound = JsonUtil.fromJson(contentAsString, UserOutputDto.class);
     assertThat(userDtoFound).usingRecursiveComparison().isEqualTo(userOutputDtoExpected);
   }
 

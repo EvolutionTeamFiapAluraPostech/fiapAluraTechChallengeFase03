@@ -43,6 +43,7 @@ dependencies {
     testImplementation "com.tngtech.archunit:archunit:${versionArchUnit}"
     testImplementation "io.rest-assured:spring-mock-mvc:${versionRestAssuredSpringMockMvc}"
     testImplementation "io.rest-assured:rest-assured:${versionRestAssuredRestAssured}"
+    testImplementation "io.rest-assured:json-schema-validator:${versionRestAssuredRestAssured}"
 }
 
 tasks.withType(Test) {

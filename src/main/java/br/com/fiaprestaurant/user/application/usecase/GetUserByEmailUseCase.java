@@ -2,9 +2,9 @@ package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_NOT_FOUND;
 
-import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.domain.entity.validator.EmailValidator;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
+import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
@@ -22,10 +22,12 @@ public class GetUserByEmailUseCase {
     this.emailValidator = emailValidator;
   }
 
-  public UserSchema execute(String email) {
+  public User execute(String email) {
     emailValidator.validate(email);
-    return userService.findByEmail(email).orElseThrow(
+    var userFound = userService.findByEmail(email).orElseThrow(
         () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "User",
             USER_EMAIL_NOT_FOUND.formatted(email))));
+    return new User(userFound.getId(), userFound.getName(), userFound.getEmail(),
+        userFound.getCpf(), userFound.getPassword());
   }
 }

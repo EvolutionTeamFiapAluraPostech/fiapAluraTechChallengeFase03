@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,21 +34,23 @@ class DeleteUserUseCaseTest {
   @Test
   void shouldDeleteAnUser() {
     var user = createUser();
-    when(userService.findById(user.getId())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userService.findById(userSchema.getId())).thenReturn(Optional.of(userSchema));
 
-    assertDoesNotThrow(() -> deleteUserUseCase.execute(user.getId().toString()));
+    assertDoesNotThrow(() -> deleteUserUseCase.execute(userSchema.getId().toString()));
 
-    verify(userService).save(user);
+    verify(userService).save(userSchema);
   }
 
   @Test
   void shouldThrowExceptionWhenDeleteAnUserWasNotFound() {
     var user = createUser();
-    when(userService.findById(user.getId())).thenReturn(Optional.empty());
+    var userSchema = createUserSchema(user);
+    when(userService.findById(userSchema.getId())).thenReturn(Optional.empty());
 
-    assertThrows(NoResultException.class, () -> deleteUserUseCase.execute(user.getId().toString()));
+    assertThrows(NoResultException.class, () -> deleteUserUseCase.execute(userSchema.getId().toString()));
 
-    verify(userService, never()).save(user);
+    verify(userService, never()).save(userSchema);
   }
 
   @Test

@@ -1,7 +1,8 @@
 package br.com.fiaprestaurant.user.presentation.api;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.ALTERNATIVE_USER_EMAIL;
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserSchema;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,8 +33,9 @@ class GetUserByEmailApiTest {
   }
 
   private UserSchema createAndPersistNewUser() {
-    var user = createNewUser();
-    return entityManager.merge(user);
+    var user = createUser();
+    var userSchema = createNewUserSchema(user);
+    return entityManager.merge(userSchema);
   }
 
   @Test

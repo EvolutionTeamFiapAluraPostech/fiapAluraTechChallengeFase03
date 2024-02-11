@@ -2,6 +2,7 @@ package br.com.fiaprestaurant.user.infrastructure.service;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -22,12 +23,13 @@ class AuthenticationServiceImplTest {
   @Test
   void shouldLoadUserByUsername() {
     var user = createUser();
+    var userSchema = createUserSchema(user);
 
-    when(userService.findByEmailRequired(user.getEmail())).thenReturn(user);
-    var userFound = UserDetailsService.loadUserByUsername(user.getUsername());
+    when(userService.findByEmailRequired(userSchema.getEmail())).thenReturn(userSchema);
+    var userFound = UserDetailsService.loadUserByUsername(userSchema.getUsername());
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound).usingRecursiveComparison().isEqualTo(user);
+    assertThat(userFound).usingRecursiveComparison().isEqualTo(userSchema);
   }
 
   @Test

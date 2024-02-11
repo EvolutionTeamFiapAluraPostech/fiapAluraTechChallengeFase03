@@ -31,9 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController implements UsersApi {
 
   private final CreateUserUseCase createUserUseCase;
-  private final GetAllUsersUseCase getAllUsersUseCase;
   private final GetUserByEmailUseCase getUserByEmailUseCase;
-  private final GetUsersByNameUseCase getUsersByNameUseCase;
   private final GetUserByIdUseCase getUserByIdUseCase;
   private final UpdateUserUseCase updateUserUseCase;
   private final DeleteUserUseCase deleteUserUseCase;
@@ -41,28 +39,16 @@ public class UsersController implements UsersApi {
 
   public UsersController(
       CreateUserUseCase createUserUseCase,
-      GetAllUsersUseCase getAllUsersUseCase,
       GetUserByEmailUseCase getUserByEmailUseCase,
-      GetUsersByNameUseCase getUsersByNameUseCase,
       GetUserByIdUseCase getUserByIdUseCase,
       UpdateUserUseCase updateUserUseCase,
       DeleteUserUseCase deleteUserUseCase, GetUserByCpfUseCase getUserByCpfUseCase) {
     this.createUserUseCase = createUserUseCase;
-    this.getAllUsersUseCase = getAllUsersUseCase;
     this.getUserByEmailUseCase = getUserByEmailUseCase;
-    this.getUsersByNameUseCase = getUsersByNameUseCase;
     this.getUserByIdUseCase = getUserByIdUseCase;
     this.updateUserUseCase = updateUserUseCase;
     this.deleteUserUseCase = deleteUserUseCase;
     this.getUserByCpfUseCase = getUserByCpfUseCase;
-  }
-
-  @GetMapping
-  @ResponseStatus(HttpStatus.OK)
-  public Page<UserOutputDto> getAllUsersPaginated(
-      @PageableDefault(sort = {"name"}) Pageable pageable) {
-    var usersPage = getAllUsersUseCase.execute(pageable);
-    return UserOutputDto.toPage(usersPage);
   }
 
   @PostMapping
@@ -78,14 +64,6 @@ public class UsersController implements UsersApi {
   public UserOutputDto getUserByEmail(@PathVariable String email) {
     var userFound = getUserByEmailUseCase.execute(email);
     return UserOutputDto.from(userFound);
-  }
-
-  @GetMapping("/name/{name}")
-  @ResponseStatus(HttpStatus.OK)
-  public Page<UserOutputDto> getUsersByName(@PathVariable String name,
-      @PageableDefault(sort = {"name"}) Pageable pageable) {
-    var usersPage = getUsersByNameUseCase.execute(name, pageable);
-    return UserOutputDto.toPage(usersPage);
   }
 
   @GetMapping("/{userId}")

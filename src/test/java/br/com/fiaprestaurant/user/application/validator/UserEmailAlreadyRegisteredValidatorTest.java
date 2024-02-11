@@ -1,12 +1,12 @@
 package br.com.fiaprestaurant.user.application.validator;
 
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
-import br.com.fiaprestaurant.shared.testData.user.UserTestData;
 import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -25,18 +25,20 @@ class UserEmailAlreadyRegisteredValidatorTest {
 
   @Test
   void shouldValidateWhenUserEmailDoesNotExist() {
-    var user = createNewUser();
-    when(userService.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+    var user = createUser();
+    var userSchema = createUserSchema(user);
+    when(userService.findByEmail(userSchema.getEmail())).thenReturn(Optional.empty());
 
-    assertDoesNotThrow(() -> userEmailAlreadyRegisteredValidator.validate(user.getEmail()));
+    assertDoesNotThrow(() -> userEmailAlreadyRegisteredValidator.validate(userSchema.getEmail()));
   }
 
   @Test
   void shouldThrowExceptionWhenUserAlreadyExists() {
-    var user = UserTestData.createUser();
-    when(userService.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+    var user = createUser();
+    var userSchema = createUserSchema(user);
+    when(userService.findByEmail(userSchema.getEmail())).thenReturn(Optional.of(userSchema));
 
     assertThrows(DuplicatedException.class,
-        () -> userEmailAlreadyRegisteredValidator.validate(user.getEmail()));
+        () -> userEmailAlreadyRegisteredValidator.validate(userSchema.getEmail()));
   }
 }

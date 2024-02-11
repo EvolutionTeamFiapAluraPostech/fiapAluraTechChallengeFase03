@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.user.presentation.api;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +32,8 @@ class DeleteUserApiTest {
 
   private UserSchema createAndPersistUser() {
     var user = createUser();
-    return entityManager.merge(user);
+    var userSchema = createUserSchema(user);
+    return entityManager.merge(userSchema);
   }
 
   @Test

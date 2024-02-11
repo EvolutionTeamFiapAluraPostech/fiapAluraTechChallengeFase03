@@ -2,6 +2,7 @@ package br.com.fiaprestaurant.user.application.validator;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID_FROM_STRING;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -26,19 +27,21 @@ class UserEmailAlreadyRegisteredInOtherUserValidatorTest {
   @Test
   void shouldValidateWhenUserEmailDoesNotExistInOtherEmail() {
     var user = createUser();
-    when(userService.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+    var userSchema = createUserSchema(user);
+    when(userService.findByEmail(userSchema.getEmail())).thenReturn(Optional.empty());
 
     assertDoesNotThrow(() -> userEmailAlreadyRegisteredInOtherUserValidator.validate(
-        user.getId().toString(), user.getEmail()));
+        userSchema.getId().toString(), userSchema.getEmail()));
   }
 
   @Test
   void shouldThrowExceptionWhenUserEmailExistsInOtherEmail() {
     var user = createUser();
-    when(userService.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userService.findByEmail(userSchema.getEmail())).thenReturn(Optional.of(userSchema));
 
     assertThrows(DuplicatedException.class,
         () -> userEmailAlreadyRegisteredInOtherUserValidator.validate(DEFAULT_USER_UUID_FROM_STRING,
-            user.getEmail()));
+            userSchema.getEmail()));
   }
 }

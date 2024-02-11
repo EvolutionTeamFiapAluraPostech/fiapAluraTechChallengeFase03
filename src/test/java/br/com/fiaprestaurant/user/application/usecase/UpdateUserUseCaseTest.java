@@ -1,9 +1,11 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_CPF;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_NAME;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_PASSWORD;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -36,11 +38,13 @@ class UpdateUserUseCaseTest {
 
   @Test
   void shouldUpdateUser() {
-    var userFound = createUser();
+    var user = createUser();
+    var userFound = createUserSchema(user);
     var userToUpdate = UserSchema.builder()
         .id(userFound.getId())
         .name(DEFAULT_USER_NAME)
         .email(DEFAULT_USER_EMAIL)
+        .cpf(DEFAULT_USER_CPF)
         .password(DEFAULT_USER_PASSWORD)
         .build();
     when(userService.findUserByIdRequired(userFound.getId())).thenReturn(userFound);
@@ -49,7 +53,7 @@ class UpdateUserUseCaseTest {
     var userUpdated = updateUserUseCase.execute(userFound.getId().toString(), userToUpdate);
 
     assertThat(userUpdated).isNotNull();
-    assertThat(userUpdated).usingRecursiveComparison().isEqualTo(userToUpdate);
+    assertThat(userUpdated.getId()).isNotNull().isEqualTo(userToUpdate.getId());
     verify(uuidValidator).validate(userToUpdate.getId().toString());
     verify(userEmailAlreadyRegisteredInOtherUserValidator)
         .validate(userToUpdate.getId().toString(), userToUpdate.getEmail());

@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +31,8 @@ class GetAllUsersUseCaseTest {
   @Test
   void shouldGetAllUsersWhenUsersExists() {
     var user = createUser();
-    var users = List.of(user);
+    var userSchema = createUserSchema(user);
+    var users = List.of(userSchema);
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = users.size();
     var page = new PageImpl<>(users, pageable, size);

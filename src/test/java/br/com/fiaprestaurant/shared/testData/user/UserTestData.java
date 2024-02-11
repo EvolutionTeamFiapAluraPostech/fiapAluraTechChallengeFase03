@@ -1,5 +1,6 @@
 package br.com.fiaprestaurant.shared.testData.user;
 
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.UUID;
 
@@ -18,43 +19,43 @@ public final class UserTestData {
   public static final String USER_TEMPLATE_INPUT = """
       {"name": "%s", "email": "%s", "cpf": "%s", "password": "%s"}""";
 
-  public static final String USER_INPUT = USER_TEMPLATE_INPUT.formatted(
-      DEFAULT_USER_NAME,
-      DEFAULT_USER_EMAIL,
-      DEFAULT_USER_CPF,
-      DEFAULT_USER_PASSWORD);
+  public static final String USER_INPUT = USER_TEMPLATE_INPUT.formatted(DEFAULT_USER_NAME,
+      DEFAULT_USER_EMAIL, DEFAULT_USER_CPF, DEFAULT_USER_PASSWORD);
 
   public static final String ALTERNATIVE_USER_INPUT = USER_TEMPLATE_INPUT.formatted(
-      ALTERNATIVE_USER_NAME,
-      ALTERNATIVE_USER_EMAIL,
-      ALTERNATIVE_USER_CPF,
-      DEFAULT_USER_PASSWORD);
+      ALTERNATIVE_USER_NAME, ALTERNATIVE_USER_EMAIL, ALTERNATIVE_USER_CPF, DEFAULT_USER_PASSWORD);
 
   public static final String USER_TEMPLATE_UPDATE = """
       {"name": "%s", "email": "%s", "cpf": "%s"}""";
 
-  public static final String USER_UPDATE = USER_TEMPLATE_UPDATE.formatted(
-      ALTERNATIVE_USER_NAME,
-      ALTERNATIVE_USER_EMAIL,
-      ALTERNATIVE_USER_CPF);
+  public static final String USER_UPDATE = USER_TEMPLATE_UPDATE.formatted(ALTERNATIVE_USER_NAME,
+      ALTERNATIVE_USER_EMAIL, ALTERNATIVE_USER_CPF);
 
-  public static UserSchema createUser() {
+  public static UserSchema createUserSchema(User user) {
     var uuid = UUID.randomUUID();
-    return UserSchema.builder()
-        .id(uuid)
-        .email(ALTERNATIVE_USER_EMAIL)
-        .name(ALTERNATIVE_USER_NAME)
-        .cpf(ALTERNATIVE_USER_CPF)
-        .password(DEFAULT_USER_PASSWORD)
+    return UserSchema.builder().id(uuid)
+        .name(user.getName())
+        .email(user.getEmail().address())
+        .cpf(user.getCpf().cpf())
+        .password(user.getPassword().getPasswordValue())
         .build();
   }
 
-  public static UserSchema createNewUser() {
+  public static User createUser() {
+    return new User(ALTERNATIVE_USER_NAME, ALTERNATIVE_USER_EMAIL, ALTERNATIVE_USER_CPF,
+        DEFAULT_USER_PASSWORD);
+  }
+
+  public static UserSchema createNewUserSchema(User user) {
     return UserSchema.builder()
-        .email(DEFAULT_USER_EMAIL)
-        .name(DEFAULT_USER_NAME)
-        .cpf(DEFAULT_USER_CPF)
-        .password(DEFAULT_USER_PASSWORD)
+        .name(user.getName())
+        .email(user.getEmail().address())
+        .cpf(user.getCpf().cpf())
+        .password(user.getPassword().getPasswordValue())
         .build();
+  }
+
+  public static User createNewUser() {
+    return new User(DEFAULT_USER_NAME, DEFAULT_USER_EMAIL, DEFAULT_USER_CPF, DEFAULT_USER_PASSWORD);
   }
 }

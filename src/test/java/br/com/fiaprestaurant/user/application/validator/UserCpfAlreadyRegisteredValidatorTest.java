@@ -1,7 +1,9 @@
 package br.com.fiaprestaurant.user.application.validator;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserSchema;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -26,18 +28,20 @@ class UserCpfAlreadyRegisteredValidatorTest {
   @Test
   void shouldValidateWhenUserCpfDoesNotExist() {
     var user = createNewUser();
-    when(userService.findByCpf(user.getCpf())).thenReturn(Optional.empty());
+    var userSchema = createNewUserSchema(user);
+    when(userService.findByCpf(userSchema.getCpf())).thenReturn(Optional.empty());
 
-    assertDoesNotThrow(() -> userCpfAlreadyRegisteredValidator.validate(user.getCpf()));
+    assertDoesNotThrow(() -> userCpfAlreadyRegisteredValidator.validate(userSchema.getCpf()));
   }
 
   @Test
   void shouldThrowExceptionWhenUserCpfAlreadyExists() {
     var user = createUser();
-    when(userService.findByCpf(user.getCpf())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userService.findByCpf(userSchema.getCpf())).thenReturn(Optional.of(userSchema));
 
     assertThrows(DuplicatedException.class,
-        () -> userCpfAlreadyRegisteredValidator.validate(user.getCpf()));
+        () -> userCpfAlreadyRegisteredValidator.validate(userSchema.getCpf()));
   }
 
 }

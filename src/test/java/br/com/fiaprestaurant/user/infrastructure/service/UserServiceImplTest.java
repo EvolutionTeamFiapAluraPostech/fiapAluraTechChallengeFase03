@@ -2,8 +2,9 @@ package br.com.fiaprestaurant.user.infrastructure.service;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID;
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserSchema;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
@@ -38,21 +39,23 @@ class UserServiceImplTest {
 
   @Test
   void shouldSaveUserWhenAllUserAttributesAreCorrect() {
-    var user = createNewUser();
-    when(userRepository.save(user)).then(returnsFirstArg());
+    var user = createUser();
+    var userSchema = createNewUserSchema(user);
+    when(userRepository.save(userSchema)).then(returnsFirstArg());
 
-    var userSaved = userService.save(user);
+    var userSaved = userService.save(userSchema);
 
     assertThat(userSaved).isNotNull();
     assertThat(userSaved.getName()).isEqualTo(user.getName());
-    assertThat(userSaved.getEmail()).isEqualTo(user.getEmail());
-    verify(userRepository).save(user);
+    assertThat(userSaved.getEmail()).isEqualTo(user.getEmail().address());
+    verify(userRepository).save(userSchema);
   }
 
   @Test
   void shouldGetAllUsersPaginatedWhenUsersExits() {
     var user = createUser();
-    var users = List.of(user);
+    var userSchema = createUserSchema(user);
+    var users = List.of(userSchema);
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = users.size();
     var page = new PageImpl<>(users, pageable, size);
@@ -85,35 +88,38 @@ class UserServiceImplTest {
   @Test
   void shouldFindUserByEmailWhenUserExists() {
     var user = createUser();
-    when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userRepository.findByEmail(userSchema.getEmail())).thenReturn(Optional.of(userSchema));
 
-    var userFoundOptional = userService.findByEmail(user.getEmail());
+    var userFoundOptional = userService.findByEmail(userSchema.getEmail());
     var userFound = userFoundOptional.orElse(null);
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound.getName()).isEqualTo(user.getName());
-    assertThat(userFound.getEmail()).isEqualTo(user.getEmail());
+    assertThat(userFound.getName()).isEqualTo(userSchema.getName());
+    assertThat(userFound.getEmail()).isEqualTo(userSchema.getEmail());
   }
 
   @Test
   void shouldFindUserByCpfWhenUserExists() {
     var user = createUser();
-    when(userRepository.findByCpf(user.getCpf())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userRepository.findByCpf(userSchema.getCpf())).thenReturn(Optional.of(userSchema));
 
-    var userFoundOptional = userService.findByCpf(user.getCpf());
+    var userFoundOptional = userService.findByCpf(userSchema.getCpf());
     var userFound = userFoundOptional.orElse(null);
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound.getName()).isEqualTo(user.getName());
-    assertThat(userFound.getCpf()).isEqualTo(user.getCpf());
+    assertThat(userFound.getName()).isEqualTo(userSchema.getName());
+    assertThat(userFound.getCpf()).isEqualTo(userSchema.getCpf());
   }
 
   @Test
   void shouldReturnEmptyWhenFindUserByEmailDoesNotExist() {
-    var user = createNewUser();
-    when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+    var user = createUser();
+    var userSchema = createUserSchema(user);
+    when(userRepository.findByEmail(userSchema.getEmail())).thenReturn(Optional.empty());
 
-    var userFoundOptional = userService.findByEmail(user.getEmail());
+    var userFoundOptional = userService.findByEmail(userSchema.getEmail());
     var userFound = userFoundOptional.orElse(null);
 
     assertThat(userFound).isNull();
@@ -122,8 +128,9 @@ class UserServiceImplTest {
   @Test
   void shouldFindUserByNameWhenUserExists() {
     var user = createUser();
-    var name = user.getName();
-    var users = List.of(user);
+    var userSchema = createUserSchema(user);
+    var name = userSchema.getName();
+    var users = List.of(userSchema);
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = users.size();
     var page = new PageImpl<>(users, pageable, size);
@@ -157,14 +164,15 @@ class UserServiceImplTest {
   @Test
   void shouldFindUserByIdWhenUserExists() {
     var user = createUser();
-    when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userRepository.findById(userSchema.getId())).thenReturn(Optional.of(userSchema));
 
-    var userFoundOptional = userService.findById(user.getId());
+    var userFoundOptional = userService.findById(userSchema.getId());
     var userFound = userFoundOptional.orElse(null);
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound.getName()).isEqualTo(user.getName());
-    assertThat(userFound.getEmail()).isEqualTo(user.getEmail());
+    assertThat(userFound.getName()).isEqualTo(userSchema.getName());
+    assertThat(userFound.getEmail()).isEqualTo(userSchema.getEmail());
   }
 
   @Test
@@ -180,25 +188,27 @@ class UserServiceImplTest {
   @Test
   void shouldFindUserByEmailRequiredWhenUserExists() {
     var user = createUser();
-    when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userRepository.findByEmail(userSchema.getEmail())).thenReturn(Optional.of(userSchema));
 
-    var userFound = userService.findByEmailRequired(user.getEmail());
+    var userFound = userService.findByEmailRequired(userSchema.getEmail());
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound.getName()).isEqualTo(user.getName());
-    assertThat(userFound.getEmail()).isEqualTo(user.getEmail());
+    assertThat(userFound.getName()).isEqualTo(userSchema.getName());
+    assertThat(userFound.getEmail()).isEqualTo(userSchema.getEmail());
   }
 
   @Test
   void shouldFindUserByIdRequiredWhenUserExists() {
     var user = createUser();
-    when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userRepository.findById(userSchema.getId())).thenReturn(Optional.of(userSchema));
 
-    var userFound = userService.findUserByIdRequired(user.getId());
+    var userFound = userService.findUserByIdRequired(userSchema.getId());
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound.getName()).isEqualTo(user.getName());
-    assertThat(userFound.getCpf()).isEqualTo(user.getCpf());
+    assertThat(userFound.getName()).isEqualTo(userSchema.getName());
+    assertThat(userFound.getCpf()).isEqualTo(userSchema.getCpf());
   }
 
   @Test

@@ -2,6 +2,7 @@ package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.ALTERNATIVE_USER_CPF;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
@@ -27,12 +28,13 @@ class GetUserByCpfUseCaseTest {
   @Test
   void shouldFindUserByCpfWhenUserExists() {
     var user = createUser();
-    when(userService.findByCpf(user.getCpf())).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    when(userService.findByCpf(userSchema.getCpf())).thenReturn(Optional.of(userSchema));
 
-    var userFound = getUserByCpfUseCase.execute(user.getCpf());
+    var userFound = getUserByCpfUseCase.execute(userSchema.getCpf());
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound.getCpf()).isEqualTo(user.getCpf());
+    assertThat(userFound.getCpf().cpf()).isEqualTo(userSchema.getCpf());
   }
 
   @Test

@@ -2,7 +2,6 @@ package br.com.fiaprestaurant.user.presentation.api;
 
 import br.com.fiaprestaurant.user.presentation.dto.PostUserInputDto;
 import br.com.fiaprestaurant.user.presentation.dto.PutUserInputDto;
-import br.com.fiaprestaurant.user.presentation.dto.UserFilter;
 import br.com.fiaprestaurant.user.presentation.dto.UserOutputDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,20 +10,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 @Tag(name = "UsersApi", description = "API de cadastro de condutor do veículo/usuário do aplicativo")
 public interface UsersApi {
-
-  @Operation(summary = "Lista de usuários",
-      description = "Endpoint para recuperar uma lista paginada de usuários ordenada por nome",
-      tags = {"UsersApi"})
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "successful operation", content = {
-          @Content(mediaType = "application/json", schema = @Schema(implementation = UserOutputDto.class))})})
-  Page<UserOutputDto> getAllUsersPaginated(
-      @Parameter(description = "Interface com atributos para paginação") Pageable pageable);
 
   @Operation(summary = "Cadastro de usuários",
       description = "Endpoint para cadastrar novos usuários. O email e CPF devem ser únicos na base de dados",
@@ -47,16 +35,6 @@ public interface UsersApi {
       @ApiResponse(responseCode = "404", description = "not found", content = {
           @Content(schema = @Schema(hidden = true))})})
   UserOutputDto getUserByEmail(@Parameter(description = "email válido") String email);
-
-  @Operation(summary = "Lista de usuários",
-      description = "Endpoint para recuperar uma lista paginada de usuários, filtrada por nome, ordenada por nome",
-      tags = {"UsersApi"})
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "successful operation", content = {
-          @Content(mediaType = "application/json", schema = @Schema(implementation = UserOutputDto.class))})})
-  Page<UserOutputDto> getUsersByName(
-      @Parameter(description = "Nome do condutor/usuário") String name,
-      @Parameter(description = "Interface com atributos para paginação") Pageable pageable);
 
   @Operation(summary = "Recupera um usuário",
       description = "Endpoint para recuperar um usuário pelo ID cadastrado",

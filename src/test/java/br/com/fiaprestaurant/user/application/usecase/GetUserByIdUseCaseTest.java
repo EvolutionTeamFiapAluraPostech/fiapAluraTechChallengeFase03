@@ -1,14 +1,15 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
+import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,8 +32,9 @@ class GetUserByIdUseCaseTest {
   @Test
   void shouldFindUserByIdWhenUserExists() {
     var user = createUser();
-    var userUuid = user.getId().toString();
-    when(userService.findById(UUID.fromString(userUuid))).thenReturn(Optional.of(user));
+    var userSchema = createUserSchema(user);
+    var userUuid = userSchema.getId().toString();
+    when(userService.findById(UUID.fromString(userUuid))).thenReturn(Optional.of(userSchema));
 
     var userFound = getUserByIdUseCase.execute(userUuid);
 

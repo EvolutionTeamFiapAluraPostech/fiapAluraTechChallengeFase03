@@ -46,7 +46,8 @@ class PostUserApiTest {
   }
 
   private UserSchema createNewUser() {
-    return UserTestData.createNewUser();
+    var user = UserTestData.createNewUser();
+    return UserTestData.createNewUserSchema(user);
   }
 
   @Test
@@ -87,7 +88,7 @@ class PostUserApiTest {
 
   @Test
   void shouldReturnBadRequestWhenUserNameLengthIsGreaterThan500Characters() throws Exception {
-    var userNameIsGreaterThan500Characters = StringUtil.generateStringLength(        501);
+    var userNameIsGreaterThan500Characters = StringUtil.generateStringLength(501);
     var user = UserSchema.builder()
         .name(userNameIsGreaterThan500Characters)
         .email(DEFAULT_USER_EMAIL)
@@ -122,7 +123,7 @@ class PostUserApiTest {
   @Test
   void shouldReturnBadRequestWhenUserEmailLengthIsGreaterThan500Characters() throws Exception {
     var userEmailLengthIsGreaterThan500Characters = StringUtil.generateStringLength(
-         501);
+        501);
     var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .email(userEmailLengthIsGreaterThan500Characters)

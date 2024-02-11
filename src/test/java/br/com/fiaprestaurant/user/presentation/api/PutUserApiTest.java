@@ -6,7 +6,8 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.ALTERNATIV
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_PASSWORD;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.USER_TEMPLATE_UPDATE;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.USER_UPDATE;
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserSchema;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static br.com.fiaprestaurant.shared.util.IsUUID.isUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -40,8 +41,9 @@ class PutUserApiTest {
   }
 
   private UserSchema createAndPersistUser() {
-    var user = createNewUser();
-    return entityManager.merge(user);
+    var user = createUser();
+    var userSchema = createNewUserSchema(user);
+    return entityManager.merge(userSchema);
   }
 
   private UserSchema createAndPersistUserWithDifferentAttributes() {

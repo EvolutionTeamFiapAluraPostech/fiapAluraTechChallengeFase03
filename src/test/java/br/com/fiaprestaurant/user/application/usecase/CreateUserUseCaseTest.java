@@ -51,7 +51,7 @@ class CreateUserUseCaseTest {
     assertThat(userSaved.getId()).isNotNull();
     assertThat(userSaved.getName()).isEqualTo(userSchema.getName());
     assertThat(userSaved.getEmail().address()).isEqualTo(userSchema.getEmail());
-    assertThat(userSaved.getCpf().cpf()).isEqualTo(userSchema.getCpf());
+    assertThat(userSaved.getCpf().getCpf()).isEqualTo(userSchema.getCpf());
     verify(userEmailAlreadyRegisteredValidator).validate(userSchema.getEmail());
     verify(userCpfAlreadyRegisteredValidator).validate(userSchema.getCpf());
     verify(passwordEncoder).encode(userSchema.getPassword());

@@ -34,7 +34,7 @@ class GetUserByCpfUseCaseTest {
     var userFound = getUserByCpfUseCase.execute(userSchema.getCpf());
 
     assertThat(userFound).isNotNull();
-    assertThat(userFound.getCpf().cpf()).isEqualTo(userSchema.getCpf());
+    assertThat(userFound.getCpf().getCpf()).isEqualTo(userSchema.getCpf());
   }
 
   @Test

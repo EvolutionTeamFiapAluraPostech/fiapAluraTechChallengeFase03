@@ -6,5 +6,5 @@ public final class CpfMessages {
   }
 
   public static final String CPF_FIELD_NAME = "cpf";
-  public static final String CPF_INVALID = "Invalid CPF";
+  public static final String CPF_INVALID = "Invalid CPF %s.";
 }

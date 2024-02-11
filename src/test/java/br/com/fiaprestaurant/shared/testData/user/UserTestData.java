@@ -36,7 +36,7 @@ public final class UserTestData {
     return UserSchema.builder().id(uuid)
         .name(user.getName())
         .email(user.getEmail().address())
-        .cpf(user.getCpf().cpf())
+        .cpf(user.getCpf().getCpf())
         .password(user.getPassword().getPasswordValue())
         .build();
   }
@@ -50,7 +50,7 @@ public final class UserTestData {
     return UserSchema.builder()
         .name(user.getName())
         .email(user.getEmail().address())
-        .cpf(user.getCpf().cpf())
+        .cpf(user.getCpf().getCpf())
         .password(user.getPassword().getPasswordValue())
         .build();
   }

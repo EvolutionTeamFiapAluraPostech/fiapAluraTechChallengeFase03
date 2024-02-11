@@ -31,10 +31,10 @@ public class CreateUserUseCase {
   @Transactional
   public User execute(User user) {
     userEmailAlreadyRegisteredValidator.validate(user.getEmail().address());
-    userCpfAlreadyRegisteredValidator.validate(user.getCpf().cpf());
+    userCpfAlreadyRegisteredValidator.validate(user.getCpf().getCpf());
     var passwordEncoded = passwordEncoder.encode(user.getPassword().getPasswordValue());
     var userSchema = UserSchema.builder().name(user.getName()).email(user.getEmail().address())
-        .cpf(user.getCpf().cpf()).password(passwordEncoded).build();
+        .cpf(user.getCpf().getCpf()).password(passwordEncoded).build();
     var userSchemaSaved = userService.save(userSchema);
     return new User(userSchemaSaved.getId(), userSchemaSaved.getName(), userSchemaSaved.getEmail(),
         userSchemaSaved.getCpf(), userSchemaSaved.getPassword());

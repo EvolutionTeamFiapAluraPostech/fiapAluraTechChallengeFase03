@@ -12,6 +12,10 @@ import org.springframework.validation.FieldError;
 public class Password {
 
   private static final String PASSWORD_FIELD_NAME = "password";
+  public static final String NUMBER_IN_PASSWORD_REGEX = "(.*\\d.*)";
+  public static final String LOWER_CHAR_IN_PASSWORD_REGEX = "(.*[a-z].*)";
+  public static final String UPPER_CHAR_IN_PASSWORD_REGEX = "(.*[A-Z].*)";
+  public static final String SPECIAL_CHAR_IN_PASSWORD_REGEX = "(.*[@#$%^&+=].*)";
   private final String passwordValue;
 
   public Password(String passwordValue) {
@@ -36,8 +40,7 @@ public class Password {
   }
 
   private void validateNumberInPassword(String password) {
-    var numberCharInPassword = "(.*\\d.*)";
-    if (!password.matches(numberCharInPassword)) {
+    if (!password.matches(NUMBER_IN_PASSWORD_REGEX)) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), PASSWORD_FIELD_NAME,
               USER_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER_CHAR));
@@ -45,8 +48,7 @@ public class Password {
   }
 
   private void validateLowerCharacterInPassword(String password) {
-    var lowerCharInPassword = "(.*[a-z].*)";
-    if (!password.matches(lowerCharInPassword)) {
+    if (!password.matches(LOWER_CHAR_IN_PASSWORD_REGEX)) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), PASSWORD_FIELD_NAME,
               USER_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWER_CHAR));
@@ -54,8 +56,7 @@ public class Password {
   }
 
   private void validateUpperCharacterInPassword(String password) {
-    var upperCharInPassword = "(.*[A-Z].*)";
-    if (!password.matches(upperCharInPassword)) {
+    if (!password.matches(UPPER_CHAR_IN_PASSWORD_REGEX)) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), PASSWORD_FIELD_NAME,
               USER_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPER_CHAR));
@@ -63,8 +64,7 @@ public class Password {
   }
 
   private void validateSpecialCharacterInPassword(String password) {
-    var specialCharInPassword = "(.*[@#$%^&+=].*)";
-    if (!password.matches(specialCharInPassword)) {
+    if (!password.matches(SPECIAL_CHAR_IN_PASSWORD_REGEX)) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), PASSWORD_FIELD_NAME,
               USER_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SPECIAL_CHAR));

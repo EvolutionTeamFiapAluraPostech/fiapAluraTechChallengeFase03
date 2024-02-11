@@ -23,7 +23,7 @@ public record UserOutputDto(
     this(user.getId() != null ? user.getId().toString() : null,
         user.getName(),
         user.getEmail().address(),
-        user.getCpf().cpf());
+        user.getCpf().getCpf());
   }
 
   public static UserOutputDto from(User user) {

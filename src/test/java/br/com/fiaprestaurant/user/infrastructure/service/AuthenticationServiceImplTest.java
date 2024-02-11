@@ -6,6 +6,7 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

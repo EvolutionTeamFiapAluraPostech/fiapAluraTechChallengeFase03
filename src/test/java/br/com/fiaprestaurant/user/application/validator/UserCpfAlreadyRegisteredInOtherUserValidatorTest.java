@@ -3,11 +3,12 @@ package br.com.fiaprestaurant.user.application.validator;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID_FROM_STRING;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
-import br.com.fiaprestaurant.user.infrastructure.service.UserService;
+import br.com.fiaprestaurant.user.infrastructure.service.UserSchemaService;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class UserCpfAlreadyRegisteredInOtherUserValidatorTest {
 
   @Mock
-  private UserService userService;
+  private UserSchemaService userService;
   @InjectMocks
   private UserCpfAlreadyRegisteredInOtherUserValidator userCpfAlreadyRegisteredInOtherUserValidator;
 

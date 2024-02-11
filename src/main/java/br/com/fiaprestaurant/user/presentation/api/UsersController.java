@@ -6,7 +6,6 @@ import br.com.fiaprestaurant.user.application.usecase.GetAllUsersUseCase;
 import br.com.fiaprestaurant.user.application.usecase.GetUserByCpfUseCase;
 import br.com.fiaprestaurant.user.application.usecase.GetUserByEmailUseCase;
 import br.com.fiaprestaurant.user.application.usecase.GetUserByIdUseCase;
-import br.com.fiaprestaurant.user.application.usecase.GetUsersByNameUseCase;
 import br.com.fiaprestaurant.user.application.usecase.UpdateUserUseCase;
 import br.com.fiaprestaurant.user.presentation.dto.PostUserInputDto;
 import br.com.fiaprestaurant.user.presentation.dto.PutUserInputDto;
@@ -31,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController implements UsersApi {
 
   private final CreateUserUseCase createUserUseCase;
+  private final GetAllUsersUseCase getAllUsersUseCase;
   private final GetUserByEmailUseCase getUserByEmailUseCase;
   private final GetUserByIdUseCase getUserByIdUseCase;
   private final UpdateUserUseCase updateUserUseCase;
@@ -39,11 +39,14 @@ public class UsersController implements UsersApi {
 
   public UsersController(
       CreateUserUseCase createUserUseCase,
+      GetAllUsersUseCase getAllUsersUseCase,
       GetUserByEmailUseCase getUserByEmailUseCase,
       GetUserByIdUseCase getUserByIdUseCase,
       UpdateUserUseCase updateUserUseCase,
-      DeleteUserUseCase deleteUserUseCase, GetUserByCpfUseCase getUserByCpfUseCase) {
+      DeleteUserUseCase deleteUserUseCase,
+      GetUserByCpfUseCase getUserByCpfUseCase) {
     this.createUserUseCase = createUserUseCase;
+    this.getAllUsersUseCase = getAllUsersUseCase;
     this.getUserByEmailUseCase = getUserByEmailUseCase;
     this.getUserByIdUseCase = getUserByIdUseCase;
     this.updateUserUseCase = updateUserUseCase;
@@ -57,6 +60,14 @@ public class UsersController implements UsersApi {
     var user = PostUserInputDto.toUser(postUserInputDto);
     var userCreated = createUserUseCase.execute(user);
     return UserOutputDto.from(userCreated);
+  }
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public Page<UserOutputDto> getAllUsersPaginated(
+      @PageableDefault(sort = {"name"}) Pageable pageable) {
+    var usersPage = getAllUsersUseCase.execute(pageable);
+    return UserOutputDto.toPage(usersPage);
   }
 
   @GetMapping("/email/{email}")

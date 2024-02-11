@@ -10,11 +10,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
-import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
-import br.com.fiaprestaurant.user.infrastructure.service.UserService;
-import java.util.Optional;
+import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,7 +34,7 @@ class DeleteUserUseCaseTest {
   void shouldDeleteAnUser() {
     var user = createUser();
     var userSchema = createUserSchema(user);
-    when(userService.findById(userSchema.getId())).thenReturn(Optional.of(userSchema));
+    when(userService.findUserByIdRequired(userSchema.getId())).thenReturn(userSchema);
 
     assertDoesNotThrow(() -> deleteUserUseCase.execute(userSchema.getId().toString()));
 
@@ -46,9 +45,10 @@ class DeleteUserUseCaseTest {
   void shouldThrowExceptionWhenDeleteAnUserWasNotFound() {
     var user = createUser();
     var userSchema = createUserSchema(user);
-    when(userService.findById(userSchema.getId())).thenReturn(Optional.empty());
+    when(userService.findUserByIdRequired(userSchema.getId())).thenThrow(NoResultException.class);
 
-    assertThrows(NoResultException.class, () -> deleteUserUseCase.execute(userSchema.getId().toString()));
+    assertThrows(NoResultException.class,
+        () -> deleteUserUseCase.execute(userSchema.getId().toString()));
 
     verify(userService, never()).save(userSchema);
   }

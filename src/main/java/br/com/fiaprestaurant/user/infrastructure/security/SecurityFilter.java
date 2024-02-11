@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.infrastructure.security;
 
-import br.com.fiaprestaurant.user.infrastructure.service.UserService;
+import br.com.fiaprestaurant.user.domain.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -8,8 +8,8 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import br.com.fiaprestaurant.user.domain.service.UserService;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
-import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -48,12 +48,12 @@ class GetUsersByNameUseCaseTest {
   }
 
   @Test
-  void shouldReturnEmptyPageWhenDoesNotExistAnyUserSaved(){
+  void shouldReturnEmptyPageWhenDoesNotExistAnyUserSaved() {
     var users = new ArrayList<UserSchema>();
     var userName = DEFAULT_USER_NAME;
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = 0;
-    var page = new PageImpl<>(users, pageable,  size);
+    var page = new PageImpl<>(users, pageable, size);
 
     when(userService.findByNamePageable(userName, pageable)).thenReturn(page);
     var usersFound = getUsersByNameUseCase.execute(userName, pageable);

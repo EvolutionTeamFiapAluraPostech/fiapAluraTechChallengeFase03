@@ -3,7 +3,7 @@ package br.com.fiaprestaurant.user.application.validator;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_ALREADY_EXISTS;
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
-import br.com.fiaprestaurant.user.infrastructure.service.UserService;
+import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
-import br.com.fiaprestaurant.user.infrastructure.service.UserService;
+import br.com.fiaprestaurant.user.domain.service.UserService;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

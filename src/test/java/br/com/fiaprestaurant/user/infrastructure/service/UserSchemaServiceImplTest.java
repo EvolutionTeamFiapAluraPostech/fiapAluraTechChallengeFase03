@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
-import br.com.fiaprestaurant.user.infrastructure.repository.UserRepository;
+import br.com.fiaprestaurant.user.infrastructure.repository.UserSchemaRepository;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +27,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceImplTest {
+class UserSchemaServiceImplTest {
 
   private static final int PAGE_NUMBER = 0;
   private static final int PAGE_SIZE = 1;
 
   @Mock
-  private UserRepository userRepository;
+  private UserSchemaRepository userRepository;
   @InjectMocks
-  private UserService userService;
+  private UserSchemaService userService;
 
   @Test
   void shouldSaveUserWhenAllUserAttributesAreCorrect() {

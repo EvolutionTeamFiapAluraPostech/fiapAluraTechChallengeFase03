@@ -4,8 +4,9 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NOT_FOUND;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.infrastructure.repository.UserSchemaRepository;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
-import br.com.fiaprestaurant.user.infrastructure.repository.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -14,11 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
 @Service
-public class UserService implements br.com.fiaprestaurant.user.domain.service.UserService {
+public class UserSchemaService implements UserService {
 
-  private final UserRepository userRepository;
+  private final UserSchemaRepository userRepository;
 
-  public UserService(UserRepository userRepository) {
+  public UserSchemaService(UserSchemaRepository userRepository) {
     this.userRepository = userRepository;
   }
 
@@ -56,7 +57,7 @@ public class UserService implements br.com.fiaprestaurant.user.domain.service.Us
   public UserSchema findUserByIdRequired(UUID userUuid) {
     return userRepository.findById(userUuid)
         .orElseThrow(
-            () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "cpf",
+            () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "ID",
                 USER_ID_NOT_FOUND.formatted(userUuid))));
   }
 }

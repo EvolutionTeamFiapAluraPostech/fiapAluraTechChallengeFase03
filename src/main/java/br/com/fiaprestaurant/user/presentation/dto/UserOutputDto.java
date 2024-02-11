@@ -1,8 +1,11 @@
 package br.com.fiaprestaurant.user.presentation.dto;
 
 import br.com.fiaprestaurant.user.domain.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 @Tag(name = "UserOutputDto", description = "DTO de saída para representação de um usuário")
 public record UserOutputDto(
@@ -26,4 +29,12 @@ public record UserOutputDto(
   public static UserOutputDto from(User user) {
     return new UserOutputDto(user);
   }
+
+  public static Page<UserOutputDto> toPage(Page<UserSchema> usersPage) {
+    var users = usersPage.map(
+        userSchema -> new UserOutputDto(userSchema.getId().toString(), userSchema.getName(),
+            userSchema.getEmail(), userSchema.getCpf())).toList();
+    return new PageImpl<>(users);
+  }
+
 }

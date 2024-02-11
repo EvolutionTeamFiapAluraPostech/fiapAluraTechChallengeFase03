@@ -3,7 +3,7 @@ package br.com.fiaprestaurant.user.application.usecase;
 import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -29,23 +29,23 @@ public class UpdateUserUseCase {
   }
 
   @Transactional
-  public User execute(String userUuid, User userWithUpdatedAttributes) {
+  public UserSchema execute(String userUuid, UserSchema userSchemaWithUpdatedAttributes) {
     uuidValidator.validate(userUuid);
     userEmailAlreadyRegisteredInOtherUserValidator.validate(userUuid,
-        userWithUpdatedAttributes.getEmail());
+        userSchemaWithUpdatedAttributes.getEmail());
     userCpfAlreadyRegisteredInOtherUserValidator.validate(userUuid,
-        userWithUpdatedAttributes.getCpf());
+        userSchemaWithUpdatedAttributes.getCpf());
 
     var userSaved = userService.findUserByIdRequired(UUID.fromString(userUuid));
-    var userToUpdate = updateAttibutesToUser(userSaved, userWithUpdatedAttributes);
+    var userToUpdate = updateAttibutesToUser(userSaved, userSchemaWithUpdatedAttributes);
     return userService.save(userToUpdate);
   }
 
-  private User updateAttibutesToUser(User userSaved, User userToSave) {
-    userSaved.setName(userToSave.getName());
-    userSaved.setEmail(userToSave.getEmail());
-    userSaved.setCpf(userToSave.getCpf());
-    return userSaved;
+  private UserSchema updateAttibutesToUser(UserSchema userSchemaSaved, UserSchema userSchemaToSave) {
+    userSchemaSaved.setName(userSchemaToSave.getName());
+    userSchemaSaved.setEmail(userSchemaToSave.getEmail());
+    userSchemaSaved.setCpf(userSchemaToSave.getCpf());
+    return userSchemaSaved;
   }
 
 }

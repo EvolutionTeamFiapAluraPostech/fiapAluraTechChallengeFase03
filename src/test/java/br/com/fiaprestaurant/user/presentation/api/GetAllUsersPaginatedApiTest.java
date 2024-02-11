@@ -12,7 +12,7 @@ import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
 import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
 import br.com.fiaprestaurant.shared.api.JsonUtil;
 import br.com.fiaprestaurant.shared.api.PageUtil;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.presentation.dto.UserContent;
 import br.com.fiaprestaurant.user.presentation.dto.UserOutputDto;
 import jakarta.persistence.EntityManager;
@@ -34,9 +34,9 @@ class GetAllUsersPaginatedApiTest {
     this.entityManager = entityManager;
   }
 
-  private User findUser() {
-    return (User) entityManager
-        .createQuery("SELECT u FROM User u WHERE email = :email")
+  private UserSchema findUser() {
+    return (UserSchema) entityManager
+        .createQuery("SELECT u FROM UserSchema u WHERE email = :email")
         .setParameter("email", "thomas.anderson@itcompany.com")
         .getSingleResult();
   }

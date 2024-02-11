@@ -1,7 +1,7 @@
 package br.com.fiaprestaurant.user.presentation.api;
 
 import br.com.fiaprestaurant.user.infrastructure.security.TokenService;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.presentation.dto.AuthenticateInputDto;
 import br.com.fiaprestaurant.user.presentation.dto.TokenJwtInput;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ public class AuthenticationController implements AuthenticationInterface {
     var authenticationToken = new UsernamePasswordAuthenticationToken(authenticateInputDto.email(),
         authenticateInputDto.password());
     var authenticate = authenticationManager.authenticate(authenticationToken);
-    var user = ((User) authenticate.getPrincipal());
+    var user = ((UserSchema) authenticate.getPrincipal());
     var tokenJwt = tokenService.generateToken(user);
     return ResponseEntity.ok(new TokenJwtInput(tokenJwt));
   }

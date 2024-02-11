@@ -4,7 +4,7 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.domain.entity.validator.EmailValidator;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
@@ -22,7 +22,7 @@ public class GetUserByEmailUseCase {
     this.emailValidator = emailValidator;
   }
 
-  public User execute(String email) {
+  public UserSchema execute(String email) {
     emailValidator.validate(email);
     return userService.findByEmail(email).orElseThrow(
         () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "User",

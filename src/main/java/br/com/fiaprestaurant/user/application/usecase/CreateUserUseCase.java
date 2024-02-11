@@ -3,7 +3,7 @@ package br.com.fiaprestaurant.user.application.usecase;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserPasswordStrengthValidator;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,12 +32,12 @@ public class CreateUserUseCase {
   }
 
   @Transactional
-  public User execute(User user) {
-    userPasswordStrengthValidator.validate(user.getPassword());
-    userEmailAlreadyRegisteredValidator.validate(user.getEmail());
-    userCpfAlreadyRegisteredValidator.validate(user.getCpf());
-    var passwordEncoded = passwordEncoder.encode(user.getPassword());
-    user.setPassword(passwordEncoded);
-    return userService.save(user);
+  public UserSchema execute(UserSchema userSchema) {
+    userPasswordStrengthValidator.validate(userSchema.getPassword());
+    userEmailAlreadyRegisteredValidator.validate(userSchema.getEmail());
+    userCpfAlreadyRegisteredValidator.validate(userSchema.getCpf());
+    var passwordEncoded = passwordEncoder.encode(userSchema.getPassword());
+    userSchema.setPassword(passwordEncoded);
+    return userService.save(userSchema);
   }
 }

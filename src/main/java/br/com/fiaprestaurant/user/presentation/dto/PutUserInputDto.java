@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.presentation.dto;
 
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Email;
@@ -26,8 +26,8 @@ public record PutUserInputDto(
     String cpf
 ) {
 
-  public static User toUser(PutUserInputDto putUserInputDto) {
-    return User.builder()
+  public static UserSchema toUser(PutUserInputDto putUserInputDto) {
+    return UserSchema.builder()
         .name(putUserInputDto.name)
         .email(putUserInputDto.email)
         .cpf(putUserInputDto.cpf)

@@ -4,7 +4,7 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NOT_FOUND;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.infrastructure.repository.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,38 +22,38 @@ public class UserService implements br.com.fiaprestaurant.user.domain.service.Us
     this.userRepository = userRepository;
   }
 
-  public User save(User user) {
-    return userRepository.save(user);
+  public UserSchema save(UserSchema userSchema) {
+    return userRepository.save(userSchema);
   }
 
-  public Page<User> getAllUsersPaginated(Pageable pageable) {
+  public Page<UserSchema> getAllUsersPaginated(Pageable pageable) {
     return userRepository.findAll(pageable);
   }
 
-  public Optional<User> findByEmail(String email) {
+  public Optional<UserSchema> findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
-  public User findByEmailRequired(String email) {
+  public UserSchema findByEmailRequired(String email) {
     return userRepository.findByEmail(email)
         .orElseThrow(
             () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "email",
                 USER_EMAIL_NOT_FOUND.formatted(email))));
   }
 
-  public Optional<User> findByCpf(String cpf) {
+  public Optional<UserSchema> findByCpf(String cpf) {
     return userRepository.findByCpf(cpf);
   }
 
-  public Page<User> findByNamePageable(String name, Pageable pageable) {
+  public Page<UserSchema> findByNamePageable(String name, Pageable pageable) {
     return userRepository.findByNameLikeIgnoreCase(name, pageable);
   }
 
-  public Optional<User> findById(UUID uuid) {
+  public Optional<UserSchema> findById(UUID uuid) {
     return userRepository.findById(uuid);
   }
 
-  public User findUserByIdRequired(UUID userUuid) {
+  public UserSchema findUserByIdRequired(UUID userUuid) {
     return userRepository.findById(userUuid)
         .orElseThrow(
             () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "cpf",

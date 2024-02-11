@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.infrastructure.entity;
+package br.com.fiaprestaurant.user.infrastructure.schema;
 
 import br.com.fiaprestaurant.shared.domain.entity.BaseEntity;
 import jakarta.persistence.Column;
@@ -30,7 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(schema = "user_management", name = "users")
 @SQLRestriction("deleted = false")
-public class User extends BaseEntity implements UserDetails {
+public class UserSchema extends BaseEntity implements UserDetails {
 
   @Column(nullable = false)
   private String name;

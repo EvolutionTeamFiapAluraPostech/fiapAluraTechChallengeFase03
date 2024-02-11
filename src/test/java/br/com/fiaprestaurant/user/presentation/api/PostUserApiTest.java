@@ -20,7 +20,7 @@ import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
 import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
 import br.com.fiaprestaurant.shared.testData.user.UserTestData;
 import br.com.fiaprestaurant.shared.util.StringUtil;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import com.jayway.jsonpath.JsonPath;
 import jakarta.persistence.EntityManager;
 import java.util.UUID;
@@ -45,7 +45,7 @@ class PostUserApiTest {
     this.entityManager = entityManager;
   }
 
-  private User createNewUser() {
+  private UserSchema createNewUser() {
     return UserTestData.createNewUser();
   }
 
@@ -62,7 +62,7 @@ class PostUserApiTest {
 
     var contentAsString = mvcResult.getResponse().getContentAsString();
     var id = JsonPath.parse(contentAsString).read("$.id").toString();
-    var userFound = entityManager.find(User.class, UUID.fromString(id));
+    var userFound = entityManager.find(UserSchema.class, UUID.fromString(id));
     assertThat(userFound).isNotNull();
     assertThat(userFound.getName()).isEqualTo(ALTERNATIVE_USER_NAME);
     assertThat(userFound.getEmail()).isEqualTo(ALTERNATIVE_USER_EMAIL);
@@ -70,7 +70,7 @@ class PostUserApiTest {
 
   @Test
   void shouldReturnBadRequestWhenUserNameWasNotFilled() throws Exception {
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name("")
         .email(DEFAULT_USER_EMAIL)
         .password(DEFAULT_USER_PASSWORD)
@@ -88,7 +88,7 @@ class PostUserApiTest {
   @Test
   void shouldReturnBadRequestWhenUserNameLengthIsGreaterThan500Characters() throws Exception {
     var userNameIsGreaterThan500Characters = StringUtil.generateStringLength(        501);
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(userNameIsGreaterThan500Characters)
         .email(DEFAULT_USER_EMAIL)
         .password(DEFAULT_USER_PASSWORD)
@@ -105,7 +105,7 @@ class PostUserApiTest {
 
   @Test
   void shouldReturnBadRequestWhenUserEmailWasNotFilled() throws Exception {
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .password(DEFAULT_USER_PASSWORD)
         .build();
@@ -123,7 +123,7 @@ class PostUserApiTest {
   void shouldReturnBadRequestWhenUserEmailLengthIsGreaterThan500Characters() throws Exception {
     var userEmailLengthIsGreaterThan500Characters = StringUtil.generateStringLength(
          501);
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .email(userEmailLengthIsGreaterThan500Characters)
         .password(DEFAULT_USER_PASSWORD)
@@ -141,7 +141,7 @@ class PostUserApiTest {
   @ParameterizedTest
   @ValueSource(strings = {"name.domain.com", "@", "name@", "namedomaincom"})
   void shouldReturnBadRequestWhenUserEmailIsInvalid(String email) throws Exception {
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .email(email)
         .password(DEFAULT_USER_PASSWORD)
@@ -171,7 +171,7 @@ class PostUserApiTest {
 
   @Test
   void shouldReturnBadRequestWhenUserPasswordWasNotFilled() throws Exception {
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .email(DEFAULT_USER_EMAIL)
         .build();
@@ -188,7 +188,7 @@ class PostUserApiTest {
   @ParameterizedTest
   @NullAndEmptySource
   void shouldReturnBadRequestWhenUserPasswordIsNullOrEmpty(String password) throws Exception {
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .email(DEFAULT_USER_EMAIL)
         .password(password)
@@ -206,7 +206,7 @@ class PostUserApiTest {
   @ParameterizedTest
   @ValueSource(strings = {"abcdefghijk", "0ABCDEFGHI", "abcd1234", "Abcd1234"})
   void shouldReturnBadRequestWhenUserPasswordIsInvalid(String password) throws Exception {
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .email(DEFAULT_USER_EMAIL)
         .password(password)
@@ -224,7 +224,7 @@ class PostUserApiTest {
   @ParameterizedTest
   @ValueSource(strings = {"abcde"})
   void shouldReturnBadRequestWhenUserPasswordDoesNotHaveNumber(String password) throws Exception {
-    var user = User.builder()
+    var user = UserSchema.builder()
         .name(DEFAULT_USER_NAME)
         .email(DEFAULT_USER_EMAIL)
         .password(password)

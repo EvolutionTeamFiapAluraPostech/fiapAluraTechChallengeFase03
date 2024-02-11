@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.shared.testData.user;
 
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.UUID;
 
 public final class UserTestData {
@@ -38,9 +38,9 @@ public final class UserTestData {
       ALTERNATIVE_USER_EMAIL,
       ALTERNATIVE_USER_CPF);
 
-  public static User createUser() {
+  public static UserSchema createUser() {
     var uuid = UUID.randomUUID();
-    return User.builder()
+    return UserSchema.builder()
         .id(uuid)
         .email(ALTERNATIVE_USER_EMAIL)
         .name(ALTERNATIVE_USER_NAME)
@@ -49,8 +49,8 @@ public final class UserTestData {
         .build();
   }
 
-  public static User createNewUser() {
-    return User.builder()
+  public static UserSchema createNewUser() {
+    return UserSchema.builder()
         .email(DEFAULT_USER_EMAIL)
         .name(DEFAULT_USER_NAME)
         .cpf(DEFAULT_USER_CPF)

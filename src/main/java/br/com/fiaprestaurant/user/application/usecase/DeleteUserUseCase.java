@@ -4,7 +4,7 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NO
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class DeleteUserUseCase {
     userService.save(user);
   }
 
-  private User findUserById(String userUuid) {
+  private UserSchema findUserById(String userUuid) {
     return userService.findById(UUID.fromString(userUuid)).orElseThrow(
         () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "User",
             USER_ID_NOT_FOUND.formatted(userUuid))));

@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
 import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import com.jayway.jsonpath.JsonPath;
 import jakarta.persistence.EntityManager;
 import java.util.UUID;
@@ -39,13 +39,13 @@ class PutUserApiTest {
     this.entityManager = entityManager;
   }
 
-  private User createAndPersistUser() {
+  private UserSchema createAndPersistUser() {
     var user = createNewUser();
     return entityManager.merge(user);
   }
 
-  private User createAndPersistUserWithDifferentAttributes() {
-    var user = User.builder()
+  private UserSchema createAndPersistUserWithDifferentAttributes() {
+    var user = UserSchema.builder()
         .name(ALTERNATIVE_USER_NAME)
         .email(ALTERNATIVE_USER_EMAIL)
         .cpf(ALTERNATIVE_USER_CPF)
@@ -54,9 +54,9 @@ class PutUserApiTest {
     return entityManager.merge(user);
   }
 
-  private User findUser() {
-    return (User) entityManager
-        .createQuery("SELECT u FROM User u WHERE email = :email")
+  private UserSchema findUser() {
+    return (UserSchema) entityManager
+        .createQuery("SELECT u FROM UserSchema u WHERE email = :email")
         .setParameter("email", "thomas.anderson@itcompany.com")
         .getSingleResult();
   }
@@ -76,7 +76,7 @@ class PutUserApiTest {
 
     var contentAsString = mvcResult.getResponse().getContentAsString();
     var id = JsonPath.parse(contentAsString).read("$.id").toString();
-    var userFound = entityManager.find(User.class, UUID.fromString(id));
+    var userFound = entityManager.find(UserSchema.class, UUID.fromString(id));
     assertThat(userFound).isNotNull();
     assertThat(userFound.getName()).isEqualTo(ALTERNATIVE_USER_NAME);
     assertThat(userFound.getEmail()).isEqualTo(ALTERNATIVE_USER_EMAIL);

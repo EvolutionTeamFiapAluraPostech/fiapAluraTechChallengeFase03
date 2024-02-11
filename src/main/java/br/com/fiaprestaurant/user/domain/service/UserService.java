@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.domain.service;
 
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -8,19 +8,19 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserService {
 
-  User save(User user);
+  UserSchema save(UserSchema userSchema);
 
-  Page<User> getAllUsersPaginated(Pageable pageable);
+  Page<UserSchema> getAllUsersPaginated(Pageable pageable);
 
-  Optional<User> findByEmail(String email);
+  Optional<UserSchema> findByEmail(String email);
 
-  User findByEmailRequired(String email);
+  UserSchema findByEmailRequired(String email);
 
-  Optional<User> findByCpf(String cpf);
+  Optional<UserSchema> findByCpf(String cpf);
 
-  Page<User> findByNamePageable(String name, Pageable pageable);
+  Page<UserSchema> findByNamePageable(String name, Pageable pageable);
 
-  Optional<User> findById(UUID uuid);
+  Optional<UserSchema> findById(UUID uuid);
 
-  User findUserByIdRequired(UUID userUuid);
+  UserSchema findUserByIdRequired(UUID userUuid);
 }

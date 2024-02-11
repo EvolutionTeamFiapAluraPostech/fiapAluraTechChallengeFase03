@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.user.infrastructure.repository.UserRepository;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +68,7 @@ class UserServiceImplTest {
 
   @Test
   void shouldReturnEmptyPageWhenDoesNotExistAnyUserSaved() {
-    var users = new ArrayList<User>();
+    var users = new ArrayList<UserSchema>();
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = 0;
     var page = new PageImpl<>(users, pageable, size);
@@ -140,7 +140,7 @@ class UserServiceImplTest {
   @Test
   void shouldReturnEmptyPageWhenFindByNameAndDoesNotExistAnyUserSaved() {
     var name = "Smith";
-    var users = new ArrayList<User>();
+    var users = new ArrayList<UserSchema>();
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = 0;
     var page = new PageImpl<>(users, pageable, size);

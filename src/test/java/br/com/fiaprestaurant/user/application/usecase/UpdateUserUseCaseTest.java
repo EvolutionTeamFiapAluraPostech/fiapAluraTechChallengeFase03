@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.infrastructure.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +37,7 @@ class UpdateUserUseCaseTest {
   @Test
   void shouldUpdateUser() {
     var userFound = createUser();
-    var userToUpdate = User.builder()
+    var userToUpdate = UserSchema.builder()
         .id(userFound.getId())
         .name(DEFAULT_USER_NAME)
         .email(DEFAULT_USER_EMAIL)

@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ public class GetAllUsersUseCase {
     this.userService = userService;
   }
 
-  public Page<User> execute(Pageable pageable){
+  public Page<UserSchema> execute(Pageable pageable){
     return userService.getAllUsersPaginated(pageable);
   }
 }

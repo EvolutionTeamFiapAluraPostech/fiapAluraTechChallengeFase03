@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.infrastructure.security;
 
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -19,13 +19,13 @@ public class TokenService {
   @Value("${api.security.token.secret}")
   private String secret;
 
-  public String generateToken(User user) {
+  public String generateToken(UserSchema userSchema) {
     try {
       var algorithm = Algorithm.HMAC256(secret);
       return JWT.create()
           .withIssuer(ISSUER)
-          .withSubject(user.getEmail())
-          .withClaim("name", user.getName())
+          .withSubject(userSchema.getEmail())
+          .withClaim("name", userSchema.getName())
           .withExpiresAt(getExpirationDate())
           .sign(algorithm);
     } catch (JWTCreationException exception) {

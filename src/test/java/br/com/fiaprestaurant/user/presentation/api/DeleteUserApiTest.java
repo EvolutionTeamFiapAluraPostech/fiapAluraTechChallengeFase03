@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
 import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
-import br.com.fiaprestaurant.user.infrastructure.entity.User;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import jakarta.persistence.EntityManager;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class DeleteUserApiTest {
     this.entityManager = entityManager;
   }
 
-  private User createAndPersistUser() {
+  private UserSchema createAndPersistUser() {
     var user = createUser();
     return entityManager.merge(user);
   }
@@ -43,7 +43,7 @@ class DeleteUserApiTest {
     mockMvc.perform(request)
         .andExpect(status().isNoContent());
 
-    var userFound = entityManager.find(User.class, user.getId());
+    var userFound = entityManager.find(UserSchema.class, user.getId());
     assertThat(userFound).isNotNull();
     assertThat(userFound.getDeleted()).isEqualTo(Boolean.TRUE);
   }

@@ -3,8 +3,8 @@ package br.com.fiaprestaurant.user.application.usecase;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +33,18 @@ public class CreateUserUseCase {
     userEmailAlreadyRegisteredValidator.validate(user.getEmail().address());
     userCpfAlreadyRegisteredValidator.validate(user.getCpf().getCpf());
     var passwordEncoded = passwordEncoder.encode(user.getPassword().getPasswordValue());
-    var userSchema = UserSchema.builder().name(user.getName()).email(user.getEmail().address())
-        .cpf(user.getCpf().getCpf()).password(passwordEncoded).build();
+    var userSchema = createUserSchema(user, passwordEncoded);
     var userSchemaSaved = userService.save(userSchema);
+    return createUser(userSchemaSaved);
+  }
+
+  private static User createUser(UserSchema userSchemaSaved) {
     return new User(userSchemaSaved.getId(), userSchemaSaved.getName(), userSchemaSaved.getEmail(),
         userSchemaSaved.getCpf(), userSchemaSaved.getPassword());
+  }
+
+  private static UserSchema createUserSchema(User user, String passwordEncoded) {
+    return UserSchema.builder().name(user.getName()).email(user.getEmail().address())
+        .cpf(user.getCpf().getCpf()).password(passwordEncoded).build();
   }
 }

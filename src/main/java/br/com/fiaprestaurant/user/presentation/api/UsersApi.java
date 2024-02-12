@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "UsersApi", description = "API de cadastro de condutor do veículo/usuário do aplicativo")
+@Tag(name = "UsersApi", description = "API de cadastro do usuário do aplicativo")
 public interface UsersApi {
 
   @Operation(summary = "Cadastro de usuários",
@@ -45,7 +45,7 @@ public interface UsersApi {
       @ApiResponse(responseCode = "404", description = "not found para usuário não encontrado",
           content = {@Content(schema = @Schema(hidden = true))})})
   UserOutputDto getUserById(
-      @Parameter(description = "UUID do condutor/usuário válido") String userId);
+      @Parameter(description = "UUID do usuário válido") String userId);
 
   @Operation(summary = "Atualiza usuários",
       description = "Endpoint para atualizar dados do usuário",
@@ -59,7 +59,7 @@ public interface UsersApi {
           @Content(schema = @Schema(hidden = true))}),
       @ApiResponse(responseCode = "409", description = "conflic para email/cpf já cadastrado em outro usuário", content = {
           @Content(schema = @Schema(hidden = true))})})
-  UserOutputDto putUser(@Parameter(description = "UUID do condutor/usuário válido") String userUuid,
+  UserOutputDto putUser(@Parameter(description = "UUID do usuário válido") String userUuid,
       @Parameter(description = "DTO com atributos para se cadastrar um novo usuário. Requer validação de dados informados, como nome, email, cpf e senha") PutUserInputDto putUserInputDto);
 
   @Operation(summary = "Exclui usuários",
@@ -72,7 +72,7 @@ public interface UsersApi {
           @Content(schema = @Schema(hidden = true))}),
       @ApiResponse(responseCode = "404", description = "not found para usuário não encontrado", content = {
           @Content(schema = @Schema(hidden = true))})})
-  void deleteUser(@Parameter(description = "UUID do condutor/usuário válido") String userUuid);
+  void deleteUser(@Parameter(description = "UUID do usuário válido") String userUuid);
 
   @Operation(summary = "Recupera um usuário",
       description = "Endpoint para recuperar um usuário pelo CPF cadastrado",
@@ -82,5 +82,5 @@ public interface UsersApi {
           @Content(mediaType = "application/json", schema = @Schema(implementation = UserOutputDto.class))}),
       @ApiResponse(responseCode = "404", description = "not found para usuário não encontrado", content = {
           @Content(schema = @Schema(hidden = true))})})
-  UserOutputDto getUserByCpf(@Parameter(description = "CPF do condutor/usuário válido") String cpf);
+  UserOutputDto getUserByCpf(@Parameter(description = "CPF do usuário válido") String cpf);
 }

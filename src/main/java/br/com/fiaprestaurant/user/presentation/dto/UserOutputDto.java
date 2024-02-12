@@ -11,11 +11,11 @@ import org.springframework.data.domain.PageImpl;
 public record UserOutputDto(
     @Schema(example = "feea1d11-11b9-4e34-9848-e1174bb857e3", description = "Valid UUID")
     String id,
-    @Schema(example = "Thomas Anderson", description = "Nome do condutor do veículo/usuário do aplicativo")
+    @Schema(example = "Thomas Anderson", description = "Nome do usuário do aplicativo")
     String name,
-    @Schema(example = "thomas.anderson@matrix.com", description = "email do condutor do veículo/usuário do aplicativo")
+    @Schema(example = "thomas.anderson@matrix.com", description = "email do usuário do aplicativo")
     String email,
-    @Schema(example = "92477979000", description = "CPF do condutor do veículo/usuário do aplicativo")
+    @Schema(example = "92477979000", description = "CPF do usuário do aplicativo")
     String cpf
 ) {
 

@@ -25,24 +25,32 @@ public class UserSchemaService implements UserService {
   }
 
   public User save(User user) {
-    var userSchema = UserSchema.builder()
+    var userSchema = createFrom(user);
+    var userSchemaSaved = userRepository.save(userSchema);
+    return userSchemaSaved.getUser();
+  }
+
+  private static UserSchema createFrom(User user) {
+    return UserSchema.builder()
         .name(user.getName())
         .email(user.getEmail().address())
         .cpf(user.getCpf().getCpfNumber())
         .password(user.getPassword().getPasswordValue())
         .build();
-    var userSchemaSaved = userRepository.save(userSchema);
-    return userSchemaSaved.getUser();
   }
 
   @Override
   public User update(UUID id, User user) {
     var userSchema = this.findUserSchemaByIdRequired(id);
+    updateAttributesToUpdate(userSchema, user);
+    var userSchemaSaved = userRepository.save(userSchema);
+    return userSchemaSaved.getUser();
+  }
+
+  private static void updateAttributesToUpdate(UserSchema userSchema, User user) {
     userSchema.setName(user.getName());
     userSchema.setEmail(user.getEmail().address());
     userSchema.setCpf(user.getCpf().getCpfNumber());
-    var userSchemaSaved = userRepository.save(userSchema);
-    return userSchemaSaved.getUser();
   }
 
   @Override
@@ -51,7 +59,6 @@ public class UserSchemaService implements UserService {
     userSchema.setDeleted(true);
     userRepository.save(userSchema);
   }
-
 
   private UserSchema findUserSchemaByIdRequired(UUID userUuid) {
     return userRepository.findById(userUuid)

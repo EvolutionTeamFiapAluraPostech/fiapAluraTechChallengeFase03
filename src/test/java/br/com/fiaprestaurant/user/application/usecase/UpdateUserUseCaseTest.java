@@ -4,18 +4,17 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_US
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_NAME;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_PASSWORD;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,25 +38,19 @@ class UpdateUserUseCaseTest {
   @Test
   void shouldUpdateUser() {
     var user = createUser();
-    var userFound = createUserSchema(user);
-    var userToUpdate = UserSchema.builder()
-        .id(userFound.getId())
-        .name(DEFAULT_USER_NAME)
-        .email(DEFAULT_USER_EMAIL)
-        .cpf(DEFAULT_USER_CPF)
-        .password(DEFAULT_USER_PASSWORD)
-        .build();
-    when(userService.findUserByIdRequired(userFound.getId())).thenReturn(userFound);
-    when(userService.save(any())).thenReturn(userToUpdate);
+    var userToUpdate = new User(DEFAULT_USER_UUID, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL,
+        DEFAULT_USER_CPF, DEFAULT_USER_PASSWORD);
+    when(userService.findUserByIdRequired(userToUpdate.getId())).thenReturn(userToUpdate);
+    when(userService.update(user.getId(), userToUpdate)).thenReturn(userToUpdate);
 
-    var userUpdated = updateUserUseCase.execute(userFound.getId().toString(), userToUpdate);
+    var userUpdated = updateUserUseCase.execute(userToUpdate.getId().toString(), userToUpdate);
 
     assertThat(userUpdated).isNotNull();
     assertThat(userUpdated.getId()).isNotNull().isEqualTo(userToUpdate.getId());
     verify(uuidValidator).validate(userToUpdate.getId().toString());
     verify(userEmailAlreadyRegisteredInOtherUserValidator)
-        .validate(userToUpdate.getId().toString(), userToUpdate.getEmail());
+        .validate(userToUpdate.getId().toString(), userToUpdate.getEmail().address());
     verify(userCpfAlreadyRegisteredInOtherUserValidator)
-        .validate(userToUpdate.getId().toString(), userToUpdate.getCpf());
+        .validate(userToUpdate.getId().toString(), userToUpdate.getCpf().getCpfNumber());
   }
 }

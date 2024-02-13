@@ -11,6 +11,7 @@ public final class UserTestData {
   public static final String DEFAULT_USER_NAME = "Morpheus";
   public static final String DEFAULT_USER_EMAIL = "morpheus@matrix.com";
   public static final String DEFAULT_USER_CPF = "11955975094";
+  public static final UUID ALTERNATIVE_USER_UUID = UUID.randomUUID();
   public static final String ALTERNATIVE_USER_NAME = "Neo";
   public static final String ALTERNATIVE_USER_EMAIL = "neo@matrix.com";
   public static final String ALTERNATIVE_USER_CPF = "79693503058";
@@ -31,26 +32,27 @@ public final class UserTestData {
   public static final String USER_UPDATE = USER_TEMPLATE_UPDATE.formatted(ALTERNATIVE_USER_NAME,
       ALTERNATIVE_USER_EMAIL, ALTERNATIVE_USER_CPF);
 
-  public static UserSchema createUserSchema(User user) {
-    var uuid = UUID.randomUUID();
-    return UserSchema.builder().id(uuid)
-        .name(user.getName())
-        .email(user.getEmail().address())
-        .cpf(user.getCpf().getCpf())
-        .password(user.getPassword().getPasswordValue())
-        .build();
-  }
 
   public static User createUser() {
-    return new User(ALTERNATIVE_USER_NAME, ALTERNATIVE_USER_EMAIL, ALTERNATIVE_USER_CPF,
-        DEFAULT_USER_PASSWORD);
+    return new User(DEFAULT_USER_UUID, ALTERNATIVE_USER_NAME, ALTERNATIVE_USER_EMAIL,
+        ALTERNATIVE_USER_CPF, DEFAULT_USER_PASSWORD);
+  }
+
+  public static UserSchema createUserSchema(User user) {
+    return UserSchema.builder()
+        .id(user.getId())
+        .name(user.getName())
+        .email(user.getEmail().address())
+        .cpf(user.getCpf().getCpfNumber())
+        .password(user.getPassword().getPasswordValue())
+        .build();
   }
 
   public static UserSchema createNewUserSchema(User user) {
     return UserSchema.builder()
         .name(user.getName())
         .email(user.getEmail().address())
-        .cpf(user.getCpf().getCpf())
+        .cpf(user.getCpf().getCpfNumber())
         .password(user.getPassword().getPasswordValue())
         .build();
   }
@@ -58,4 +60,15 @@ public final class UserTestData {
   public static User createNewUser() {
     return new User(DEFAULT_USER_NAME, DEFAULT_USER_EMAIL, DEFAULT_USER_CPF, DEFAULT_USER_PASSWORD);
   }
+
+  public static User createNewUserWithId() {
+    return new User(DEFAULT_USER_UUID, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL, DEFAULT_USER_CPF,
+        DEFAULT_USER_PASSWORD);
+  }
+
+  public static User createAlternativeUser() {
+    return new User(ALTERNATIVE_USER_UUID, ALTERNATIVE_USER_NAME, ALTERNATIVE_USER_EMAIL,
+        ALTERNATIVE_USER_CPF, DEFAULT_USER_PASSWORD);
+  }
+
 }

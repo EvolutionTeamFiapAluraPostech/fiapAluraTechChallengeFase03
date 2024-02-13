@@ -4,8 +4,8 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_CPF_A
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import br.com.fiaprestaurant.user.infrastructure.service.UserSchemaService;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class UserSchemaCpfAlreadyRegisteredInOtherUserValidator implements
     }
   }
 
-  private static boolean cpfAlreadyExistsInOtherUser(String userUuid, UserSchema userSchema) {
-    return !userSchema.getId().equals(UUID.fromString(userUuid));
+  private static boolean cpfAlreadyExistsInOtherUser(String userUuid, User user) {
+    return !user.getId().equals(UUID.fromString(userUuid));
   }
 }

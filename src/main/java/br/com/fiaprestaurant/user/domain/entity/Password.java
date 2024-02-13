@@ -1,6 +1,5 @@
 package br.com.fiaprestaurant.user.domain.entity;
 
-import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_PASSWORD_CANNOT_BE_NULL_OR_EMPTY;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWER_CHAR;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER_CHAR;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SPECIAL_CHAR;
@@ -19,24 +18,17 @@ public class Password {
   private final String passwordValue;
 
   public Password(String passwordValue) {
-    this.validateNullOrEmptyPassword(passwordValue);
-    this.validateNumberInPassword(passwordValue);
-    this.validateLowerCharacterInPassword(passwordValue);
-    this.validateUpperCharacterInPassword(passwordValue);
-    this.validateSpecialCharacterInPassword(passwordValue);
+    if (passwordValue != null && !passwordValue.isEmpty()) {
+      this.validateNumberInPassword(passwordValue);
+      this.validateLowerCharacterInPassword(passwordValue);
+      this.validateUpperCharacterInPassword(passwordValue);
+      this.validateSpecialCharacterInPassword(passwordValue);
+    }
     this.passwordValue = passwordValue;
   }
 
   public String getPasswordValue() {
     return passwordValue;
-  }
-
-  private void validateNullOrEmptyPassword(String passwordValue) {
-    if (passwordValue == null || passwordValue.isEmpty()) {
-      throw new ValidatorException(
-          new FieldError(this.getClass().getSimpleName(), PASSWORD_FIELD_NAME,
-              USER_PASSWORD_CANNOT_BE_NULL_OR_EMPTY));
-    }
   }
 
   private void validateNumberInPassword(String password) {

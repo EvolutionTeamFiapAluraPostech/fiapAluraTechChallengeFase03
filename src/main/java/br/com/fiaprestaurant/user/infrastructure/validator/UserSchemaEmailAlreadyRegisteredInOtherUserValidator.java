@@ -4,8 +4,8 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
@@ -28,7 +28,7 @@ public class UserSchemaEmailAlreadyRegisteredInOtherUserValidator implements
     }
   }
 
-  private static boolean emailAlreadyExistsInOtherUser(String userUuid, UserSchema userSchema) {
-    return !userSchema.getId().equals(UUID.fromString(userUuid));
+  private static boolean emailAlreadyExistsInOtherUser(String userUuid, User user) {
+    return !user.getId().equals(UUID.fromString(userUuid));
   }
 }

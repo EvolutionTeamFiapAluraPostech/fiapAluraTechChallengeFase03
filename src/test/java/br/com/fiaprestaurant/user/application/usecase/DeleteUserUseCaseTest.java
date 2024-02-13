@@ -1,7 +1,6 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,7 +12,9 @@ import static org.mockito.Mockito.when;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,24 +34,20 @@ class DeleteUserUseCaseTest {
   @Test
   void shouldDeleteAnUser() {
     var user = createUser();
-    var userSchema = createUserSchema(user);
-    when(userService.findUserByIdRequired(userSchema.getId())).thenReturn(userSchema);
+    when(userService.findUserByIdRequired(user.getId())).thenReturn(user);
 
-    assertDoesNotThrow(() -> deleteUserUseCase.execute(userSchema.getId().toString()));
+    assertDoesNotThrow(() -> deleteUserUseCase.execute(user.getId().toString()));
 
-    verify(userService).save(userSchema);
+    verify(userService).delete(user.getId());
   }
 
   @Test
   void shouldThrowExceptionWhenDeleteAnUserWasNotFound() {
-    var user = createUser();
-    var userSchema = createUserSchema(user);
-    when(userService.findUserByIdRequired(userSchema.getId())).thenThrow(NoResultException.class);
+    var userId = UUID.randomUUID();
+    when(userService.findUserByIdRequired(userId)).thenThrow(NoResultException.class);
 
-    assertThrows(NoResultException.class,
-        () -> deleteUserUseCase.execute(userSchema.getId().toString()));
-
-    verify(userService, never()).save(userSchema);
+    assertThrows(NoResultException.class, () -> deleteUserUseCase.execute(userId.toString()));
+    verify(userService, never()).save(any(User.class));
   }
 
   @Test

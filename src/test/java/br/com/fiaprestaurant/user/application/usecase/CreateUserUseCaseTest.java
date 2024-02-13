@@ -1,9 +1,11 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserSchema;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserWithId;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -12,8 +14,8 @@ import static org.mockito.Mockito.when;
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,37 +40,34 @@ class CreateUserUseCaseTest {
 
   @Test
   void shouldCreateNewUserWhenAllUserAttributesAreCorrect() {
-    var user = createUser();
-    var userSchema = createNewUserSchema(user);
-    var userSchemaSaved = createNewUserSchema(user);
-    userSchemaSaved.setId(UUID.randomUUID());
-    when(passwordEncoder.encode(userSchema.getPassword())).thenReturn(userSchema.getPassword());
-    when(userService.save(userSchema)).thenReturn(userSchemaSaved);
+    var user = createNewUser();
+    var userToSave = createNewUserWithId();
+    when(passwordEncoder.encode(any(String.class))).thenReturn(
+        user.getPassword().getPasswordValue());
+    when(userService.save(any(User.class))).thenReturn(userToSave);
 
     var userSaved = createUserUseCase.execute(user);
 
     assertThat(userSaved).isNotNull();
     assertThat(userSaved.getId()).isNotNull();
-    assertThat(userSaved.getName()).isEqualTo(userSchema.getName());
-    assertThat(userSaved.getEmail().address()).isEqualTo(userSchema.getEmail());
-    assertThat(userSaved.getCpf().getCpf()).isEqualTo(userSchema.getCpf());
-    verify(userEmailAlreadyRegisteredValidator).validate(userSchema.getEmail());
-    verify(userCpfAlreadyRegisteredValidator).validate(userSchema.getCpf());
-    verify(passwordEncoder).encode(userSchema.getPassword());
-    verify(userService).save(userSchema);
+    assertThat(userSaved.getName()).isEqualTo(user.getName());
+    assertThat(userSaved.getEmail().address()).isEqualTo(user.getEmail().address());
+    assertThat(userSaved.getCpf().getCpfNumber()).isEqualTo(user.getCpf().getCpfNumber());
+    verify(userEmailAlreadyRegisteredValidator).validate(user.getEmail().address());
+    verify(userCpfAlreadyRegisteredValidator).validate(user.getCpf().getCpfNumber());
+    verify(passwordEncoder).encode(user.getPassword().getPasswordValue());
   }
 
   @Test
   void shouldThrowExceptionWhenUserAlreadyExists() {
     var user = createUser();
-    var userSchema = createNewUserSchema(user);
     doThrow(DuplicatedException.class).when(userEmailAlreadyRegisteredValidator)
-        .validate(userSchema.getEmail());
+        .validate(user.getEmail().address());
 
     assertThatThrownBy(() -> createUserUseCase.execute(user)).isInstanceOf(
         DuplicatedException.class);
 
-    verify(userEmailAlreadyRegisteredValidator).validate(userSchema.getEmail());
-    verify(userService, never()).save(userSchema);
+    verify(userEmailAlreadyRegisteredValidator).validate(user.getEmail().address());
+    verify(userService, never()).save(user);
   }
 }

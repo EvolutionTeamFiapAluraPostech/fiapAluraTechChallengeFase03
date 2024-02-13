@@ -1,12 +1,11 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
-import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -31,8 +30,7 @@ class GetAllUsersUseCaseTest {
   @Test
   void shouldGetAllUsersWhenUsersExists() {
     var user = createUser();
-    var userSchema = createUserSchema(user);
-    var users = List.of(userSchema);
+    var users = List.of(user);
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = users.size();
     var page = new PageImpl<>(users, pageable, size);
@@ -48,7 +46,7 @@ class GetAllUsersUseCaseTest {
 
   @Test
   void shouldReturnEmptyPageWhenDoesNotExistAnyUserSaved() {
-    var users = new ArrayList<UserSchema>();
+    var users = new ArrayList<User>();
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
     var size = 0;
     var page = new PageImpl<>(users, pageable, size);

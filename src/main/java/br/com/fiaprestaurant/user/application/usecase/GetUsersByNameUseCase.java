@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ public class GetUsersByNameUseCase {
     this.userService = userService;
   }
 
-  public Page<UserSchema> execute(String name, Pageable pageable) {
+  public Page<User> execute(String name, Pageable pageable) {
     return userService.findByNamePageable(name, pageable);
   }
 }

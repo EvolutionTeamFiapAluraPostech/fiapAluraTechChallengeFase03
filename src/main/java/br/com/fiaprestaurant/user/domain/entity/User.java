@@ -29,6 +29,10 @@ public class User {
     this.cpf = new Cpf(cpf);
   }
 
+  public User(String name, String email, String cpf) {
+    this(name, email, cpf, "");
+  }
+
   public User(UUID id, String name, String email, String cpf, String password) {
     this(name, email, cpf, password);
     validateIdIsNull(id);
@@ -50,6 +54,7 @@ public class User {
               USER_NAME_MAX_LENGTH));
     }
   }
+
   private void validateNameMinLength(String name) {
     if (name.trim().length() < 2) {
       throw new ValidatorException(

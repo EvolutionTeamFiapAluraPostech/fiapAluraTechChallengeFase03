@@ -88,7 +88,7 @@ public class UsersController implements UsersApi {
   @ResponseStatus(HttpStatus.ACCEPTED)
   public UserOutputDto putUser(@PathVariable String userUuid,
       @RequestBody @Valid PutUserInputDto putUserInputDto) {
-    var user = PutUserInputDto.toUser(putUserInputDto);
+    var user = PutUserInputDto.userToUpdate(putUserInputDto);
     var userUpdated = updateUserUseCase.execute(userUuid, user);
     return UserOutputDto.from(userUpdated);
   }

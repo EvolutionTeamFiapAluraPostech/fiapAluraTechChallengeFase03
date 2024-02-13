@@ -7,7 +7,6 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,13 +40,15 @@ class UserSchemaServiceImplTest {
   void shouldSaveUserWhenAllUserAttributesAreCorrect() {
     var user = createUser();
     var userSchema = createNewUserSchema(user);
-    when(userRepository.save(userSchema)).then(returnsFirstArg());
+    var userSchemaSaved = createNewUserSchema(user);
+    userSchemaSaved.setId(user.getId());
+    when(userRepository.save(userSchema)).thenReturn(userSchemaSaved);
 
-    var userSaved = userService.save(userSchema);
+    var userSaved = userService.save(user);
 
     assertThat(userSaved).isNotNull();
     assertThat(userSaved.getName()).isEqualTo(user.getName());
-    assertThat(userSaved.getEmail()).isEqualTo(user.getEmail().address());
+    assertThat(userSaved.getEmail().address()).isEqualTo(user.getEmail().address());
     verify(userRepository).save(userSchema);
   }
 
@@ -73,16 +74,16 @@ class UserSchemaServiceImplTest {
   void shouldReturnEmptyPageWhenDoesNotExistAnyUserSaved() {
     var users = new ArrayList<UserSchema>();
     var pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
-    var size = 0;
+    var size = users.size();
     var page = new PageImpl<>(users, pageable, size);
-    when(userRepository.findAll(pageable)).thenReturn(page);
 
+    when(userRepository.findAll(pageable)).thenReturn(page);
     var usersFound = userService.getAllUsersPaginated(pageable);
 
     assertThat(usersFound).isNotNull();
-    assertThat(usersFound.getSize()).isEqualTo(PAGE_SIZE);
-    assertThat(usersFound.getTotalPages()).isEqualTo(size);
-    assertThat(usersFound.getTotalElements()).isEqualTo(size);
+    assertThat(usersFound.getSize()).isEqualTo(page.getSize());
+    assertThat(usersFound.getTotalPages()).isEqualTo(page.getTotalPages());
+    assertThat(usersFound.getTotalElements()).isEqualTo(page.getTotalElements());
   }
 
   @Test
@@ -96,7 +97,7 @@ class UserSchemaServiceImplTest {
 
     assertThat(userFound).isNotNull();
     assertThat(userFound.getName()).isEqualTo(userSchema.getName());
-    assertThat(userFound.getEmail()).isEqualTo(userSchema.getEmail());
+    assertThat(userFound.getEmail().address()).isEqualTo(userSchema.getEmail());
   }
 
   @Test
@@ -110,7 +111,7 @@ class UserSchemaServiceImplTest {
 
     assertThat(userFound).isNotNull();
     assertThat(userFound.getName()).isEqualTo(userSchema.getName());
-    assertThat(userFound.getCpf()).isEqualTo(userSchema.getCpf());
+    assertThat(userFound.getCpf().getCpfNumber()).isEqualTo(userSchema.getCpf());
   }
 
   @Test
@@ -172,7 +173,7 @@ class UserSchemaServiceImplTest {
 
     assertThat(userFound).isNotNull();
     assertThat(userFound.getName()).isEqualTo(userSchema.getName());
-    assertThat(userFound.getEmail()).isEqualTo(userSchema.getEmail());
+    assertThat(userFound.getEmail().address()).isEqualTo(userSchema.getEmail());
   }
 
   @Test
@@ -208,7 +209,7 @@ class UserSchemaServiceImplTest {
 
     assertThat(userFound).isNotNull();
     assertThat(userFound.getName()).isEqualTo(userSchema.getName());
-    assertThat(userFound.getCpf()).isEqualTo(userSchema.getCpf());
+    assertThat(userFound.getCpf().getCpfNumber()).isEqualTo(userSchema.getCpf());
   }
 
   @Test

@@ -39,7 +39,7 @@ class UserCpfAlreadyRegisteredValidatorTest {
   void shouldThrowExceptionWhenUserCpfAlreadyExists() {
     var user = createUser();
     var userSchema = createUserSchema(user);
-    when(userService.findByCpf(userSchema.getCpf())).thenReturn(Optional.of(userSchema));
+    when(userService.findByCpf(userSchema.getCpf())).thenReturn(Optional.of(user));
 
     ThrowingCallable result = () -> userCpfAlreadyRegisteredValidator.validate(userSchema.getCpf());
 

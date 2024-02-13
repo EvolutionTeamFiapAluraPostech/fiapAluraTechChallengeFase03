@@ -7,15 +7,15 @@ import org.springframework.validation.FieldError;
 
 public class Cpf {
 
-  private String cpf;
+  private final String cpfNumber;
 
-  public Cpf(String cpf) {
-    this.validate(cpf);
-    this.cpf = cpf;
+  public Cpf(String cpfNumber) {
+    this.validate(cpfNumber);
+    this.cpfNumber = cpfNumber;
   }
 
-  public String getCpf() {
-    return cpf;
+  public String getCpfNumber() {
+    return cpfNumber;
   }
 
   private void validate(String rawCpf) {

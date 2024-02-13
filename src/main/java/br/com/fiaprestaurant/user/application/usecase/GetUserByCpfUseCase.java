@@ -18,10 +18,8 @@ public class GetUserByCpfUseCase {
   }
 
   public User execute(String cpf) {
-    var userFound = userService.findByCpf(cpf).orElseThrow(
+    return userService.findByCpf(cpf).orElseThrow(
         () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "cpf",
             USER_CPF_NOT_FOUND.formatted(cpf))));
-    return new User(userFound.getId(), userFound.getName(), userFound.getEmail(),
-        userFound.getCpf(), userFound.getPassword());
   }
 }

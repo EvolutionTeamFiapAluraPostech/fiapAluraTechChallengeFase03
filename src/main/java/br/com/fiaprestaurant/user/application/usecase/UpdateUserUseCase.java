@@ -6,7 +6,6 @@ import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegistered
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,26 +30,14 @@ public class UpdateUserUseCase {
   }
 
   @Transactional
-  public User execute(String userUuid, UserSchema userSchemaWithUpdatedAttributes) {
+  public User execute(String userUuid, User userWithUpdatedAttributes) {
     uuidValidator.validate(userUuid);
     userEmailAlreadyRegisteredInOtherUserValidator.validate(userUuid,
-        userSchemaWithUpdatedAttributes.getEmail());
+        userWithUpdatedAttributes.getEmail().address());
     userCpfAlreadyRegisteredInOtherUserValidator.validate(userUuid,
-        userSchemaWithUpdatedAttributes.getCpf());
-
-    var userSaved = userService.findUserByIdRequired(UUID.fromString(userUuid));
-    var userToUpdate = updateAttibutesToUser(userSaved, userSchemaWithUpdatedAttributes);
-    var userSchemaSaved = userService.save(userToUpdate);
-    return new User(userSchemaSaved.getId(), userSchemaSaved.getName(), userSchemaSaved.getEmail(),
-        userSchemaSaved.getCpf(), userSchemaSaved.getPassword());
-  }
-
-  private UserSchema updateAttibutesToUser(UserSchema userSchemaSaved,
-      UserSchema userSchemaToSave) {
-    userSchemaSaved.setName(userSchemaToSave.getName());
-    userSchemaSaved.setEmail(userSchemaToSave.getEmail());
-    userSchemaSaved.setCpf(userSchemaToSave.getCpf());
-    return userSchemaSaved;
+        userWithUpdatedAttributes.getCpf().getCpfNumber());
+    var userFound = userService.findUserByIdRequired(UUID.fromString(userUuid));
+    return userService.update(userFound.getId(), userWithUpdatedAttributes);
   }
 
 }

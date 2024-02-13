@@ -24,10 +24,8 @@ public class GetUserByEmailUseCase {
 
   public User execute(String email) {
     emailValidator.validate(email);
-    var userFound = userService.findByEmail(email).orElseThrow(
+    return userService.findByEmail(email).orElseThrow(
         () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "User",
             USER_EMAIL_NOT_FOUND.formatted(email))));
-    return new User(userFound.getId(), userFound.getName(), userFound.getEmail(),
-        userFound.getCpf(), userFound.getPassword());
   }
 }

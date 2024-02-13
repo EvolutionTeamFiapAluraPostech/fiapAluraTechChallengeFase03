@@ -1,7 +1,6 @@
 package br.com.fiaprestaurant.user.presentation.dto;
 
 import br.com.fiaprestaurant.user.domain.entity.User;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -23,17 +22,17 @@ public record UserOutputDto(
     this(user.getId() != null ? user.getId().toString() : null,
         user.getName(),
         user.getEmail().address(),
-        user.getCpf().getCpf());
+        user.getCpf().getCpfNumber());
   }
 
   public static UserOutputDto from(User user) {
     return new UserOutputDto(user);
   }
 
-  public static Page<UserOutputDto> toPage(Page<UserSchema> usersPage) {
+  public static Page<UserOutputDto> toPage(Page<User> usersPage) {
     var users = usersPage.map(
         userSchema -> new UserOutputDto(userSchema.getId().toString(), userSchema.getName(),
-            userSchema.getEmail(), userSchema.getCpf())).toList();
+            userSchema.getEmail().address(), userSchema.getCpf().getCpfNumber())).toList();
     return new PageImpl<>(users);
   }
 

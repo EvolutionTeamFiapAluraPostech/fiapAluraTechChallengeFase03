@@ -8,7 +8,6 @@ import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -21,7 +20,6 @@ class PasswordTest {
   }
 
   @ParameterizedTest
-  @NullAndEmptySource
   @ValueSource(strings = {"a", "1", "B", "@", "abcdefghijk", "0ABCDEFGHI", "abcd1234", "Abcd1234",
       "@#$%^&+=ab1"})
   void shouldThrowExceptionWhenCpfIsInvalid(String passwordValue) {

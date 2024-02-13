@@ -4,7 +4,6 @@ import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegistered
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,20 +30,11 @@ public class CreateUserUseCase {
   @Transactional
   public User execute(User user) {
     userEmailAlreadyRegisteredValidator.validate(user.getEmail().address());
-    userCpfAlreadyRegisteredValidator.validate(user.getCpf().getCpf());
+    userCpfAlreadyRegisteredValidator.validate(user.getCpf().getCpfNumber());
     var passwordEncoded = passwordEncoder.encode(user.getPassword().getPasswordValue());
-    var userSchema = createUserSchema(user, passwordEncoded);
-    var userSchemaSaved = userService.save(userSchema);
-    return createUser(userSchemaSaved);
-  }
-
-  private static User createUser(UserSchema userSchemaSaved) {
-    return new User(userSchemaSaved.getId(), userSchemaSaved.getName(), userSchemaSaved.getEmail(),
-        userSchemaSaved.getCpf(), userSchemaSaved.getPassword());
-  }
-
-  private static UserSchema createUserSchema(User user, String passwordEncoded) {
-    return UserSchema.builder().name(user.getName()).email(user.getEmail().address())
-        .cpf(user.getCpf().getCpf()).password(passwordEncoded).build();
+    var userToSave = new User(user.getName(), user.getEmail().address(),
+        user.getCpf().getCpfNumber(),
+        passwordEncoded);
+    return userService.save(userToSave);
   }
 }

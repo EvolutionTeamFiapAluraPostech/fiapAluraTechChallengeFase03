@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.user.infrastructure.schema;
 
 import br.com.fiaprestaurant.shared.domain.entity.BaseEntity;
+import br.com.fiaprestaurant.user.domain.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -80,5 +81,9 @@ public class UserSchema extends BaseEntity implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+  }
+
+  public User getUser() {
+    return new User(getId(), getName(), getEmail(), getCpf(), getPassword());
   }
 }

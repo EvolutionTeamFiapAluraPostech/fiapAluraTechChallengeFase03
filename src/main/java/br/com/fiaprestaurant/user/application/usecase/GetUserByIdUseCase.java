@@ -24,10 +24,8 @@ public class GetUserByIdUseCase {
 
   public User execute(String uuid) {
     uuidValidator.validate(uuid);
-    var userFound = userService.findById(UUID.fromString(uuid)).orElseThrow(
+    return userService.findById(UUID.fromString(uuid)).orElseThrow(
         () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "User",
             USER_ID_NOT_FOUND.formatted(uuid))));
-    return new User(userFound.getId(), userFound.getName(), userFound.getEmail(),
-        userFound.getCpf(), userFound.getPassword());
   }
 }

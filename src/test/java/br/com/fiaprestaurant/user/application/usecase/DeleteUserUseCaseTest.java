@@ -10,9 +10,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ class DeleteUserUseCaseTest {
   @Mock
   private UserService userService;
   @Mock
-  private UuidValidator uuidValidator;
+  private UuidValidatorImpl uuidValidator;
   @InjectMocks
   private DeleteUserUseCase deleteUserUseCase;
 

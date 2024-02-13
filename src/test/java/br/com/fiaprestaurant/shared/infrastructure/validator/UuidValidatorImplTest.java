@@ -1,6 +1,6 @@
-package br.com.fiaprestaurant.shared.domain.entity.validator;
+package br.com.fiaprestaurant.shared.infrastructure.validator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import java.util.UUID;
@@ -11,10 +11,10 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class UuidValidatorTest {
+class UuidValidatorImplTest {
 
   @Spy
-  private UuidValidator uuidValidator;
+  private UuidValidatorImpl uuidValidator;
 
   @Test
   void shouldValidateUuid() {

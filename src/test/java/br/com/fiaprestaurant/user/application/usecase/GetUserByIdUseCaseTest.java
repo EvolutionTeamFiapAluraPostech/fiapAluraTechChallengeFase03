@@ -8,8 +8,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,7 +25,7 @@ class GetUserByIdUseCaseTest {
   @Mock
   private UserService userService;
   @Mock
-  private UuidValidator uuidValidator;
+  private UuidValidatorImpl uuidValidator;
   @InjectMocks
   private GetUserByIdUseCase getUserByIdUseCase;
 

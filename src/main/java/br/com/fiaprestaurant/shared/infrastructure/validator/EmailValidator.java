@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.shared.domain.entity.validator;
+package br.com.fiaprestaurant.shared.infrastructure.validator;
 
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_INVALID;
 

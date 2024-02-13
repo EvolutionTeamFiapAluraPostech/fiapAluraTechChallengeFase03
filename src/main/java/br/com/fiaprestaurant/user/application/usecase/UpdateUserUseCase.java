@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.user.application.usecase;
 
-import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
+import br.com.fiaprestaurant.shared.domain.validator.UuidValidator;
+import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
@@ -20,7 +21,7 @@ public class UpdateUserUseCase {
 
   public UpdateUserUseCase(
       UserService userService,
-      UuidValidator uuidValidator,
+      UuidValidatorImpl uuidValidator,
       UserEmailAlreadyRegisteredInOtherUserValidator userEmailAlreadyRegisteredInOtherUserValidator,
       UserCpfAlreadyRegisteredInOtherUserValidator userCpfAlreadyRegisteredInOtherUserValidator) {
     this.userService = userService;

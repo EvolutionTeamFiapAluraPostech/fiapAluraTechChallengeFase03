@@ -2,8 +2,8 @@ package br.com.fiaprestaurant.user.application.usecase;
 
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_NOT_FOUND;
 
-import br.com.fiaprestaurant.shared.domain.entity.validator.EmailValidator;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.shared.infrastructure.validator.EmailValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.domain.service.UserService;
 import org.springframework.stereotype.Service;

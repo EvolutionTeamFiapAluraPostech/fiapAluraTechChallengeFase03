@@ -11,7 +11,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.domain.entity.validator.UuidValidator;
+import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.domain.service.UserService;
@@ -28,7 +28,7 @@ class UpdateUserUseCaseTest {
   @Mock
   private UserService userService;
   @Mock
-  private UuidValidator uuidValidator;
+  private UuidValidatorImpl uuidValidator;
   @Mock
   private UserEmailAlreadyRegisteredInOtherUserValidator userEmailAlreadyRegisteredInOtherUserValidator;
   @Mock

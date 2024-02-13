@@ -30,15 +30,9 @@ public class User {
   }
 
   public User(UUID id, String name, String email, String cpf, String password) {
+    this(name, email, cpf, password);
     validateIdIsNull(id);
-    validateNameIsNullOrEmpty(name);
-    validateNameMinLength(name);
-    validateNameMaxLength(name);
     this.id = id;
-    this.name = name;
-    this.email = new Email(email);
-    this.cpf = new Cpf(cpf);
-    this.password = new Password(password);
   }
 
   private void validateIdIsNull(UUID id) {

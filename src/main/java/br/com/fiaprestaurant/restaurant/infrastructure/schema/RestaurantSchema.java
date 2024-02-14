@@ -35,7 +35,7 @@ public class RestaurantSchema extends BaseEntity {
   private String closeAt;
   private int peopleCapacity;
 
-  public Restaurant fromRestaurantSchema() {
+  public Restaurant createRestaurantFromRestaurantSchema() {
     return new RestaurantBuilder()
         .setId(this.getId())
         .setName(this.getName())

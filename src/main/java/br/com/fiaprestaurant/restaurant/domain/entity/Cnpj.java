@@ -11,7 +11,8 @@ public class Cnpj {
   private final String cnpjValue;
 
   public Cnpj(String cnpjValue) {
-    this.isValidCNPJ(cnpjValue);
+    validateCnpjIsNullOrEmpty(cnpjValue);
+    isValidCNPJ(cnpjValue);
     this.cnpjValue = cnpjValue;
   }
 
@@ -19,10 +20,19 @@ public class Cnpj {
     return cnpjValue;
   }
 
+  private void validateCnpjIsNullOrEmpty(String cnpjValue) {
+    if ((cnpjValue == null) || (cnpjValue.isEmpty())) {
+      throwInvalidCnpjException(cnpjValue);
+    }
+  }
+
   private void isValidCNPJ(String cnpj) {
+    if (cnpj.trim().equals("00000000000000")) {
+      throwInvalidCnpjException(cnpj);
+    }
     final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
     cnpj = cnpj.trim().replace(".", "").replace("-", "").replace("/", "");
-    if ((cnpj == null) || (cnpj.length() != 14)) {
+    if (cnpj.length() != 14) {
       throwInvalidCnpjException(cnpj);
     }
 

@@ -19,7 +19,7 @@ public class RestaurantSchemaService implements RestaurantService {
   public Restaurant save(Restaurant restaurant) {
     var restaurantSchema = getRestaurantSchema(restaurant);
     var restaurantSchemaSaved = restaurantSchemaRepository.save(restaurantSchema);
-    return restaurantSchemaSaved.fromRestaurantSchema();
+    return restaurantSchemaSaved.createRestaurantFromRestaurantSchema();
   }
 
   private static RestaurantSchema getRestaurantSchema(Restaurant restaurant) {

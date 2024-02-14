@@ -5,31 +5,21 @@ import java.util.UUID;
 public class Restaurant {
 
   private UUID id;
-  private String name;
-  private String cnpj;
-  private String typeOfCuisine;
-  private String street;
-  private String number;
-  private String neighborhood;
-  private String city;
-  private String state;
-  private String postalCode;
-  private String openAt;
-  private String closeAt;
-  private int peopleCapacity;
+  private final String name;
+  private final Cnpj cnpj;
+  private final TypeOfCuisine typeOfCuisine;
+  private final Address address;
+  private final String openAt;
+  private final String closeAt;
+  private final int peopleCapacity;
 
-  public Restaurant(String name, String cpnj, String typeOfCuisine, String street, String number,
+  public Restaurant(String name, String cnpj, String typeOfCuisine, String street, String number,
       String neighborhood, String city, String state, String postalCode, String openAt,
       String closeAt, int peopleCapacity) {
     this.name = name;
-    this.cnpj = cnpj;
-    this.typeOfCuisine = typeOfCuisine;
-    this.street = street;
-    this.number = number;
-    this.neighborhood = neighborhood;
-    this.city = city;
-    this.state = state;
-    this.postalCode = postalCode;
+    this.cnpj = new Cnpj(cnpj);
+    this.typeOfCuisine = new TypeOfCuisine(typeOfCuisine);
+    this.address = new Address(street, number, neighborhood, city, state, postalCode);
     this.openAt = openAt;
     this.closeAt = closeAt;
     this.peopleCapacity = peopleCapacity;
@@ -48,7 +38,7 @@ public class Restaurant {
     return id;
   }
 
-  public String getCnpj() {
+  public Cnpj getCnpj() {
     return cnpj;
   }
 
@@ -56,32 +46,12 @@ public class Restaurant {
     return name;
   }
 
-  public String getTypeOfCuisine() {
+  public TypeOfCuisine getTypeOfCuisine() {
     return typeOfCuisine;
   }
 
-  public String getStreet() {
-    return street;
-  }
-
-  public String getNumber() {
-    return number;
-  }
-
-  public String getNeighborhood() {
-    return neighborhood;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public String getPostalCode() {
-    return postalCode;
+  public Address getAddress() {
+    return address;
   }
 
   public String getOpenAt() {

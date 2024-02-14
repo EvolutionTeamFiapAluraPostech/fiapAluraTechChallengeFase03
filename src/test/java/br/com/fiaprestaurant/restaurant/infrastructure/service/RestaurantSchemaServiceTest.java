@@ -25,7 +25,7 @@ class RestaurantSchemaServiceTest {
   void shouldSaveRestaurant() {
     var restaurantSchema = RestaurantSchema.builder()
         .id(UUID.randomUUID())
-        .name("Comida Boa").cnpj("").typeOfCuisine("Brasileira").street("Av Goiás")
+        .name("Comida Boa").cnpj("69635854000140").typeOfCuisine("Brasileira").street("Av Goiás")
         .number("1000").neighborhood("Centro").city("Goiânia").state("GO")
         .postalCode("74000000").openAt("11:00").closeAt("15:00")
         .peopleCapacity(200).build();

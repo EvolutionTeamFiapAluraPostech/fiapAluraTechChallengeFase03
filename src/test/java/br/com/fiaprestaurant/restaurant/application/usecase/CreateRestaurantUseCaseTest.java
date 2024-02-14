@@ -26,10 +26,10 @@ class CreateRestaurantUseCaseTest {
   void shouldCreateNewRestaurant() {
     var restaurant = new RestaurantBuilder()
         .setId(UUID.randomUUID())
-        .setName("Comida Boa").setCnpj("").setTypeOfCuisine("Brasileira").setStreet("Av Goiás")
+        .setName("Comida Boa").setCnpj("69635854000140").setTypeOfCuisine("Brasileira").setStreet("Av Goiás")
         .setNumber("1000").setNeighborhood("Centro").setCity("Goiânia").setState("GO")
         .setPostalCode("74000000").setOpenAt("11:00").setCloseAt("15:00")
-        .setCapacityOfPeople(200).createRestaurant();
+        .setCapacityOfPeople(200).createRestaurantWithId();
     when(restaurantService.save(any(Restaurant.class))).thenReturn(restaurant);
 
     var restaurantSaved = createRestaurantUseCase.execute(restaurant);

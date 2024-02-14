@@ -1,12 +1,12 @@
 package br.com.fiaprestaurant.user.domain.entity;
 
-import static br.com.fiaprestaurant.user.domain.messages.CpfMessages.CPF_INVALID;
-
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import org.springframework.validation.FieldError;
 
 public class Cpf {
 
+  private static final String CPF_FIELD = "CPF";
+  private static final String CPF_INVALID = "Invalid CPF %s.";
   private final String cpfNumber;
 
   public Cpf(String cpfNumber) {
@@ -37,7 +37,7 @@ public class Cpf {
   }
 
   private void throwCpfInvalidException(String cpf) {
-    throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), "CPF",
+    throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), CPF_FIELD,
         CPF_INVALID.formatted(cpf)));
   }
 

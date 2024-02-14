@@ -84,8 +84,12 @@ public class RestaurantBuilder {
   }
 
   public Restaurant createRestaurant() {
-    return new Restaurant(id, name, cnpj, typeOfCuisine, street, number, neighborhood, city, state,
+    return new Restaurant(name, cnpj, typeOfCuisine, street, number, neighborhood, city, state,
         postalCode, openAt, closeAt, capacityOfPeople);
   }
 
+  public Restaurant createRestaurantWithId() {
+    return new Restaurant(id, name, cnpj, typeOfCuisine, street, number, neighborhood, city, state,
+        postalCode, openAt, closeAt, capacityOfPeople);
+  }
 }

@@ -26,8 +26,14 @@ public class Address {
 
   public Address(String street, String number, String neighborhood, String city, String state,
       String postalCode) {
-    validateNullOrEmptyAttributes(street, neighborhood, city, state);
-    validateLengthAttributes(street, neighborhood, city, state);
+    validateNullOrEmptyStreet(street);
+    validateLengthStreet(street);
+    validateNullOrEmptyNeighborhood(neighborhood);
+    validateLengthNeighborhood(neighborhood);
+    validateNullOrEmptyCity(city);
+    validateLengthCity(city);
+    validateNullOrEmptyState(state);
+    validateLengthState(state);
     this.street = street;
     this.number = number;
     this.neighborhood = neighborhood;
@@ -36,46 +42,63 @@ public class Address {
     this.postalCode = postalCode;
   }
 
-  private void validateLengthAttributes(String street, String neighborhood, String city,
-      String state) {
-    if (street.trim().length() < 3 || street.trim().length() > 255) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STREET_FIELD,
-          STREET_LENGTH_MUST_BE_BETWEEN_3_AND_255_CHARACTERS.formatted(street.trim().length())));
-    }
-    if (neighborhood.trim().length() < 3 || neighborhood.trim().length() > 100) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          NEIGHBORHOOD_FIELD, NEIGHBORHOOD_LENGTH_MUST_BE_BETWEEN_3_AND_100_CHARACTERS.formatted(
-          neighborhood.trim().length())));
-    }
-    if (city.trim().length() < 3 || city.trim().length() > 100) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), CITY_FIELD,
-          CITY_LENGTH_MUST_BE_BETWEEN_3_AND_100_CHARACTERS.formatted(city.trim().length())));
-    }
+  private void validateLengthState(String state) {
     if (state.trim().length() != 2) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STATE_FIELD,
           STATE_LENGTH_MUST_BE_2_CHARACTERS.formatted(state.trim().length())));
     }
   }
 
-  private void validateNullOrEmptyAttributes(String street, String neighborhood, String city,
-      String state) {
-    if (street == null || state.isEmpty()) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STREET_FIELD,
-          ENTER_THE_STREET));
-    }
-    if (neighborhood == null || neighborhood.isEmpty()) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          NEIGHBORHOOD_FIELD, ENTER_THE_NEIGHBORHOOD));
-    }
-    if (city == null || city.isEmpty()) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), CITY_FIELD,
-          ENTER_THE_CITY));
-    }
+  private void validateNullOrEmptyState(String state) {
     if (state == null || state.isEmpty()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STATE_FIELD,
           ENTER_THE_STATE));
     }
   }
+
+  private void validateLengthCity(String city) {
+    if (city.trim().length() < 3 || city.trim().length() > 100) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), CITY_FIELD,
+          CITY_LENGTH_MUST_BE_BETWEEN_3_AND_100_CHARACTERS.formatted(city.trim().length())));
+    }
+  }
+
+  private void validateNullOrEmptyCity(String city) {
+    if (city == null || city.isEmpty()) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), CITY_FIELD,
+          ENTER_THE_CITY));
+    }
+  }
+
+  private void validateLengthNeighborhood(String neighborhood) {
+    if (neighborhood.trim().length() < 3 || neighborhood.trim().length() > 100) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          NEIGHBORHOOD_FIELD, NEIGHBORHOOD_LENGTH_MUST_BE_BETWEEN_3_AND_100_CHARACTERS.formatted(
+          neighborhood.trim().length())));
+    }
+  }
+
+  private void validateNullOrEmptyNeighborhood(String neighborhood) {
+    if (neighborhood == null || neighborhood.isEmpty()) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          NEIGHBORHOOD_FIELD, ENTER_THE_NEIGHBORHOOD));
+    }
+  }
+
+  private void validateLengthStreet(String street) {
+    if (street.trim().length() < 3 || street.trim().length() > 255) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STREET_FIELD,
+          STREET_LENGTH_MUST_BE_BETWEEN_3_AND_255_CHARACTERS.formatted(street.trim().length())));
+    }
+  }
+
+  private void validateNullOrEmptyStreet(String street) {
+    if (street == null || street.isEmpty()) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STREET_FIELD,
+          ENTER_THE_STREET));
+    }
+  }
+
 
   public String getStreet() {
     return street;

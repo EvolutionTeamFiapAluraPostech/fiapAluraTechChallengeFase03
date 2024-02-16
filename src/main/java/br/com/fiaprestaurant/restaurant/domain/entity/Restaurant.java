@@ -15,6 +15,7 @@ public class Restaurant {
   public static final String RESTAURANT_CLOSE_AT_FIELD = "close at";
   public static final String RESTAURANT_PEOPLE_CAPACITY_FIELD = "people capacity";
   public static final String ENTER_RESTAURANT_PEOPLE_CAPACITY = "Enter people capacity.";
+
   private UUID id;
   private final String name;
   private final Cnpj cnpj;

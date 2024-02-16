@@ -33,8 +33,7 @@ public class CreateUserUseCase {
     userCpfAlreadyRegisteredValidator.validate(user.getCpf().getCpfNumber());
     var passwordEncoded = passwordEncoder.encode(user.getPassword().getPasswordValue());
     var userToSave = new User(user.getName(), user.getEmail().address(),
-        user.getCpf().getCpfNumber(),
-        passwordEncoded);
+        user.getCpf().getCpfNumber(), passwordEncoded);
     return userService.save(userToSave);
   }
 }

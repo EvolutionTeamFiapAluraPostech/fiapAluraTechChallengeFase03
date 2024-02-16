@@ -9,6 +9,12 @@ public class Restaurant {
   public static final String RESTAURANT_NAME_FIELD = "name";
   public static final String ENTER_THE_RESTAURANT_NAME = "Enter the restaurant name.";
   public static final String RESTAURANT_NAME_MUST_HAVE_BETWEEN_3_AND_100_CHARACTERS = "Restaurant name must have between 3 and 100 characters. It has %s.";
+  public static final String RESTAURANT_OPEN_AT_FIELD = "open at";
+  public static final String ENTER_RESTAURANT_OPENING_HOURS = "Enter opening hours.";
+  public static final String ENTER_CLOSING_TIME = "Enter closing time.";
+  public static final String RESTAURANT_CLOSE_AT_FIELD = "close at";
+  public static final String RESTAURANT_PEOPLE_CAPACITY_FIELD = "people capacity";
+  public static final String ENTER_RESTAURANT_PEOPLE_CAPACITY = "Enter people capacity.";
   private UUID id;
   private final String name;
   private final Cnpj cnpj;
@@ -23,6 +29,9 @@ public class Restaurant {
       String closeAt, int peopleCapacity) {
     validateNameIsNullOrEmpty(name);
     validateNameLength(name);
+    validateOpenAtIsNullOrEmpty(openAt);
+    validateCloseAtIsNullOrEmpty(closeAt);
+    validatePeopleCapacity(peopleCapacity);
     this.name = name;
     this.cnpj = new Cnpj(cnpj);
     this.typeOfCuisine = new TypeOfCuisine(typeOfCuisine);
@@ -71,6 +80,27 @@ public class Restaurant {
 
   public int getPeopleCapacity() {
     return peopleCapacity;
+  }
+
+  private void validatePeopleCapacity(Integer peopleCapacity) {
+    if (peopleCapacity == null || peopleCapacity <= 0) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_PEOPLE_CAPACITY_FIELD, ENTER_RESTAURANT_PEOPLE_CAPACITY));
+    }
+  }
+
+  private void validateCloseAtIsNullOrEmpty(String closeAt) {
+    if (closeAt == null || closeAt.isEmpty()) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_CLOSE_AT_FIELD, ENTER_CLOSING_TIME));
+    }
+  }
+
+  private void validateOpenAtIsNullOrEmpty(String openAt) {
+    if (openAt == null || openAt.isEmpty()) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_OPEN_AT_FIELD, ENTER_RESTAURANT_OPENING_HOURS));
+    }
   }
 
   private void validateNameIsNullOrEmpty(String name) {

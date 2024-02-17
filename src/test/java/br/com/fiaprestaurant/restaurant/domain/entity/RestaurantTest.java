@@ -45,10 +45,26 @@ class RestaurantTest {
   }
 
   @ParameterizedTest
+  @ValueSource(strings = {"1000", "10000", "1A:00", "10:A0"})
+  void shouldThrowExceptionWhenRestaurantOpenAtIsInvalid(String openAt) {
+    var restaurantSchema = createRestaurantSchema();
+    restaurantSchema.setOpenAt(openAt);
+    assertThrows(ValidatorException.class, restaurantSchema::createRestaurantFromRestaurantSchema);
+  }
+
+  @ParameterizedTest
   @NullAndEmptySource
   void shouldThrowExceptionWhenRestaurantCloseAtIsNullOrEmpty(String closeAt) {
     var restaurantSchema = createRestaurantSchema();
     restaurantSchema.setCloseAt(closeAt);
+    assertThrows(ValidatorException.class, restaurantSchema::createRestaurantFromRestaurantSchema);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"1000", "10000", "1A:00", "10:A0"})
+  void shouldThrowExceptionWhenRestaurantCloseAtIsInvalid(String openAt) {
+    var restaurantSchema = createRestaurantSchema();
+    restaurantSchema.setCloseAt(openAt);
     assertThrows(ValidatorException.class, restaurantSchema::createRestaurantFromRestaurantSchema);
   }
 

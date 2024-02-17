@@ -63,7 +63,7 @@ class RestaurantSchemaServiceTest {
   }
 
   @Test
-  void shouldFindRestaurantByCnpj() {
+  void shouldFindRestaurantByCnpjRequired() {
     var restaurantSchema = createRestaurantSchema();
     var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
     when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
@@ -76,7 +76,7 @@ class RestaurantSchemaServiceTest {
   }
 
   @Test
-  void shouldThrowExceptionWhenRestaurantWasNotFoundByCnpj() {
+  void shouldThrowExceptionWhenRestaurantWasNotFoundByCnpjRequired() {
     var restaurantSchema = createRestaurantSchema();
     var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
     when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
@@ -84,6 +84,32 @@ class RestaurantSchemaServiceTest {
 
     assertThrows(NoResultException.class,
         () -> restaurantSchemaService.findByCnpjRequired(restaurant.getCnpj().getCnpjValue()));
+    verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
+  }
+
+  @Test
+  void shouldFindRestaurantByCnpj() {
+    var restaurantSchema = createRestaurantSchema();
+    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
+    when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
+        Optional.of(restaurantSchema));
+
+    var restaurantFound = restaurantSchemaService.findByCnpj(restaurant.getCnpj().getCnpjValue());
+
+    assertThat(restaurantFound).isNotNull().isPresent();
+    verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantWasNotFoundByCnpj() {
+    var restaurantSchema = createRestaurantSchema();
+    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
+    when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
+        Optional.empty());
+
+    var restaurantFound = restaurantSchemaService.findByCnpj(restaurant.getCnpj().getCnpjValue());
+
+    assertThat(restaurantFound).isNotPresent();
     verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
   }
 

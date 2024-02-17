@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.restaurant.presentation.dto;
+package br.com.fiaprestaurant.restaurant.application.dto;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 

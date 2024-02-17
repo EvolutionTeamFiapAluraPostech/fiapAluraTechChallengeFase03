@@ -1,8 +1,8 @@
 package br.com.fiaprestaurant.restaurant.application.usecase;
 
 import br.com.fiaprestaurant.restaurant.domain.service.RestaurantService;
-import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
-import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantOutputDto;
+import br.com.fiaprestaurant.restaurant.application.dto.RestaurantInputDto;
+import br.com.fiaprestaurant.restaurant.application.dto.RestaurantOutputDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -15,6 +15,8 @@ public class Restaurant {
   public static final String RESTAURANT_CLOSE_AT_FIELD = "close at";
   public static final String RESTAURANT_PEOPLE_CAPACITY_FIELD = "people capacity";
   public static final String ENTER_RESTAURANT_PEOPLE_CAPACITY = "Enter people capacity.";
+  public static final String ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR = "Enter a valid number for opening hour.";
+  public static final String ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR = "Enter a valid number for closing hour.";
 
   private UUID id;
   private final String name;
@@ -31,7 +33,9 @@ public class Restaurant {
     validateNameIsNullOrEmpty(name);
     validateNameLength(name);
     validateOpenAtIsNullOrEmpty(openAt);
+    validateOpenAtIsAValidNumber(openAt);
     validateCloseAtIsNullOrEmpty(closeAt);
+    validateCloseAtIsAValidNumber(closeAt);
     validatePeopleCapacity(peopleCapacity);
     this.name = name;
     this.cnpj = new Cnpj(cnpj);
@@ -90,10 +94,61 @@ public class Restaurant {
     }
   }
 
+  private void validateCloseAtIsAValidNumber(String closeAt) {
+    if (closeAt.trim().length() != 5) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_CLOSE_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
+    }
+    if (!closeAt.trim().contains(":")) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_CLOSE_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
+    }
+    try {
+      var hour = closeAt.split(":")[0];
+      Integer.parseInt(hour);
+    } catch (NumberFormatException e) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_CLOSE_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
+    }
+    try {
+      var minute = closeAt.split(":")[1];
+      Integer.parseInt(minute);
+    } catch (NumberFormatException e) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_CLOSE_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
+    }
+  }
+
+
   private void validateCloseAtIsNullOrEmpty(String closeAt) {
     if (closeAt == null || closeAt.isEmpty()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
           RESTAURANT_CLOSE_AT_FIELD, ENTER_CLOSING_TIME));
+    }
+  }
+
+  private void validateOpenAtIsAValidNumber(String openAt) {
+    if (openAt.trim().length() != 5) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_OPEN_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
+    }
+    if (!openAt.trim().contains(":")) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_OPEN_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
+    }
+    try {
+      var hour = openAt.split(":")[0];
+      Integer.parseInt(hour);
+    } catch (NumberFormatException e) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_OPEN_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
+    }
+    try {
+      var minute = openAt.split(":")[1];
+      Integer.parseInt(minute);
+    } catch (NumberFormatException e) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
+          RESTAURANT_OPEN_AT_FIELD, ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
     }
   }
 

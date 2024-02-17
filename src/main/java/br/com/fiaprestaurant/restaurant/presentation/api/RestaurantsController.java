@@ -1,8 +1,8 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
 import br.com.fiaprestaurant.restaurant.application.usecase.CreateRestaurantUseCase;
-import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
-import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantOutputDto;
+import br.com.fiaprestaurant.restaurant.application.dto.RestaurantInputDto;
+import br.com.fiaprestaurant.restaurant.application.dto.RestaurantOutputDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

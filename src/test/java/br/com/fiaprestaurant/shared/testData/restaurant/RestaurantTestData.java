@@ -3,7 +3,7 @@ package br.com.fiaprestaurant.shared.testData.restaurant;
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import br.com.fiaprestaurant.restaurant.domain.entity.RestaurantBuilder;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
-import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
+import br.com.fiaprestaurant.restaurant.application.dto.RestaurantInputDto;
 import java.util.UUID;
 
 public final class RestaurantTestData {
@@ -34,6 +34,32 @@ public final class RestaurantTestData {
         DEFAULT_RESTAURANT_HOUR_OPEN_AT,
         DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
         DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+  }
+
+  public static RestaurantInputDto createRestaurantInputDtoWith(String name,
+      String cnpj,
+      String typeOfCuisine,
+      String street,
+      String number,
+      String neighborhood,
+      String city,
+      String state,
+      String postalCode,
+      String openAt,
+      String closeAt,
+      Integer peopleCapacity) {
+    return new RestaurantInputDto(name,
+        cnpj,
+        typeOfCuisine,
+        street,
+        number,
+        neighborhood,
+        city,
+        state,
+        postalCode,
+        openAt,
+        closeAt,
+        peopleCapacity);
   }
 
   public static Restaurant createNewRestaurant() {

@@ -1,7 +1,8 @@
 package br.com.fiaprestaurant.restaurant.application.usecase;
 
-import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import br.com.fiaprestaurant.restaurant.domain.service.RestaurantService;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantOutputDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,9 @@ public class CreateRestaurantUseCase {
   }
 
   @Transactional
-  public Restaurant execute(Restaurant restaurant) {
-    return restaurantService.save(restaurant);
+  public RestaurantOutputDto execute(RestaurantInputDto restaurantInputDto) {
+    var restaurant = RestaurantInputDto.toRestaurantFrom(restaurantInputDto);
+    var restaurantSaved = restaurantService.save(restaurant);
+    return RestaurantOutputDto.toRestaurantOutputDtoFrom(restaurantSaved);
   }
 }

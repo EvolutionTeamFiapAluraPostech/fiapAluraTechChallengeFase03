@@ -49,7 +49,7 @@ public class RestaurantSchema extends BaseEntity {
         .setPostalCode(this.getPostalCode())
         .setOpenAt(this.getOpenAt())
         .setCloseAt(this.getCloseAt())
-        .setCapacityOfPeople(this.getPeopleCapacity())
+        .setPeopleCapacity(this.getPeopleCapacity())
         .createRestaurant();
   }
 

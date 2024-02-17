@@ -16,7 +16,7 @@ public class RestaurantBuilder {
   private String postalCode;
   private String openAt;
   private String closeAt;
-  private int capacityOfPeople;
+  private int peopleCapacity;
 
   public RestaurantBuilder setId(UUID id) {
     this.id = id;
@@ -78,18 +78,18 @@ public class RestaurantBuilder {
     return this;
   }
 
-  public RestaurantBuilder setCapacityOfPeople(int capacityOfPeople) {
-    this.capacityOfPeople = capacityOfPeople;
+  public RestaurantBuilder setPeopleCapacity(int peopleCapacity) {
+    this.peopleCapacity = peopleCapacity;
     return this;
   }
 
   public Restaurant createRestaurant() {
     return new Restaurant(name, cnpj, typeOfCuisine, street, number, neighborhood, city, state,
-        postalCode, openAt, closeAt, capacityOfPeople);
+        postalCode, openAt, closeAt, peopleCapacity);
   }
 
   public Restaurant createRestaurantWithId() {
     return new Restaurant(id, name, cnpj, typeOfCuisine, street, number, neighborhood, city, state,
-        postalCode, openAt, closeAt, capacityOfPeople);
+        postalCode, openAt, closeAt, peopleCapacity);
   }
 }

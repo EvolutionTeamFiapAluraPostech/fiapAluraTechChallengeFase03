@@ -180,4 +180,89 @@ class PostRestaurantApiTest {
         .statusCode(HttpStatus.BAD_REQUEST.value())
         .header("Content-Type", startsWith("application/json"));
   }
+
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {"a", "1", "12345", "a0:00", "10:a0"})
+  void shouldThrowExceptionWhenRestaurantOpenAtIsInvalid(String openAt) {
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        openAt,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {"a", "1", "12345", "a0:00", "10:a0"})
+  void shouldThrowExceptionWhenRestaurantCloseAtIsInvalid(String closeAt) {
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        closeAt,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {-1, 0})
+  void shouldThrowExceptionWhenRestaurantPeopleCapacitySmallerThan0(Integer peopleCapacity) {
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        peopleCapacity);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
 }

@@ -36,7 +36,8 @@ public final class RestaurantTestData {
         DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
   }
 
-  public static RestaurantInputDto createRestaurantInputDtoWith(String name,
+  public static RestaurantInputDto createRestaurantInputDtoWith(
+      String name,
       String cnpj,
       String typeOfCuisine,
       String street,

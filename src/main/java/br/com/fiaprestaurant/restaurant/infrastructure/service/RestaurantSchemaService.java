@@ -8,6 +8,8 @@ import br.com.fiaprestaurant.restaurant.domain.service.RestaurantService;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.RestaurantSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,32 @@ public class RestaurantSchemaService implements RestaurantService {
   public Optional<Restaurant> findByCnpj(String cnpjValue) {
     var restaurantSchema = restaurantSchemaRepository.findByCnpj(cnpjValue);
     return restaurantSchema.map(RestaurantSchema::createRestaurantFromRestaurantSchema);
+  }
+
+  @Override
+  public List<Restaurant> queryByNameCoordinatesTypeOfCuisine(String name, Double latitude,
+      Double longitude, String typeOfCuisine) {
+    var nameParam = convertStringParamToTrimLowerCase(name);
+    var typeOfCuisineParam = convertStringParamToTrimLowerCase(typeOfCuisine);
+    var latitudeParam = convertDoubleParamToNullOrDoubleValue(latitude);
+    var longitudeParam = convertDoubleParamToNullOrDoubleValue(longitude);
+
+    var restaurantsSchema = restaurantSchemaRepository.queryByNameCoordinatesTypeOfCuisine(
+        nameParam, typeOfCuisineParam, latitudeParam, longitudeParam);
+
+    if (restaurantsSchema != null && !restaurantsSchema.isEmpty()) {
+      return restaurantsSchema.stream().map(RestaurantSchema::createRestaurantFromRestaurantSchema)
+          .toList();
+    }
+    return new ArrayList<>();
+  }
+
+  private Double convertDoubleParamToNullOrDoubleValue(Double doubleParam) {
+    return (doubleParam != null && doubleParam > 0) ? doubleParam : null;
+  }
+
+  private String convertStringParamToTrimLowerCase(String stringParam) {
+    return stringParam != null ? stringParam.toLowerCase().trim() : null;
   }
 
   private static RestaurantSchema getRestaurantSchema(Restaurant restaurant) {

@@ -44,7 +44,7 @@ class GetAllUsersPaginatedApiTest {
   @Test
   void shouldReturnAllUsersWhenUsersExist() throws Exception {
     var userSchema = findUser();
-    var userPage = PageUtil.generatePageOfUser(userSchema.getUser());
+    var userPage = PageUtil.generatePageOf(userSchema.getUser());
     var userExpected = UserOutputDto.toPage(userPage);
 
     var request = get(URL_USERS);

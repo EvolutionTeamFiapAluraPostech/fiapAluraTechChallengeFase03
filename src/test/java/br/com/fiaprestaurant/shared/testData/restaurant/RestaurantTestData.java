@@ -22,6 +22,10 @@ public final class RestaurantTestData {
   public static final String DEFAULT_RESTAURANT_HOUR_OPEN_AT = "11:00";
   public static final String DEFAULT_RESTAURANT_HOUR_CLOSE_AT = "15:00";
   public static final int DEFAULT_RESTAURANT_PEOPLE_CAPACITY = 200;
+  public static final String ALTERNATIVE_RESTAURANT_NAME = "Sabor Argentino";
+  public static final String ALTERNATIVE_RESTAURANT_VALID_CNPJ = "70813077000166";
+  public static final String ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE = "Argentina";
+
 
   public static RestaurantInputDto createRestaurantInputDto() {
     return new RestaurantInputDto(DEFAULT_RESTAURANT_NAME,
@@ -92,16 +96,18 @@ public final class RestaurantTestData {
   }
 
   public static RestaurantSchema createRestaurantSchema() {
-    var restaurantSchema = createNewRestaurantSchema();
+    var restaurantSchema = createNewRestaurantSchema(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE);
     restaurantSchema.setId(UUID.randomUUID());
     return restaurantSchema;
   }
 
-  public static RestaurantSchema createNewRestaurantSchema() {
+  public static RestaurantSchema createNewRestaurantSchema(String name, String cnpj,
+      String defaultRestaurantTypeOfCuisine) {
     return RestaurantSchema.builder()
-        .name(DEFAULT_RESTAURANT_NAME)
-        .cnpj(DEFAULT_RESTAURANT_VALID_CNPJ)
-        .typeOfCuisine(DEFAULT_RESTAURANT_TYPE_OF_CUISINE)
+        .name(name)
+        .cnpj(cnpj)
+        .typeOfCuisine(defaultRestaurantTypeOfCuisine)
         .latitude(DEFAULT_RESTAURANT_LATITUDE)
         .longitude(DEFAULT_RESTAURANT_LONGITUDE)
         .street(DEFAULT_RESTAURANT_STREET)

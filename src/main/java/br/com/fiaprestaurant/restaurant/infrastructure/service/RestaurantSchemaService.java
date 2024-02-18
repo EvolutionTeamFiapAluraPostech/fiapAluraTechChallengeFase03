@@ -58,6 +58,8 @@ public class RestaurantSchemaService implements RestaurantService {
         .name(restaurant.getName())
         .cnpj(restaurant.getCnpj().getCnpjValue())
         .typeOfCuisine(restaurant.getTypeOfCuisine().getTypeOfCuisineDescription())
+        .latitude(restaurant.getAddress().getCoordinates().getLatitude())
+        .longitude(restaurant.getAddress().getCoordinates().getLongitude())
         .street(restaurant.getAddress().getStreet())
         .number(restaurant.getAddress().getNumber())
         .neighborhood(restaurant.getAddress().getNeighborhood())

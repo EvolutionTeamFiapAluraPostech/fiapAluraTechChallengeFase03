@@ -3,6 +3,8 @@ package br.com.fiaprestaurant.restaurant.presentation.api;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_CITY;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_HOUR_CLOSE_AT;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_HOUR_OPEN_AT;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_LATITUDE;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_LONGITUDE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_NAME;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_NEIGHBORHOOD;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_NUMBER;
@@ -27,6 +29,7 @@ import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
 import br.com.fiaprestaurant.shared.util.StringUtil;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManager;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -84,6 +87,7 @@ class PostRestaurantApiTest {
         .then()
         .statusCode(HttpStatus.CREATED.value())
         .header("Content-Type", startsWith("application/json"))
+        .body("id", Matchers.notNullValue())
         .body("name", equalTo(restaurantInputDto.name()))
         .body("cnpj", equalTo(restaurantInputDto.cnpj()));
 
@@ -103,6 +107,8 @@ class PostRestaurantApiTest {
         DEFAULT_RESTAURANT_NAME,
         "04638576000130",
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,
@@ -129,6 +135,8 @@ class PostRestaurantApiTest {
     var restaurantInputDto = createRestaurantInputDtoWith(restaurantName,
         DEFAULT_RESTAURANT_VALID_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,
@@ -156,6 +164,8 @@ class PostRestaurantApiTest {
     var restaurantInputDto = createRestaurantInputDtoWith(restaurantName,
         DEFAULT_RESTAURANT_VALID_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,
@@ -186,6 +196,8 @@ class PostRestaurantApiTest {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
         cnpj,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,
@@ -215,6 +227,8 @@ class PostRestaurantApiTest {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,
@@ -243,6 +257,8 @@ class PostRestaurantApiTest {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,
@@ -270,6 +286,8 @@ class PostRestaurantApiTest {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,

@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.restaurant.domain.entity;
+package br.com.fiaprestaurant.restaurant.domain.valueobject;
 
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import org.springframework.validation.FieldError;

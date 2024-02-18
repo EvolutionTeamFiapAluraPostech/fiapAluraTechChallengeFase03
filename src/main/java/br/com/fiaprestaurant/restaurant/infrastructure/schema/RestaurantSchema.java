@@ -25,6 +25,8 @@ public class RestaurantSchema extends BaseEntity {
   private String name;
   private String cnpj;
   private String typeOfCuisine;
+  private Double latitude;
+  private Double longitude;
   private String street;
   private String number;
   private String neighborhood;
@@ -41,6 +43,8 @@ public class RestaurantSchema extends BaseEntity {
         .setName(this.getName())
         .setCnpj(this.getCnpj())
         .setTypeOfCuisine(this.getTypeOfCuisine())
+        .setLatitude(this.getLatitude())
+        .setLongitude(this.getLongitude())
         .setStreet(this.getStreet())
         .setNumber(this.getNumber())
         .setNeighborhood(this.getNeighborhood())
@@ -50,7 +54,7 @@ public class RestaurantSchema extends BaseEntity {
         .setOpenAt(this.getOpenAt())
         .setCloseAt(this.getCloseAt())
         .setPeopleCapacity(this.getPeopleCapacity())
-        .createRestaurant();
+        .createRestaurantWithId();
   }
 
 }

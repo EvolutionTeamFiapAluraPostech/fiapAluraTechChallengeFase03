@@ -8,6 +8,8 @@ public class RestaurantBuilder {
   private String name;
   private String cnpj;
   private String typeOfCuisine;
+  private Double latitude;
+  private Double longitude;
   private String street;
   private String number;
   private String neighborhood;
@@ -35,6 +37,16 @@ public class RestaurantBuilder {
 
   public RestaurantBuilder setTypeOfCuisine(String typeOfCuisine) {
     this.typeOfCuisine = typeOfCuisine;
+    return this;
+  }
+
+  public RestaurantBuilder setLatitude(Double latitude) {
+    this.latitude = latitude;
+    return this;
+  }
+
+  public RestaurantBuilder setLongitude(Double longitude) {
+    this.longitude = longitude;
     return this;
   }
 
@@ -83,13 +95,8 @@ public class RestaurantBuilder {
     return this;
   }
 
-  public Restaurant createRestaurant() {
-    return new Restaurant(name, cnpj, typeOfCuisine, street, number, neighborhood, city, state,
-        postalCode, openAt, closeAt, peopleCapacity);
-  }
-
   public Restaurant createRestaurantWithId() {
-    return new Restaurant(id, name, cnpj, typeOfCuisine, street, number, neighborhood, city, state,
-        postalCode, openAt, closeAt, peopleCapacity);
+    return new Restaurant(id, name, cnpj, typeOfCuisine, latitude, longitude, street, number,
+        neighborhood, city, state, postalCode, openAt, closeAt, peopleCapacity);
   }
 }

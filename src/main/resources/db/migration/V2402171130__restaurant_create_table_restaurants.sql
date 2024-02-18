@@ -12,6 +12,8 @@ create table if not exists "restaurant_management"."restaurants"
     "name"            varchar(100)                not null,
     "cnpj"            varchar(14)                 not null,
     "type_of_cuisine" varchar(50)                 not null,
+    "latitude"        numeric(10, 6)              not null,
+    "longitude"       numeric(10, 6)              not null,
     "street"          varchar(255)                not null,
     "number"          varchar(100)                not null,
     "neighborhood"    varchar(100)                not null,

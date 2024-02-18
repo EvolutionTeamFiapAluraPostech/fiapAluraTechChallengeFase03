@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.restaurant.domain.entity;
+package br.com.fiaprestaurant.restaurant.domain.valueobject;
 
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_TYPE_OF_CUISINE;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

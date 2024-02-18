@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.restaurant.domain.entity;
+package br.com.fiaprestaurant.restaurant.domain.valueobject;
 
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import org.springframework.validation.FieldError;
@@ -17,6 +17,7 @@ public class Address {
   public static final String NEIGHBORHOOD_LENGTH_MUST_BE_BETWEEN_3_AND_100_CHARACTERS = "Neighborhood length must be between 3 and 100 characters. It has %s.";
   public static final String CITY_LENGTH_MUST_BE_BETWEEN_3_AND_100_CHARACTERS = "City length must be between 3 and 100 characters. It has %s.";
   public static final String STATE_LENGTH_MUST_BE_2_CHARACTERS = "State length must be 2 characters. It has %s.";
+  private final Coordinates coordinates;
   private final String street;
   private final String number;
   private final String neighborhood;
@@ -24,8 +25,8 @@ public class Address {
   private final String state;
   private final String postalCode;
 
-  public Address(String street, String number, String neighborhood, String city, String state,
-      String postalCode) {
+  public Address(Double latitude, Double longitude, String street, String number,
+      String neighborhood, String city, String state, String postalCode) {
     validateNullOrEmptyStreet(street);
     validateLengthStreet(street);
     validateNullOrEmptyNeighborhood(neighborhood);
@@ -34,6 +35,7 @@ public class Address {
     validateLengthCity(city);
     validateNullOrEmptyState(state);
     validateLengthState(state);
+    this.coordinates = new Coordinates(latitude, longitude);
     this.street = street;
     this.number = number;
     this.neighborhood = neighborhood;
@@ -99,6 +101,9 @@ public class Address {
     }
   }
 
+  public Coordinates getCoordinates() {
+    return coordinates;
+  }
 
   public String getStreet() {
     return street;

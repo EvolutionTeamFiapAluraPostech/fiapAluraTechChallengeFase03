@@ -12,6 +12,10 @@ public record RestaurantInputDto(
     String cnpj,
     @Schema(example = "Brasileira", description = "Tipo de cozinha.", minLength = 3, maxLength = 50)
     String typeOfCuisine,
+    @Schema(example = "-23.56391", description = "Latitude.", minLength = -90, maxLength = 90)
+    Double latitude,
+    @Schema(example = "-46.65239", description = "Longitude.", minLength = -90, maxLength = 90)
+    Double longitude,
     @Schema(example = "Av. Brasil", description = "Rua.", minLength = 3, maxLength = 255)
     String street,
     @Schema(example = "Av. Brasil", description = "Rua.", minLength = 3, maxLength = 255, nullable = true)
@@ -35,6 +39,8 @@ public record RestaurantInputDto(
     return new Restaurant(restaurantInputDto.name,
         restaurantInputDto.cnpj,
         restaurantInputDto.typeOfCuisine,
+        restaurantInputDto.latitude,
+        restaurantInputDto.longitude,
         restaurantInputDto.street,
         restaurantInputDto.number,
         restaurantInputDto.neighborhood,

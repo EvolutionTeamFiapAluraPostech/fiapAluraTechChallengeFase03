@@ -11,6 +11,8 @@ public final class RestaurantTestData {
   public static final String DEFAULT_RESTAURANT_NAME = "Comida Boa";
   public static final String DEFAULT_RESTAURANT_VALID_CNPJ = "69635854000140";
   public static final String DEFAULT_RESTAURANT_TYPE_OF_CUISINE = "Brasileira";
+  public static final Double DEFAULT_RESTAURANT_LATITUDE = -23.56391;
+  public static final Double DEFAULT_RESTAURANT_LONGITUDE = -46.65239;
   public static final String DEFAULT_RESTAURANT_STREET = "Av Goiás";
   public static final String DEFAULT_RESTAURANT_NUMBER = "1000";
   public static final String DEFAULT_RESTAURANT_NEIGHBORHOOD = "Centro";
@@ -25,6 +27,8 @@ public final class RestaurantTestData {
     return new RestaurantInputDto(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
         DEFAULT_RESTAURANT_STREET,
         DEFAULT_RESTAURANT_NUMBER,
         DEFAULT_RESTAURANT_NEIGHBORHOOD,
@@ -40,6 +44,8 @@ public final class RestaurantTestData {
       String name,
       String cnpj,
       String typeOfCuisine,
+      Double latitude,
+      Double longitude,
       String street,
       String number,
       String neighborhood,
@@ -52,6 +58,8 @@ public final class RestaurantTestData {
     return new RestaurantInputDto(name,
         cnpj,
         typeOfCuisine,
+        latitude,
+        longitude,
         street,
         number,
         neighborhood,
@@ -69,6 +77,8 @@ public final class RestaurantTestData {
         .setName(DEFAULT_RESTAURANT_NAME)
         .setCnpj(DEFAULT_RESTAURANT_VALID_CNPJ)
         .setTypeOfCuisine(DEFAULT_RESTAURANT_TYPE_OF_CUISINE)
+        .setLatitude(DEFAULT_RESTAURANT_LATITUDE)
+        .setLongitude(DEFAULT_RESTAURANT_LONGITUDE)
         .setStreet(DEFAULT_RESTAURANT_STREET)
         .setNumber(DEFAULT_RESTAURANT_NUMBER)
         .setNeighborhood(DEFAULT_RESTAURANT_NEIGHBORHOOD)
@@ -92,6 +102,8 @@ public final class RestaurantTestData {
         .name(DEFAULT_RESTAURANT_NAME)
         .cnpj(DEFAULT_RESTAURANT_VALID_CNPJ)
         .typeOfCuisine(DEFAULT_RESTAURANT_TYPE_OF_CUISINE)
+        .latitude(DEFAULT_RESTAURANT_LATITUDE)
+        .longitude(DEFAULT_RESTAURANT_LONGITUDE)
         .street(DEFAULT_RESTAURANT_STREET)
         .number(DEFAULT_RESTAURANT_NUMBER)
         .neighborhood(DEFAULT_RESTAURANT_NEIGHBORHOOD)

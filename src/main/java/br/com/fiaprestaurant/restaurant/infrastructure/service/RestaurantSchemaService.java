@@ -74,7 +74,7 @@ public class RestaurantSchemaService implements RestaurantService {
   }
 
   private Double convertDoubleParamToNullOrDoubleValue(Double doubleParam) {
-    return (doubleParam != null && doubleParam > 0) ? doubleParam : null;
+    return (doubleParam != null && doubleParam != 0) ? doubleParam : null;
   }
 
   private String convertStringParamToTrimLowerCase(String stringParam) {

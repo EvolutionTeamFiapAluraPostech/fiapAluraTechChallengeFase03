@@ -9,10 +9,10 @@ import java.util.UUID;
 public final class RestaurantTestData {
 
   public static final String DEFAULT_RESTAURANT_NAME = "Comida Boa";
-  public static final String DEFAULT_RESTAURANT_VALID_CNPJ = "69635854000140";
-  public static final String DEFAULT_RESTAURANT_TYPE_OF_CUISINE = "Brasileira";
-  public static final Double DEFAULT_RESTAURANT_LATITUDE = -23.56391;
-  public static final Double DEFAULT_RESTAURANT_LONGITUDE = -46.65239;
+  public static final String DEFAULT_RESTAURANT_VALID_CNPJ = "38246267000136";
+  public static final String DEFAULT_RESTAURANT_TYPE_OF_CUISINE = "Francesa";
+  public static final Double DEFAULT_RESTAURANT_LATITUDE = -63.56391;
+  public static final Double DEFAULT_RESTAURANT_LONGITUDE = -86.65239;
   public static final String DEFAULT_RESTAURANT_STREET = "Av Goiás";
   public static final String DEFAULT_RESTAURANT_NUMBER = "1000";
   public static final String DEFAULT_RESTAURANT_NEIGHBORHOOD = "Centro";
@@ -25,6 +25,8 @@ public final class RestaurantTestData {
   public static final String ALTERNATIVE_RESTAURANT_NAME = "Sabor Argentino";
   public static final String ALTERNATIVE_RESTAURANT_VALID_CNPJ = "70813077000166";
   public static final String ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE = "Argentina";
+  public static final Double ALTERNATIVE_RESTAURANT_LATITUDE = -33.563900;
+  public static final Double ALTERNATIVE_RESTAURANT_LONGITUDE = -56.652390;
 
 
   public static RestaurantInputDto createRestaurantInputDto() {
@@ -97,19 +99,20 @@ public final class RestaurantTestData {
 
   public static RestaurantSchema createRestaurantSchema() {
     var restaurantSchema = createNewRestaurantSchema(DEFAULT_RESTAURANT_NAME,
-        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE);
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE);
     restaurantSchema.setId(UUID.randomUUID());
     return restaurantSchema;
   }
 
   public static RestaurantSchema createNewRestaurantSchema(String name, String cnpj,
-      String defaultRestaurantTypeOfCuisine) {
+      String defaultRestaurantTypeOfCuisine, Double latitude, Double longitude) {
     return RestaurantSchema.builder()
         .name(name)
         .cnpj(cnpj)
         .typeOfCuisine(defaultRestaurantTypeOfCuisine)
-        .latitude(DEFAULT_RESTAURANT_LATITUDE)
-        .longitude(DEFAULT_RESTAURANT_LONGITUDE)
+        .latitude(latitude)
+        .longitude(longitude)
         .street(DEFAULT_RESTAURANT_STREET)
         .number(DEFAULT_RESTAURANT_NUMBER)
         .neighborhood(DEFAULT_RESTAURANT_NEIGHBORHOOD)

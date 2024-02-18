@@ -1,8 +1,12 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_LATITUDE;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_LONGITUDE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_NAME;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_VALID_CNPJ;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_LATITUDE;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_LONGITUDE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_NAME;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_TYPE_OF_CUISINE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_VALID_CNPJ;
@@ -36,17 +40,20 @@ class GetRestaurantApiTest {
     this.entityManager = entityManager;
   }
 
-  private void createAndSaveRestaurant(String name, String cnpj, String typeOfCuisine) {
-    var restaurantSchema = createNewRestaurantSchema(name, cnpj, typeOfCuisine);
+  private void createAndSaveRestaurant(String name, String cnpj, String typeOfCuisine,
+      Double latitude, Double longitude) {
+    var restaurantSchema = createNewRestaurantSchema(name, cnpj, typeOfCuisine, latitude, longitude);
     entityManager.merge(restaurantSchema);
   }
 
   @Test
   void shouldGetRestaurantByName() throws Exception {
     createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME, DEFAULT_RESTAURANT_VALID_CNPJ,
-        DEFAULT_RESTAURANT_TYPE_OF_CUISINE);
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE, DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE);
     createAndSaveRestaurant(ALTERNATIVE_RESTAURANT_NAME, ALTERNATIVE_RESTAURANT_VALID_CNPJ,
-        ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE);
+        ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE, ALTERNATIVE_RESTAURANT_LATITUDE,
+        ALTERNATIVE_RESTAURANT_LONGITUDE);
 
     var request = get(URL_RESTAURANTS)
         .param("name", DEFAULT_RESTAURANT_NAME);
@@ -60,12 +67,33 @@ class GetRestaurantApiTest {
   @Test
   void shouldGetRestaurantByTypeOfCuisine() throws Exception {
     createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME, DEFAULT_RESTAURANT_VALID_CNPJ,
-        DEFAULT_RESTAURANT_TYPE_OF_CUISINE);
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE, DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE);
     createAndSaveRestaurant(ALTERNATIVE_RESTAURANT_NAME, ALTERNATIVE_RESTAURANT_VALID_CNPJ,
-        ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE);
+        ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE, ALTERNATIVE_RESTAURANT_LATITUDE,
+        ALTERNATIVE_RESTAURANT_LONGITUDE);
 
     var request = get(URL_RESTAURANTS)
         .param("typeOfCuisine", ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE);
+    mockMvc.perform(request)
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.*", hasSize(1)))
+        .andExpect(jsonPath("$[0].id", isUUID()));
+  }
+
+  @Test
+  void shouldGetRestaurantByCoordinates() throws Exception {
+    createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME, DEFAULT_RESTAURANT_VALID_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE, DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE);
+    createAndSaveRestaurant(ALTERNATIVE_RESTAURANT_NAME, ALTERNATIVE_RESTAURANT_VALID_CNPJ,
+        ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE, ALTERNATIVE_RESTAURANT_LATITUDE,
+        ALTERNATIVE_RESTAURANT_LONGITUDE);
+
+    var request = get(URL_RESTAURANTS)
+        .param("latitude", ALTERNATIVE_RESTAURANT_LATITUDE.toString())
+        .param("longitude", ALTERNATIVE_RESTAURANT_LONGITUDE.toString());
     mockMvc.perform(request)
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

@@ -19,7 +19,7 @@ public interface RestaurantSchemaRepository extends RestaurantRepository,
         where r.deleted = false
         and (:name is null or lower(r.name) like %:name%)
         and (:typeOfCuisine is null or lower(r.typeOfCuisine) like %:typeOfCuisine%)
-        and ((:latitude is null or r.latitude = :latitude) and (:longitude is null or r.longitude = :longitude))
+        and ((:latitude is null and :longitude is null) or (r.latitude = :latitude and r.longitude = :longitude))
         order by r.name
       """)
   List<RestaurantSchema> queryByNameCoordinatesTypeOfCuisine(String name, String typeOfCuisine,

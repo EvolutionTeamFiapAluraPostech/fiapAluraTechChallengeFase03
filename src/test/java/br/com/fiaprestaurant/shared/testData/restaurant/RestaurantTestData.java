@@ -63,23 +63,6 @@ public final class RestaurantTestData {
         peopleCapacity);
   }
 
-  public static Restaurant createNewRestaurant() {
-    return new RestaurantBuilder()
-        .setName(DEFAULT_RESTAURANT_NAME)
-        .setCnpj(DEFAULT_RESTAURANT_VALID_CNPJ)
-        .setTypeOfCuisine(DEFAULT_RESTAURANT_TYPE_OF_CUISINE)
-        .setStreet(DEFAULT_RESTAURANT_STREET)
-        .setNumber(DEFAULT_RESTAURANT_NUMBER)
-        .setNeighborhood(DEFAULT_RESTAURANT_NEIGHBORHOOD)
-        .setCity(DEFAULT_RESTAURANT_CITY)
-        .setState(DEFAULT_RESTAURANT_STATE)
-        .setPostalCode(DEFAULT_RESTAURANT_POSTAL_CODE)
-        .setOpenAt(DEFAULT_RESTAURANT_HOUR_OPEN_AT)
-        .setCloseAt(DEFAULT_RESTAURANT_HOUR_CLOSE_AT)
-        .setPeopleCapacity(DEFAULT_RESTAURANT_PEOPLE_CAPACITY)
-        .createRestaurant();
-  }
-
   public static Restaurant createRestaurant() {
     return new RestaurantBuilder()
         .setId(UUID.randomUUID())
@@ -99,8 +82,13 @@ public final class RestaurantTestData {
   }
 
   public static RestaurantSchema createRestaurantSchema() {
+    var restaurantSchema = createNewRestaurantSchema();
+    restaurantSchema.setId(UUID.randomUUID());
+    return restaurantSchema;
+  }
+
+  public static RestaurantSchema createNewRestaurantSchema() {
     return RestaurantSchema.builder()
-        .id(UUID.randomUUID())
         .name(DEFAULT_RESTAURANT_NAME)
         .cnpj(DEFAULT_RESTAURANT_VALID_CNPJ)
         .typeOfCuisine(DEFAULT_RESTAURANT_TYPE_OF_CUISINE)

@@ -98,6 +98,32 @@ class PostRestaurantApiTest {
   }
 
   @Test
+  void shouldThrowExceptionWhenRestaurantCnpjAlreadyExists() {
+    var restaurantInputDto = createRestaurantInputDtoWith(
+        DEFAULT_RESTAURANT_NAME,
+        "04638576000130",
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.CONFLICT.value());
+  }
+
+  @Test
   void shouldThrowExceptionWhenRestaurantNameLengthIsBiggerThan100Characters() {
     var restaurantName = StringUtil.generateStringLength(101);
     var restaurantInputDto = createRestaurantInputDtoWith(restaurantName,

@@ -4,7 +4,7 @@ import br.com.fiaprestaurant.restaurant.application.dto.RestaurantFilter;
 import br.com.fiaprestaurant.restaurant.application.dto.RestaurantInputDto;
 import br.com.fiaprestaurant.restaurant.application.dto.RestaurantOutputDto;
 import br.com.fiaprestaurant.restaurant.application.usecase.CreateRestaurantUseCase;
-import br.com.fiaprestaurant.restaurant.application.usecase.GetRestaurantByNameCoordinatesTypeOfCuisine;
+import br.com.fiaprestaurant.restaurant.application.usecase.GetRestaurantByNameCoordinatesTypeOfCuisineUseCase;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantsController implements RestaurantsApi {
 
   private final CreateRestaurantUseCase createRestaurantUseCase;
-  private final GetRestaurantByNameCoordinatesTypeOfCuisine getRestaurantByNameCoordinatesTypeOfCuisine;
+  private final GetRestaurantByNameCoordinatesTypeOfCuisineUseCase getRestaurantByNameCoordinatesTypeOfCuisineUseCase;
 
   public RestaurantsController(CreateRestaurantUseCase createRestaurantUseCase,
-      GetRestaurantByNameCoordinatesTypeOfCuisine getRestaurantByNameCoordinatesTypeOfCuisine) {
+      GetRestaurantByNameCoordinatesTypeOfCuisineUseCase getRestaurantByNameCoordinatesTypeOfCuisineUseCase) {
     this.createRestaurantUseCase = createRestaurantUseCase;
-    this.getRestaurantByNameCoordinatesTypeOfCuisine = getRestaurantByNameCoordinatesTypeOfCuisine;
+    this.getRestaurantByNameCoordinatesTypeOfCuisineUseCase = getRestaurantByNameCoordinatesTypeOfCuisineUseCase;
   }
 
   @PostMapping
@@ -39,7 +39,7 @@ public class RestaurantsController implements RestaurantsApi {
   @Override
   public List<RestaurantOutputDto> getRestaurantByNameOrCoordinatesOrTypeOfCuisine(
       RestaurantFilter restaurantFilter) {
-    return getRestaurantByNameCoordinatesTypeOfCuisine.execute(restaurantFilter);
+    return getRestaurantByNameCoordinatesTypeOfCuisineUseCase.execute(restaurantFilter);
   }
 
 }

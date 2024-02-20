@@ -9,9 +9,9 @@ public class Coordinates {
   private final Double longitude;
 
   public Coordinates(Double latitude, Double longitude) {
-    validateNullOrZeroLatitude(latitude);
+    validateNullLatitude(latitude);
     validateLatitude(latitude);
-    validateNullOrZeroLongitude(longitude);
+    validateNullLongitude(longitude);
     validateLongitude(longitude);
     this.latitude = latitude;
     this.longitude = longitude;
@@ -31,17 +31,17 @@ public class Coordinates {
     }
   }
 
-  private void validateNullOrZeroLongitude(Double longitude) {
-    if (longitude == null || longitude == 0) {
+  private void validateNullLongitude(Double longitude) {
+    if (longitude == null) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), "longitude",
-          "longitude must be a non-zero value."));
+          "longitude must be a number."));
     }
   }
 
-  private void validateNullOrZeroLatitude(Double latitude) {
-    if (latitude == null || latitude == 0) {
+  private void validateNullLatitude(Double latitude) {
+    if (latitude == null) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), "latitude",
-          "latitude must be a non-zero value."));
+          "latitude must be a number."));
     }
   }
 

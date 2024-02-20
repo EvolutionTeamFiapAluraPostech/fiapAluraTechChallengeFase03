@@ -16,13 +16,13 @@ class CoordinatesTest {
   }
 
   @ParameterizedTest
-  @ValueSource(doubles = {0d, -100d, 100d})
+  @ValueSource(doubles = {-100d, 100d})
   void shouldThrowExceptionWhenLatitudeIsInvalid(Double latitude) {
     assertThrows(ValidatorException.class, () -> new Coordinates(latitude, -46.65239));
   }
 
   @ParameterizedTest
-  @ValueSource(doubles = {0d, -100d, 100d})
+  @ValueSource(doubles = {-100d, 100d})
   void shouldThrowExceptionWhenLongitudeIsInvalid(Double longitude) {
     assertThrows(ValidatorException.class, () -> new Coordinates(-23.56391, longitude));
   }

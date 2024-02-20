@@ -1,5 +1,6 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.service;
 
+import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_CNPJ;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_ID;
 
@@ -8,7 +9,7 @@ import br.com.fiaprestaurant.restaurant.domain.service.RestaurantService;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.RestaurantSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
-import java.util.ArrayList;
+import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,7 @@ import org.springframework.validation.FieldError;
 @Service
 public class RestaurantSchemaService implements RestaurantService {
 
+  public static final String ENTER_AT_LEAST_ONE_PARAM_NAME_TYPE_OF_CUISINE_LATITUDE_AND_LONGITUDE = "Enter at least one param (name, type of cuisine, latitude and longitude.";
   private final RestaurantSchemaRepository restaurantSchemaRepository;
 
   public RestaurantSchemaService(RestaurantSchemaRepository restaurantSchemaRepository) {
@@ -62,15 +64,34 @@ public class RestaurantSchemaService implements RestaurantService {
     var typeOfCuisineParam = convertStringParamToTrimLowerCase(typeOfCuisine);
     var latitudeParam = convertDoubleParamToNullOrDoubleValue(latitude);
     var longitudeParam = convertDoubleParamToNullOrDoubleValue(longitude);
+    validateQueryByNameCoordinatesTypeOfCuisineParams(nameParam, typeOfCuisineParam, latitudeParam,
+        longitudeParam);
 
     var restaurantsSchema = restaurantSchemaRepository.queryByNameCoordinatesTypeOfCuisine(
         nameParam, typeOfCuisineParam, latitudeParam, longitudeParam);
+    validateQueryByNameTypeOfCuisineCoordinatesResult(restaurantsSchema);
 
-    if (restaurantsSchema != null && !restaurantsSchema.isEmpty()) {
-      return restaurantsSchema.stream().map(RestaurantSchema::createRestaurantFromRestaurantSchema)
-          .toList();
+    return restaurantsSchema.stream().map(RestaurantSchema::createRestaurantFromRestaurantSchema)
+        .toList();
+  }
+
+  private void validateQueryByNameTypeOfCuisineCoordinatesResult(List<RestaurantSchema> restaurantsSchema) {
+    if (restaurantsSchema == null || restaurantsSchema.isEmpty()) {
+      throw new NoResultException(
+          new FieldError(this.getClass().getSimpleName(), "",
+              RESTAURANT_NOT_FOUND));
     }
-    return new ArrayList<>();
+  }
+
+  private void validateQueryByNameCoordinatesTypeOfCuisineParams(String nameParam,
+      String typeOfCuisineParam, Double latitudeParam,
+      Double longitudeParam) {
+    if (nameParam == null && typeOfCuisineParam == null && latitudeParam == null
+        && longitudeParam == null) {
+      throw new ValidatorException(
+          new FieldError(this.getClass().getSimpleName(), "",
+              ENTER_AT_LEAST_ONE_PARAM_NAME_TYPE_OF_CUISINE_LATITUDE_AND_LONGITUDE));
+    }
   }
 
   private Double convertDoubleParamToNullOrDoubleValue(Double doubleParam) {

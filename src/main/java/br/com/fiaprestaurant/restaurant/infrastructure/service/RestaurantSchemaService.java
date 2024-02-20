@@ -19,7 +19,7 @@ import org.springframework.validation.FieldError;
 @Service
 public class RestaurantSchemaService implements RestaurantService {
 
-  public static final String ENTER_AT_LEAST_ONE_PARAM_NAME_TYPE_OF_CUISINE_LATITUDE_AND_LONGITUDE = "Enter at least one param (name, type of cuisine, latitude and longitude.";
+  public static final String ENTER_AT_LEAST_ONE_PARAM_NAME_TYPE_OF_CUISINE_LATITUDE_AND_LONGITUDE = "Enter at least one param (name, type of cuisine, latitude and longitude).";
   private final RestaurantSchemaRepository restaurantSchemaRepository;
 
   public RestaurantSchemaService(RestaurantSchemaRepository restaurantSchemaRepository) {

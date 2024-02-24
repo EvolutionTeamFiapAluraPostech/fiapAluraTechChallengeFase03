@@ -97,7 +97,7 @@ class ArchUnitTest {
 
   @Test
   void shouldUseCaseHaveTransactionalAnnotationInExecuteMethodWhenUseCaseChangeData() {
-    methods().that().areDeclaredInClassesThat().haveSimpleNameEndingWith("UseCase")
+    methods().that().areDeclaredInClassesThat().haveSimpleNameEndingWith("Interactor")
         .and().areDeclaredInClassesThat().haveSimpleNameNotStartingWith("Get")
         .and().areDeclaredInClassesThat().haveSimpleNameNotStartingWith("Check")
         .and().haveName("execute")
@@ -115,15 +115,15 @@ class ArchUnitTest {
   }
 
   @Test
-  void shouldUseCasesHaveEquivalentTestClass() {
-    classes().that().haveSimpleNameEndingWith("UseCase")
+  void shouldInteractorHaveEquivalentTestClass() {
+    classes().that().haveSimpleNameEndingWith("Interactor")
         .should(haveEquivalentTestClass(testPackages))
         .check(mainPackages);
   }
 
   @Test
   void shouldServicesHaveEquivalentTestClass() {
-    classes().that().haveSimpleNameEndingWith("ServiceImpl")
+    classes().that().haveSimpleNameEndingWith("SchemaGateway")
         .should(haveEquivalentTestClass(testPackages))
         .check(mainPackages);
   }

@@ -1,11 +1,11 @@
-package br.com.fiaprestaurant.restaurant.infrastructure.service;
+package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_CNPJ;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_ID;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
-import br.com.fiaprestaurant.restaurant.domain.service.RestaurantService;
+import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.RestaurantSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
 @Service
-public class RestaurantSchemaService implements RestaurantService {
+public class RestaurantSchemaGateway implements RestaurantGateway {
 
   public static final String ENTER_AT_LEAST_ONE_PARAM_NAME_TYPE_OF_CUISINE_LATITUDE_AND_LONGITUDE = "Enter at least one param (name, type of cuisine, latitude and longitude).";
   private final RestaurantSchemaRepository restaurantSchemaRepository;
 
-  public RestaurantSchemaService(RestaurantSchemaRepository restaurantSchemaRepository) {
+  public RestaurantSchemaGateway(RestaurantSchemaRepository restaurantSchemaRepository) {
     this.restaurantSchemaRepository = restaurantSchemaRepository;
   }
 

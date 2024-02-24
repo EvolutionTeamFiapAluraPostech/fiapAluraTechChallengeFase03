@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.restaurant.application.dto;
+package br.com.fiaprestaurant.restaurant.presentation.dto;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import io.swagger.v3.oas.annotations.media.Schema;

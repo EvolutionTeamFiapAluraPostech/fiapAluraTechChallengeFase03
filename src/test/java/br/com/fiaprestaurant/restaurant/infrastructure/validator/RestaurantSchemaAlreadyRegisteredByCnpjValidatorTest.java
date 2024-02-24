@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.restaurant.domain.service.RestaurantService;
+import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
 import br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData;
 import java.util.Optional;
@@ -18,14 +18,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class RestaurantSchemaAlreadyRegisteredByCnpjValidatorTest {
 
   @Mock
-  private RestaurantService restaurantService;
+  private RestaurantGateway restaurantGateway;
   @InjectMocks
   private RestaurantSchemaAlreadyRegisteredByCnpjValidator restaurantSchemaAlreadyRegisteredByCnpjValidator;
 
   @Test
   void shouldValidateWhenRestaurantNotExistWithCnpj() {
     var restaurant = RestaurantTestData.createRestaurant();
-    when(restaurantService.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(Optional.empty());
+    when(restaurantGateway.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(Optional.empty());
 
     assertDoesNotThrow(() -> restaurantSchemaAlreadyRegisteredByCnpjValidator.validate(
         restaurant.getCnpj().getCnpjValue()));
@@ -34,7 +34,7 @@ class RestaurantSchemaAlreadyRegisteredByCnpjValidatorTest {
   @Test
   void shouldThrowExceptionWhenRestaurantExistsWithCnpj() {
     var restaurant = RestaurantTestData.createRestaurant();
-    when(restaurantService.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(Optional.of(restaurant));
+    when(restaurantGateway.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(Optional.of(restaurant));
 
     assertThrows(DuplicatedException.class,
         () -> restaurantSchemaAlreadyRegisteredByCnpjValidator.validate(

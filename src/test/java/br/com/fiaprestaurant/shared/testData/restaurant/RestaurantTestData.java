@@ -3,7 +3,7 @@ package br.com.fiaprestaurant.shared.testData.restaurant;
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import br.com.fiaprestaurant.restaurant.domain.entity.RestaurantBuilder;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantInputDto;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
 import java.util.UUID;
 
 public final class RestaurantTestData {

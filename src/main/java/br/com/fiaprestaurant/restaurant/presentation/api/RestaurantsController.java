@@ -1,10 +1,10 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantFilter;
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantInputDto;
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantOutputDto;
 import br.com.fiaprestaurant.restaurant.application.usecase.CreateRestaurantUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.GetRestaurantByNameCoordinatesTypeOfCuisineUseCase;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantFilter;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantOutputDto;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +31,9 @@ public class RestaurantsController implements RestaurantsApi {
   @ResponseStatus(HttpStatus.CREATED)
   @Override
   public RestaurantOutputDto postRestaurant(@RequestBody RestaurantInputDto restaurantInputDto) {
-    return createRestaurantUseCase.execute(restaurantInputDto);
+    var restaurant = restaurantInputDto.toRestaurantFrom();
+    var restaurantSaved = createRestaurantUseCase.execute(restaurant);
+    return RestaurantOutputDto.toRestaurantOutputDtoFrom(restaurantSaved);
   }
 
   @GetMapping("/name-coordinates-typeofcuisine")
@@ -39,7 +41,11 @@ public class RestaurantsController implements RestaurantsApi {
   @Override
   public List<RestaurantOutputDto> getRestaurantByNameOrCoordinatesOrTypeOfCuisine(
       RestaurantFilter restaurantFilter) {
-    return getRestaurantByNameCoordinatesTypeOfCuisineUseCase.execute(restaurantFilter);
+    var restaurants = getRestaurantByNameCoordinatesTypeOfCuisineUseCase.execute(
+        restaurantFilter.name(),
+        restaurantFilter.typeOfCuisine(), restaurantFilter.latitude(),
+        restaurantFilter.longitude());
+    return RestaurantOutputDto.toRestaurantsOutputDtoFrom(restaurants);
   }
 
 }

@@ -1,8 +1,8 @@
-package br.com.fiaprestaurant.restaurant.infrastructure.service;
+package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createRestaurantSchema;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,12 +18,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class RestaurantSchemaServiceTest {
+class RestaurantSchemaGatewayTest {
 
   @Mock
   private RestaurantSchemaRepository restaurantSchemaRepository;
   @InjectMocks
-  private RestaurantSchemaService restaurantSchemaService;
+  private RestaurantSchemaGateway restaurantSchemaService;
 
   @Test
   void shouldSaveRestaurant() {
@@ -57,8 +57,8 @@ class RestaurantSchemaServiceTest {
     when(restaurantSchemaRepository.findById(restaurant.getId())).thenReturn(
         Optional.empty());
 
-    assertThrows(NoResultException.class,
-        () -> restaurantSchemaService.findById(restaurant.getId()));
+    assertThatThrownBy(() -> restaurantSchemaService.findById(restaurant.getId())).isInstanceOf(
+        NoResultException.class);
     verify(restaurantSchemaRepository).findById(restaurant.getId());
   }
 
@@ -69,7 +69,8 @@ class RestaurantSchemaServiceTest {
     when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
         Optional.of(restaurantSchema));
 
-    var restaurantFound = restaurantSchemaService.findByCnpjRequired(restaurant.getCnpj().getCnpjValue());
+    var restaurantFound = restaurantSchemaService.findByCnpjRequired(
+        restaurant.getCnpj().getCnpjValue());
 
     assertThat(restaurantFound).isNotNull();
     verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
@@ -82,8 +83,9 @@ class RestaurantSchemaServiceTest {
     when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
         Optional.empty());
 
-    assertThrows(NoResultException.class,
-        () -> restaurantSchemaService.findByCnpjRequired(restaurant.getCnpj().getCnpjValue()));
+    assertThatThrownBy(
+        () -> restaurantSchemaService.findByCnpjRequired(restaurant.getCnpj().getCnpjValue()))
+        .isInstanceOf(NoResultException.class);
     verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
   }
 

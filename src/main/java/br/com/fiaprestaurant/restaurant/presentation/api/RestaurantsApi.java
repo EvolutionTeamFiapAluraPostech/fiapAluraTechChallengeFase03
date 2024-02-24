@@ -1,8 +1,8 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantFilter;
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantInputDto;
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantOutputDto;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantFilter;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
+import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantOutputDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

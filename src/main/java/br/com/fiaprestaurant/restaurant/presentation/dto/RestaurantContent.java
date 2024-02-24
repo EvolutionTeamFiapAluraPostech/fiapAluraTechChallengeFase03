@@ -1,6 +1,5 @@
 package br.com.fiaprestaurant.restaurant.presentation.dto;
 
-import br.com.fiaprestaurant.restaurant.application.dto.RestaurantOutputDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;

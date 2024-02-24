@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.restaurant.application.dto;
+package br.com.fiaprestaurant.restaurant.presentation.dto;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,20 +35,20 @@ public record RestaurantInputDto(
     @Schema(example = "200", description = "Capacidade total de pessoas", format = "Numérico")
     Integer peopleCapacity) {
 
-  public static Restaurant toRestaurantFrom(RestaurantInputDto restaurantInputDto) {
-    return new Restaurant(restaurantInputDto.name,
-        restaurantInputDto.cnpj,
-        restaurantInputDto.typeOfCuisine,
-        restaurantInputDto.latitude,
-        restaurantInputDto.longitude,
-        restaurantInputDto.street,
-        restaurantInputDto.number,
-        restaurantInputDto.neighborhood,
-        restaurantInputDto.city,
-        restaurantInputDto.state,
-        restaurantInputDto.postalCode,
-        restaurantInputDto.openAt,
-        restaurantInputDto.closeAt,
-        restaurantInputDto.peopleCapacity);
+  public Restaurant toRestaurantFrom() {
+    return new Restaurant(this.name,
+        this.cnpj,
+        this.typeOfCuisine,
+        this.latitude,
+        this.longitude,
+        this.street,
+        this.number,
+        this.neighborhood,
+        this.city,
+        this.state,
+        this.postalCode,
+        this.openAt,
+        this.closeAt,
+        this.peopleCapacity);
   }
 }

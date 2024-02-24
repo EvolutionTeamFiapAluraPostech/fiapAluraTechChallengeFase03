@@ -6,7 +6,7 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AuthenticationServiceImplTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @InjectMocks
   private AuthenticationServiceImpl UserDetailsService;
 

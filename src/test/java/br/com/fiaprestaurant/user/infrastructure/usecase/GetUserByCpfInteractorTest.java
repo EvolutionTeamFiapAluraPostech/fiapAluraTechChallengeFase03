@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.application.usecase;
+package br.com.fiaprestaurant.user.infrastructure.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.ALTERNATIVE_USER_CPF;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.user.domain.messages.UserMessages;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,19 +17,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class GetUserByCpfUseCaseTest {
+class GetUserByCpfInteractorTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @InjectMocks
-  private GetUserByCpfUseCase getUserByCpfUseCase;
+  private GetUserByCpfInteractor getUserByCpfInteractor;
 
   @Test
   void shouldFindUserByCpfWhenUserExists() {
     var user = createUser();
     when(userService.findByCpf(user.getCpf().getCpfNumber())).thenReturn(Optional.of(user));
 
-    var userFound = getUserByCpfUseCase.execute(user.getCpf().getCpfNumber());
+    var userFound = getUserByCpfInteractor.execute(user.getCpf().getCpfNumber());
 
     assertThat(userFound).isNotNull();
     assertThat(userFound.getCpf().getCpfNumber()).isEqualTo(user.getCpf().getCpfNumber());
@@ -39,7 +39,7 @@ class GetUserByCpfUseCaseTest {
   void shouldThrowExceptionWhenUserDoesNotExist() {
     when(userService.findByCpf(ALTERNATIVE_USER_CPF)).thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> getUserByCpfUseCase.execute(ALTERNATIVE_USER_CPF))
+    assertThatThrownBy(() -> getUserByCpfInteractor.execute(ALTERNATIVE_USER_CPF))
         .isInstanceOf(NoResultException.class)
         .hasMessageContaining(UserMessages.USER_CPF_NOT_FOUND.formatted(ALTERNATIVE_USER_CPF));
   }

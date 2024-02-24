@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.application.usecase;
+package br.com.fiaprestaurant.user.infrastructure.usecase;
 
 import static br.com.fiaprestaurant.shared.api.PageUtil.PAGE_NUMBER;
 import static br.com.fiaprestaurant.shared.api.PageUtil.PAGE_SIZE;
@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.user.domain.entity.User;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -20,12 +20,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 @ExtendWith(MockitoExtension.class)
-class GetUsersByNameUseCaseTest {
+class GetUsersByNameInteractorTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @InjectMocks
-  private GetUsersByNameUseCase getUsersByNameUseCase;
+  private GetUsersByNameInteractor getUsersByNameInteractor;
 
   @Test
   void shouldGetUserByName() {
@@ -37,7 +37,7 @@ class GetUsersByNameUseCaseTest {
     var page = new PageImpl<>(users, pageable, size);
 
     when(userService.findByNamePageable(userName, pageable)).thenReturn(page);
-    var usersFound = getUsersByNameUseCase.execute(userName, pageable);
+    var usersFound = getUsersByNameInteractor.execute(userName, pageable);
 
     assertThat(usersFound).isNotNull();
     assertThat(usersFound.getSize()).isEqualTo(PAGE_SIZE);
@@ -54,7 +54,7 @@ class GetUsersByNameUseCaseTest {
     var page = new PageImpl<>(users, pageable, size);
 
     when(userService.findByNamePageable(userName, pageable)).thenReturn(page);
-    var usersFound = getUsersByNameUseCase.execute(userName, pageable);
+    var usersFound = getUsersByNameInteractor.execute(userName, pageable);
 
     assertThat(usersFound).isNotNull();
     assertThat(usersFound.getSize()).isEqualTo(PAGE_SIZE);

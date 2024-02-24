@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.infrastructure.service;
+package br.com.fiaprestaurant.user.infrastructure.gateway;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID;
@@ -6,7 +6,7 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewU
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +26,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 @ExtendWith(MockitoExtension.class)
-class UserSchemaServiceImplTest {
+class UserSchemaGatewayTest {
 
   private static final int PAGE_NUMBER = 0;
   private static final int PAGE_SIZE = 1;
@@ -34,7 +34,7 @@ class UserSchemaServiceImplTest {
   @Mock
   private UserSchemaRepository userRepository;
   @InjectMocks
-  private UserSchemaService userService;
+  private UserSchemaGateway userService;
 
   @Test
   void shouldSaveUserWhenAllUserAttributesAreCorrect() {
@@ -216,16 +216,16 @@ class UserSchemaServiceImplTest {
   void shouldReturnEmptyWhenFindUserByEmailRequiredDoesNotExist() {
     when(userRepository.findByEmail(DEFAULT_USER_EMAIL)).thenReturn(Optional.empty());
 
-    assertThrows(NoResultException.class,
-        () -> userService.findByEmailRequired(DEFAULT_USER_EMAIL));
+    assertThatThrownBy(() -> userService.findByEmailRequired(DEFAULT_USER_EMAIL))
+        .isInstanceOf(NoResultException.class);
   }
 
   @Test
   void shouldReturnEmptyWhenFindUserByIdRequiredDoesNotExist() {
     when(userRepository.findById(DEFAULT_USER_UUID)).thenReturn(Optional.empty());
 
-    assertThrows(NoResultException.class,
-        () -> userService.findUserByIdRequired(DEFAULT_USER_UUID));
+    assertThatThrownBy(() -> userService.findUserSchemaByIdRequired(DEFAULT_USER_UUID))
+        .isInstanceOf(NoResultException.class);
   }
 
 }

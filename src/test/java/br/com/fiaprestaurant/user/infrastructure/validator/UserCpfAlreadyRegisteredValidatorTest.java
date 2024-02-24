@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.util.Optional;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class UserCpfAlreadyRegisteredValidatorTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @InjectMocks
   private UserSchemaCpfAlreadyRegisteredValidator userCpfAlreadyRegisteredValidator;
 

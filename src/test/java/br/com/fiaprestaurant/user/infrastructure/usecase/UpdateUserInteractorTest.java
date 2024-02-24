@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.application.usecase;
+package br.com.fiaprestaurant.user.infrastructure.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_CPF;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
@@ -14,7 +14,7 @@ import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,10 +22,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class UpdateUserUseCaseTest {
+class UpdateUserInteractorTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @Mock
   private UuidValidatorImpl uuidValidator;
   @Mock
@@ -33,7 +33,7 @@ class UpdateUserUseCaseTest {
   @Mock
   private UserCpfAlreadyRegisteredInOtherUserValidator userCpfAlreadyRegisteredInOtherUserValidator;
   @InjectMocks
-  private UpdateUserUseCase updateUserUseCase;
+  private UpdateUserInteractor updateUserInteractor;
 
   @Test
   void shouldUpdateUser() {
@@ -43,7 +43,7 @@ class UpdateUserUseCaseTest {
     when(userService.findUserByIdRequired(userToUpdate.getId())).thenReturn(userToUpdate);
     when(userService.update(user.getId(), userToUpdate)).thenReturn(userToUpdate);
 
-    var userUpdated = updateUserUseCase.execute(userToUpdate.getId().toString(), userToUpdate);
+    var userUpdated = updateUserInteractor.execute(userToUpdate.getId().toString(), userToUpdate);
 
     assertThat(userUpdated).isNotNull();
     assertThat(userUpdated.getId()).isNotNull().isEqualTo(userToUpdate.getId());

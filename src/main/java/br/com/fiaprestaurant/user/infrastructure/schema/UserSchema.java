@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,7 +26,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(schema = "user_management", name = "users")
 @SQLRestriction("deleted = false")

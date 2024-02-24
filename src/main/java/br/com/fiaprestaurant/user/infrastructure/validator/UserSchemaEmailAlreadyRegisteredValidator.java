@@ -4,7 +4,7 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
@@ -12,9 +12,9 @@ import org.springframework.validation.FieldError;
 public class UserSchemaEmailAlreadyRegisteredValidator implements
     UserEmailAlreadyRegisteredValidator {
 
-  private final UserService userService;
+  private final UserGateway userService;
 
-  public UserSchemaEmailAlreadyRegisteredValidator(UserService userService) {
+  public UserSchemaEmailAlreadyRegisteredValidator(UserGateway userService) {
     this.userService = userService;
   }
 

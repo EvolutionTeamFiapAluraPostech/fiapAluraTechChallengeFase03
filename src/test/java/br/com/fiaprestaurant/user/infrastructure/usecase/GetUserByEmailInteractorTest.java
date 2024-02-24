@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.application.usecase;
+package br.com.fiaprestaurant.user.infrastructure.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_EMAIL;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.infrastructure.validator.EmailValidator;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,14 +19,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class GetUserByEmailUseCaseTest {
+class GetUserByEmailInteractorTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @Mock
   private EmailValidator emailValidator;
   @InjectMocks
-  private GetUserByEmailUseCase getUserByEmailUseCase;
+  private GetUserByEmailInteractor getUserByEmailInteractor;
 
   @Test
   void shouldGetUserByEmailWhenUserExists() {
@@ -34,7 +34,7 @@ class GetUserByEmailUseCaseTest {
     var userEmail = user.getEmail().address();
     when(userService.findByEmail(user.getEmail().address())).thenReturn(Optional.of(user));
 
-    var userFound = getUserByEmailUseCase.execute(userEmail);
+    var userFound = getUserByEmailInteractor.execute(userEmail);
 
     assertThat(userFound).isNotNull();
     assertThat(userFound.getId()).isNotNull().isEqualTo(user.getId());
@@ -46,7 +46,7 @@ class GetUserByEmailUseCaseTest {
     var userEmail = DEFAULT_USER_EMAIL;
     when(userService.findByEmail(userEmail)).thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> getUserByEmailUseCase.execute(userEmail))
+    assertThatThrownBy(() -> getUserByEmailInteractor.execute(userEmail))
         .isInstanceOf(NoResultException.class)
         .hasMessageContaining(USER_EMAIL_NOT_FOUND.formatted(userEmail));
 

@@ -1,11 +1,11 @@
-package br.com.fiaprestaurant.user.infrastructure.service;
+package br.com.fiaprestaurant.user.infrastructure.gateway;
 
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_NOT_FOUND;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NOT_FOUND;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.user.domain.entity.User;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import br.com.fiaprestaurant.user.infrastructure.repository.UserSchemaRepository;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.Optional;
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
 @Service
-public class UserSchemaService implements UserService {
+public class UserSchemaGateway implements UserGateway {
 
   private final UserSchemaRepository userRepository;
 
-  public UserSchemaService(UserSchemaRepository userRepository) {
+  public UserSchemaGateway(UserSchemaRepository userRepository) {
     this.userRepository = userRepository;
   }
 
@@ -60,7 +60,7 @@ public class UserSchemaService implements UserService {
     userRepository.save(userSchema);
   }
 
-  private UserSchema findUserSchemaByIdRequired(UUID userUuid) {
+  public UserSchema findUserSchemaByIdRequired(UUID userUuid) {
     return userRepository.findById(userUuid)
         .orElseThrow(
             () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "ID",

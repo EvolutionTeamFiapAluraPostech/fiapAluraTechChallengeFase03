@@ -1,6 +1,6 @@
 package br.com.fiaprestaurant.user.infrastructure.security;
 
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,11 +15,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class SecurityFilter extends OncePerRequestFilter {
 
   private final TokenService tokenService;
-  private final UserService userService;
+  private final UserGateway userService;
 
   public SecurityFilter(
       TokenService tokenService,
-      UserService userService
+      UserGateway userService
   ) {
     this.tokenService = tokenService;
     this.userService = userService;

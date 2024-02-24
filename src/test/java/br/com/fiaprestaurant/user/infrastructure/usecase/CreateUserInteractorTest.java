@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.application.usecase;
+package br.com.fiaprestaurant.user.infrastructure.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserWithId;
@@ -15,7 +15,7 @@ import br.com.fiaprestaurant.shared.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,10 +25,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
-class CreateUserUseCaseTest {
+class CreateUserInteractorTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @Mock
   private UserEmailAlreadyRegisteredValidator userEmailAlreadyRegisteredValidator;
   @Spy
@@ -36,7 +36,7 @@ class CreateUserUseCaseTest {
   @Mock
   private UserCpfAlreadyRegisteredValidator userCpfAlreadyRegisteredValidator;
   @InjectMocks
-  private CreateUserUseCase createUserUseCase;
+  private CreateUserInteractor createUserInteractor;
 
   @Test
   void shouldCreateNewUserWhenAllUserAttributesAreCorrect() {
@@ -46,7 +46,7 @@ class CreateUserUseCaseTest {
         user.getPassword().getPasswordValue());
     when(userService.save(any(User.class))).thenReturn(userToSave);
 
-    var userSaved = createUserUseCase.execute(user);
+    var userSaved = createUserInteractor.execute(user);
 
     assertThat(userSaved).isNotNull();
     assertThat(userSaved.getId()).isNotNull();
@@ -64,7 +64,7 @@ class CreateUserUseCaseTest {
     doThrow(DuplicatedException.class).when(userEmailAlreadyRegisteredValidator)
         .validate(user.getEmail().address());
 
-    assertThatThrownBy(() -> createUserUseCase.execute(user)).isInstanceOf(
+    assertThatThrownBy(() -> createUserInteractor.execute(user)).isInstanceOf(
         DuplicatedException.class);
 
     verify(userEmailAlreadyRegisteredValidator).validate(user.getEmail().address());

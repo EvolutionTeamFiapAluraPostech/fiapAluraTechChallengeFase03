@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.domain.service;
+package br.com.fiaprestaurant.user.application.gateway;
 
 import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface UserService {
+public interface UserGateway {
 
   User save(User user);
 

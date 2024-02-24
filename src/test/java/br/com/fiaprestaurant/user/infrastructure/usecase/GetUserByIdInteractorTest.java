@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.user.application.usecase;
+package br.com.fiaprestaurant.user.infrastructure.usecase;
 
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.shared.exception.NoResultException;
 import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -18,14 +18,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class GetUserByIdUseCaseTest {
+class GetUserByIdInteractorTest {
 
   @Mock
-  private UserService userService;
+  private UserGateway userService;
   @Mock
   private UuidValidatorImpl uuidValidator;
   @InjectMocks
-  private GetUserByIdUseCase getUserByIdUseCase;
+  private GetUserByIdInteractor getUserByIdInteractor;
 
   @Test
   void shouldFindUserByIdWhenUserExists() {
@@ -33,7 +33,7 @@ class GetUserByIdUseCaseTest {
     var userUuid = user.getId().toString();
     when(userService.findById(UUID.fromString(userUuid))).thenReturn(Optional.of(user));
 
-    var userFound = getUserByIdUseCase.execute(userUuid);
+    var userFound = getUserByIdInteractor.execute(userUuid);
 
     assertThat(userFound).isNotNull();
     verify(uuidValidator).validate(userUuid);
@@ -44,7 +44,7 @@ class GetUserByIdUseCaseTest {
     var userUuid = UUID.randomUUID();
     when(userService.findById(userUuid)).thenReturn(Optional.empty());
 
-    assertThrows(NoResultException.class, () -> getUserByIdUseCase.execute(userUuid.toString()));
+    assertThrows(NoResultException.class, () -> getUserByIdInteractor.execute(userUuid.toString()));
 
     verify(uuidValidator).validate(userUuid.toString());
   }

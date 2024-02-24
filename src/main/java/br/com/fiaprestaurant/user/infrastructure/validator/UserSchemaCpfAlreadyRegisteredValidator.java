@@ -4,16 +4,16 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_CPF_A
 
 import br.com.fiaprestaurant.shared.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredValidator;
-import br.com.fiaprestaurant.user.domain.service.UserService;
+import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
 @Component
 public class UserSchemaCpfAlreadyRegisteredValidator implements UserCpfAlreadyRegisteredValidator {
 
-  private final UserService userService;
+  private final UserGateway userService;
 
-  public UserSchemaCpfAlreadyRegisteredValidator(UserService userService) {
+  public UserSchemaCpfAlreadyRegisteredValidator(UserGateway userService) {
     this.userService = userService;
   }
 

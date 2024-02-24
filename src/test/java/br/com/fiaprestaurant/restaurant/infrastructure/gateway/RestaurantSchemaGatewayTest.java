@@ -10,6 +10,9 @@ import static org.mockito.Mockito.when;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.RestaurantSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -114,5 +117,47 @@ class RestaurantSchemaGatewayTest {
     assertThat(restaurantFound).isNotPresent();
     verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
   }
+
+  @Test
+  void shouldFindRestaurantByQueryNameCoordinatesTypeOfCuisine() {
+    var restaurantSchema = createRestaurantSchema();
+    var restaurantsSchema = List.of(restaurantSchema);
+    when(restaurantSchemaRepository.queryByNameCoordinatesTypeOfCuisine(
+        restaurantSchema.getName().toLowerCase(),
+        restaurantSchema.getTypeOfCuisine().toLowerCase(),
+        restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude()))
+        .thenReturn(restaurantsSchema);
+
+    var restaurants = restaurantSchemaService.queryByNameCoordinatesTypeOfCuisine(
+        restaurantSchema.getName(), restaurantSchema.getTypeOfCuisine(),
+        restaurantSchema.getLatitude(), restaurantSchema.getLongitude());
+
+    assertThat(restaurants).isNotEmpty().hasSize(1);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenAllParametersAreNullOnQueryByNameCoordinatesTypeOfCuisine() {
+    assertThatThrownBy(() -> restaurantSchemaService.queryByNameCoordinatesTypeOfCuisine(
+        null,null,null,null))
+        .isInstanceOf(ValidatorException.class);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenFindByQueryByNameCoordinatesTypeOfCuisineAreEmpty() {
+    var restaurantSchema = createRestaurantSchema();
+    when(restaurantSchemaRepository.queryByNameCoordinatesTypeOfCuisine(
+        restaurantSchema.getName().toLowerCase(),
+        restaurantSchema.getTypeOfCuisine().toLowerCase(),
+        restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude()))
+        .thenReturn(Collections.emptyList());
+
+    assertThatThrownBy(() -> restaurantSchemaService.queryByNameCoordinatesTypeOfCuisine(
+        restaurantSchema.getName(), restaurantSchema.getTypeOfCuisine(),
+        restaurantSchema.getLatitude(), restaurantSchema.getLongitude()))
+        .isInstanceOf(NoResultException.class);
+  }
+
 
 }

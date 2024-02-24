@@ -58,8 +58,9 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
   }
 
   @Override
-  public List<Restaurant> queryByNameCoordinatesTypeOfCuisine(String name, Double latitude,
-      Double longitude, String typeOfCuisine) {
+  public List<Restaurant> queryByNameCoordinatesTypeOfCuisine(String name, String typeOfCuisine,
+      Double latitude,
+      Double longitude) {
     var nameParam = convertStringParamToTrimLowerCase(name);
     var typeOfCuisineParam = convertStringParamToTrimLowerCase(typeOfCuisine);
     var latitudeParam = convertDoubleParamToNullOrDoubleValue(latitude);
@@ -75,7 +76,8 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
         .toList();
   }
 
-  private void validateQueryByNameTypeOfCuisineCoordinatesResult(List<RestaurantSchema> restaurantsSchema) {
+  private void validateQueryByNameTypeOfCuisineCoordinatesResult(
+      List<RestaurantSchema> restaurantsSchema) {
     if (restaurantsSchema == null || restaurantsSchema.isEmpty()) {
       throw new NoResultException(
           new FieldError(this.getClass().getSimpleName(), "",

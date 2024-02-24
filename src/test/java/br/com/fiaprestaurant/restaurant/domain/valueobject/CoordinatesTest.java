@@ -21,10 +21,20 @@ class CoordinatesTest {
     assertThrows(ValidatorException.class, () -> new Coordinates(latitude, -46.65239));
   }
 
+  @Test
+  void shouldThrowExceptionWhenLatitudeIsNull() {
+    assertThrows(ValidatorException.class, () -> new Coordinates(null, -46.65239));
+  }
+
   @ParameterizedTest
   @ValueSource(doubles = {-100d, 100d})
   void shouldThrowExceptionWhenLongitudeIsInvalid(Double longitude) {
     assertThrows(ValidatorException.class, () -> new Coordinates(-23.56391, longitude));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenLongitudeIsNull() {
+    assertThrows(ValidatorException.class, () -> new Coordinates(-23.56391, null));
   }
 
 }

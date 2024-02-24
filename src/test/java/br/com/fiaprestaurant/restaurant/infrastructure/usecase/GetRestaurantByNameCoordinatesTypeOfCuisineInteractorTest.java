@@ -40,9 +40,9 @@ class GetRestaurantByNameCoordinatesTypeOfCuisineInteractorTest {
   @Test
   void shouldFindRestaurantByCoordinates() {
     var restaurant = createRestaurant();
-    when(restaurantGateway.queryByNameCoordinatesTypeOfCuisine(null,
+    when(restaurantGateway.queryByNameCoordinatesTypeOfCuisine(null, null,
         restaurant.getAddress().getCoordinates().getLatitude(),
-        restaurant.getAddress().getCoordinates().getLatitude(), null)).thenReturn(
+        restaurant.getAddress().getCoordinates().getLatitude())).thenReturn(
         List.of(restaurant));
 
     var restaurants = getRestaurantByNameCoordinatesTypeOfCuisineUseCase.execute(null, null,
@@ -58,9 +58,9 @@ class GetRestaurantByNameCoordinatesTypeOfCuisineInteractorTest {
   @Test
   void shouldFindRestaurantByTypeOfCuisine() {
     var restaurant = createRestaurant();
-    when(restaurantGateway.queryByNameCoordinatesTypeOfCuisine(null, null, null,
-        restaurant.getTypeOfCuisine().getTypeOfCuisineDescription())).thenReturn(
-        List.of(restaurant));
+    when(restaurantGateway.queryByNameCoordinatesTypeOfCuisine(null,
+        restaurant.getTypeOfCuisine().getTypeOfCuisineDescription(), null, null))
+        .thenReturn(List.of(restaurant));
 
     var restaurants = getRestaurantByNameCoordinatesTypeOfCuisineUseCase.execute(null,
         restaurant.getTypeOfCuisine().getTypeOfCuisineDescription(), null, null);
@@ -75,10 +75,9 @@ class GetRestaurantByNameCoordinatesTypeOfCuisineInteractorTest {
   void shouldFindRestaurantByNameAndCoordinatesAndTypeOfCuisine() {
     var restaurant = createRestaurant();
     when(restaurantGateway.queryByNameCoordinatesTypeOfCuisine(restaurant.getName(),
+        restaurant.getTypeOfCuisine().getTypeOfCuisineDescription(),
         restaurant.getAddress().getCoordinates().getLatitude(),
-        restaurant.getAddress().getCoordinates().getLongitude(),
-        restaurant.getTypeOfCuisine().getTypeOfCuisineDescription())).thenReturn(
-        List.of(restaurant));
+        restaurant.getAddress().getCoordinates().getLongitude())).thenReturn(List.of(restaurant));
 
     var restaurants = getRestaurantByNameCoordinatesTypeOfCuisineUseCase.execute(
         restaurant.getName(),
@@ -96,10 +95,10 @@ class GetRestaurantByNameCoordinatesTypeOfCuisineInteractorTest {
   void shouldReturnEmptyListWhenAllParametersWasEnteredAndNoResultWasFound() {
     var restaurant = createRestaurant();
     when(restaurantGateway.queryByNameCoordinatesTypeOfCuisine(restaurant.getName(),
+        restaurant.getTypeOfCuisine().getTypeOfCuisineDescription(),
         restaurant.getAddress().getCoordinates().getLatitude(),
-        restaurant.getAddress().getCoordinates().getLongitude(),
-        restaurant.getTypeOfCuisine().getTypeOfCuisineDescription())).thenReturn(
-        Collections.emptyList());
+        restaurant.getAddress().getCoordinates().getLongitude()
+    )).thenReturn(Collections.emptyList());
 
     var restaurants = getRestaurantByNameCoordinatesTypeOfCuisineUseCase.execute(
         restaurant.getName(),

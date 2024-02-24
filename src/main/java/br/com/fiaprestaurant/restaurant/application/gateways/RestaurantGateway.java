@@ -15,6 +15,6 @@ public interface RestaurantGateway {
 
   Optional<Restaurant> findByCnpj(String cnpjValue);
 
-  List<Restaurant> queryByNameCoordinatesTypeOfCuisine(String name, Double latitude,
-      Double longitude, String typeOfCuisine);
+  List<Restaurant> queryByNameCoordinatesTypeOfCuisine(String name, String typeOfCuisine,
+      Double latitude, Double longitude);
 }

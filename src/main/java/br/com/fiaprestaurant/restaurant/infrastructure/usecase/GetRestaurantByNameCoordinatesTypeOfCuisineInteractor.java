@@ -20,7 +20,7 @@ public class GetRestaurantByNameCoordinatesTypeOfCuisineInteractor implements
   @Override
   public List<Restaurant> execute(String name, String typeOfCuisine, Double latitude,
       Double longitude) {
-    return restaurantGateway.queryByNameCoordinatesTypeOfCuisine(name, latitude, longitude,
-        typeOfCuisine);
+    return restaurantGateway.queryByNameCoordinatesTypeOfCuisine(name, typeOfCuisine, latitude,
+        longitude);
   }
 }

@@ -2,10 +2,7 @@ package br.com.fiaprestaurant.restaurant.presentation.dto;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 public record RestaurantOutputDto(
     @Schema(example = "bae0fc3d-be9d-472a-bf03-7a7ee2411ce1", description = "Identificador único do restaurante.")
@@ -57,31 +54,7 @@ public record RestaurantOutputDto(
         restaurant.getPeopleCapacity());
   }
 
-  public static Page<RestaurantOutputDto> toPage(Page<Restaurant> restaurantesPage) {
-    var restaurants = restaurantesPage.map(restaurant ->
-        new RestaurantOutputDto(restaurant.getId().toString(),
-            restaurant.getName(),
-            restaurant.getCnpj().getCnpjValue(),
-            restaurant.getTypeOfCuisine().getTypeOfCuisineDescription(),
-            restaurant.getAddress().getCoordinates().getLatitude(),
-            restaurant.getAddress().getCoordinates().getLongitude(),
-            restaurant.getAddress().getStreet(),
-            restaurant.getAddress().getNumber(),
-            restaurant.getAddress().getNeighborhood(),
-            restaurant.getAddress().getCity(),
-            restaurant.getAddress().getState(),
-            restaurant.getAddress().getPostalCode(),
-            restaurant.getOpenAt(),
-            restaurant.getCloseAt(),
-            restaurant.getPeopleCapacity()
-        )).toList();
-    return new PageImpl<>(restaurants);
-  }
-
   public static List<RestaurantOutputDto> toRestaurantsOutputDtoFrom(List<Restaurant> restaurants) {
-    if (restaurants == null || restaurants.isEmpty()) {
-      return new ArrayList<>();
-    }
     return restaurants.stream().map(RestaurantOutputDto::toRestaurantOutputDtoFrom).toList();
   }
 }

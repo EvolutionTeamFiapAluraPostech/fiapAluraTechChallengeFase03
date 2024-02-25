@@ -13,7 +13,6 @@ import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestDat
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_STATE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_STREET;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_TYPE_OF_CUISINE;
-import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_VALID_CNPJ;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createRestaurantInputDto;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createRestaurantInputDtoWith;
 import static br.com.fiaprestaurant.shared.testData.user.AuthenticateTestData.DEFAULT_USER_AUTHENTICATE_REQUEST_BODY;
@@ -45,6 +44,7 @@ import org.springframework.http.MediaType;
 class PostRestaurantApiTest {
 
   private static final String URL_RESTAURANTS = "/restaurants";
+  public static final String RESTAURANT_CNPJ = "04638576000130";
   private final EntityManager entityManager;
   @LocalServerPort
   private int port;
@@ -105,7 +105,7 @@ class PostRestaurantApiTest {
   void shouldThrowExceptionWhenRestaurantCnpjAlreadyExists() {
     var restaurantInputDto = createRestaurantInputDtoWith(
         DEFAULT_RESTAURANT_NAME,
-        "04638576000130",
+        RESTAURANT_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE,
         DEFAULT_RESTAURANT_LONGITUDE,
@@ -133,7 +133,7 @@ class PostRestaurantApiTest {
   void shouldThrowExceptionWhenRestaurantNameLengthIsBiggerThan100Characters() {
     var restaurantName = StringUtil.generateStringLength(101);
     var restaurantInputDto = createRestaurantInputDtoWith(restaurantName,
-        DEFAULT_RESTAURANT_VALID_CNPJ,
+        RESTAURANT_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE,
         DEFAULT_RESTAURANT_LONGITUDE,
@@ -162,7 +162,7 @@ class PostRestaurantApiTest {
   @NullAndEmptySource
   void shouldThrowExceptionWhenRestaurantNameIsNullOrEmpty(String restaurantName) {
     var restaurantInputDto = createRestaurantInputDtoWith(restaurantName,
-        DEFAULT_RESTAURANT_VALID_CNPJ,
+        RESTAURANT_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE,
         DEFAULT_RESTAURANT_LONGITUDE,
@@ -225,7 +225,7 @@ class PostRestaurantApiTest {
   @ValueSource(strings = {"a", "1", "12345", "a0:00", "10:a0"})
   void shouldThrowExceptionWhenRestaurantOpenAtIsInvalid(String openAt) {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
-        DEFAULT_RESTAURANT_VALID_CNPJ,
+        RESTAURANT_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE,
         DEFAULT_RESTAURANT_LONGITUDE,
@@ -255,7 +255,7 @@ class PostRestaurantApiTest {
   @ValueSource(strings = {"a", "1", "12345", "a0:00", "10:a0"})
   void shouldThrowExceptionWhenRestaurantCloseAtIsInvalid(String closeAt) {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
-        DEFAULT_RESTAURANT_VALID_CNPJ,
+        RESTAURANT_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE,
         DEFAULT_RESTAURANT_LONGITUDE,
@@ -284,7 +284,7 @@ class PostRestaurantApiTest {
   @ValueSource(ints = {-1, 0})
   void shouldThrowExceptionWhenRestaurantPeopleCapacitySmallerThan0(Integer peopleCapacity) {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
-        DEFAULT_RESTAURANT_VALID_CNPJ,
+        RESTAURANT_CNPJ,
         DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE,
         DEFAULT_RESTAURANT_LONGITUDE,
@@ -297,6 +297,238 @@ class PostRestaurantApiTest {
         DEFAULT_RESTAURANT_HOUR_OPEN_AT,
         DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
         peopleCapacity);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenCreateRestaurantTypeOfCuisineIsNullOrEmpty(String typeOfCuisine) {
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        typeOfCuisine,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenCreateRestaurantTypeOfCuisineLengthIsBiggerThan50Characters() {
+    var typeOfCuisine = StringUtil.generateStringLength(51);
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        typeOfCuisine,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenCreateRestaurantStreetIsNullOrEmpty(String street) {
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        street,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenCreateRestaurantStreetLengthIsBiggerThan255Characters() {
+    var street = StringUtil.generateStringLength(256);
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        street,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenCreateRestaurantNeighborhoodIsNullOrEmpty(String neighborhood) {
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        neighborhood,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenCreateRestaurantNeighborhoodLengthIsBiggerThan100Characters() {
+    var neighborhood = StringUtil.generateStringLength(101);
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        neighborhood,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenCreateRestaurantCityIsNullOrEmpty(String city) {
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        city,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+
+    given()
+        .header("Authorization", "Bearer " + token)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(restaurantInputDto)
+        .when()
+        .post(URL_RESTAURANTS)
+        .then()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .header("Content-Type", startsWith("application/json"));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenCreateRestaurantCityLengthIsBiggerThan100Characters() {
+    var city = StringUtil.generateStringLength(101);
+    var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,
+        RESTAURANT_CNPJ,
+        DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE,
+        DEFAULT_RESTAURANT_LONGITUDE,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        city,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
+        DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
 
     given()
         .header("Authorization", "Bearer " + token)

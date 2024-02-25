@@ -1,19 +1,31 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_CITY;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_LATITUDE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_LONGITUDE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_NAME;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_NEIGHBORHOOD;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_NUMBER;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_POSTAL_CODE;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_STATE;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_STREET;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_VALID_CNPJ;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_CITY;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_HOUR_CLOSE_AT;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_HOUR_OPEN_AT;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_LATITUDE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_LONGITUDE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_NAME;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_NEIGHBORHOOD;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_NUMBER;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_PEOPLE_CAPACITY;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_POSTAL_CODE;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_STATE;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_STREET;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_TYPE_OF_CUISINE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_VALID_CNPJ;
 import static br.com.fiaprestaurant.shared.util.IsUUID.isUUID;
@@ -58,10 +70,12 @@ class PutRestaurantApiTest {
   private RestaurantSchema createAndSaveRestaurant(String defaultRestaurantName,
       String defaultRestaurantValidCnpj, String defaultRestaurantTypeOfCuisine,
       Double defaultRestaurantLatitude, Double defaultRestaurantLongitude, String openAt,
-      String closeAt, Integer peopleCapacity) {
+      String closeAt, Integer peopleCapacity, String street, String number,
+      String neighborhood, String city, String state, String postalCode) {
     var restaurantSchema = RestaurantTestData.createNewRestaurantSchema(defaultRestaurantName,
         defaultRestaurantValidCnpj, defaultRestaurantTypeOfCuisine, defaultRestaurantLatitude,
-        defaultRestaurantLongitude, openAt, closeAt, peopleCapacity);
+        defaultRestaurantLongitude, openAt, closeAt, peopleCapacity, street, number, neighborhood,
+        city, state, postalCode);
     return entityManager.merge(restaurantSchema);
   }
 
@@ -70,12 +84,17 @@ class PutRestaurantApiTest {
     var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         ALTERNATIVE_RESTAURANT_NAME, ALTERNATIVE_RESTAURANT_VALID_CNPJ,
         ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE, ALTERNATIVE_RESTAURANT_LATITUDE,
         ALTERNATIVE_RESTAURANT_LONGITUDE, ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT,
-        ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY);
+        ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        ALTERNATIVE_RESTAURANT_STREET, ALTERNATIVE_RESTAURANT_NUMBER,
+        ALTERNATIVE_RESTAURANT_NEIGHBORHOOD, ALTERNATIVE_RESTAURANT_CITY,
+        ALTERNATIVE_RESTAURANT_STATE, ALTERNATIVE_RESTAURANT_POSTAL_CODE);
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchema.getId())
@@ -104,20 +123,29 @@ class PutRestaurantApiTest {
 
   @Test
   void shouldThrowExceptionWhenCnpjAlreadyExistsInOtherRestaurant() throws Exception {
+    var cnpjRestauranteBrasileiro = "11167069000120";
+    var cnpjRestauranteArgentino = "47072726000101";
     var restaurantSchemaBrasileiro = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
-        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        cnpjRestauranteBrasileiro, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantSchemaArgentino = createAndSaveRestaurant(ALTERNATIVE_RESTAURANT_NAME,
-        ALTERNATIVE_RESTAURANT_VALID_CNPJ, ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE,
+        cnpjRestauranteArgentino, ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE,
         ALTERNATIVE_RESTAURANT_LATITUDE, ALTERNATIVE_RESTAURANT_LONGITUDE,
         ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT, ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT,
-        ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY);
+        ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY, DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         restaurantSchemaArgentino.getName(), restaurantSchemaBrasileiro.getCnpj(),
         restaurantSchemaArgentino.getTypeOfCuisine(), restaurantSchemaArgentino.getLatitude(),
         restaurantSchemaArgentino.getLongitude(), restaurantSchemaArgentino.getOpenAt(),
-        restaurantSchemaArgentino.getCloseAt(), restaurantSchemaArgentino.getPeopleCapacity());
+        restaurantSchemaArgentino.getCloseAt(), restaurantSchemaArgentino.getPeopleCapacity(),
+        restaurantSchemaArgentino.getStreet(), restaurantSchemaArgentino.getNumber(),
+        restaurantSchemaArgentino.getNeighborhood(), restaurantSchemaArgentino.getCity(),
+        restaurantSchemaArgentino.getState(), restaurantSchemaArgentino.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchemaArgentino.getId())
@@ -134,13 +162,17 @@ class PutRestaurantApiTest {
     var restaurantSchema = createAndSaveRestaurant(name,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         restaurantSchema.getName(), restaurantSchema.getCnpj(),
         restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
         restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
-        restaurantSchema.getCloseAt(),
-        restaurantSchema.getPeopleCapacity());
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchema.getId())
@@ -157,13 +189,17 @@ class PutRestaurantApiTest {
     var restaurantSchema = createAndSaveRestaurant(restaurantName,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         restaurantSchema.getName(), restaurantSchema.getCnpj(),
         restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
         restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
-        restaurantSchema.getCloseAt(),
-        restaurantSchema.getPeopleCapacity());
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchema.getId())
@@ -183,13 +219,17 @@ class PutRestaurantApiTest {
     var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
         cnpj, DEFAULT_RESTAURANT_TYPE_OF_CUISINE, DEFAULT_RESTAURANT_LATITUDE,
         DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         restaurantSchema.getName(), restaurantSchema.getCnpj(),
         restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
         restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
-        restaurantSchema.getCloseAt(),
-        restaurantSchema.getPeopleCapacity());
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchema.getId())
@@ -207,13 +247,17 @@ class PutRestaurantApiTest {
     var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, openAt,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         restaurantSchema.getName(), restaurantSchema.getCnpj(),
         restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
         restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
-        restaurantSchema.getCloseAt(),
-        restaurantSchema.getPeopleCapacity());
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchema.getId())
@@ -231,13 +275,17 @@ class PutRestaurantApiTest {
     var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        closeAt, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        closeAt, DEFAULT_RESTAURANT_PEOPLE_CAPACITY, DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         restaurantSchema.getName(), restaurantSchema.getCnpj(),
         restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
         restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
-        restaurantSchema.getCloseAt(),
-        restaurantSchema.getPeopleCapacity());
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchema.getId())
@@ -250,17 +298,296 @@ class PutRestaurantApiTest {
 
   @ParameterizedTest
   @ValueSource(ints = {-1, 0})
-  void shouldThrowExceptionWhenRestaurantPeopleCapacityIsInvalid(Integer peopleCapacity) throws Exception {
+  void shouldThrowExceptionWhenRestaurantPeopleCapacityIsInvalid(Integer peopleCapacity)
+      throws Exception {
     var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, peopleCapacity);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, peopleCapacity, DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
         restaurantSchema.getName(), restaurantSchema.getCnpj(),
         restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
         restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
-        restaurantSchema.getCloseAt(),
-        restaurantSchema.getPeopleCapacity());
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenRestaurantTypeOfCuisineIsNullOrEmpty(String typeOfCuisine)
+      throws Exception {
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, typeOfCuisine,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantTypeOfCuisineLengthIsBiggerThan50Characters()
+      throws Exception {
+    var typeOfCuisine = StringUtil.generateStringLength(51);
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, typeOfCuisine,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenRestaurantStreetIsNullOrEmpty(String street) throws Exception {
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        street, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantStreetLengthIsBiggerThan255Characters() throws Exception {
+    var street = StringUtil.generateStringLength(256);
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        street, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(), restaurantSchema.getState(),
+        restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenRestaurantNeighborhoodIsNullOrEmpty(String neighborhood)
+      throws Exception {
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, neighborhood,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantNeighborhoodLengthIsBiggerThan100Characters()
+      throws Exception {
+    var neighborhood = StringUtil.generateStringLength(101);
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, neighborhood,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(), restaurantSchema.getState(),
+        restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenRestaurantCityIsNullOrEmpty(String city) throws Exception {
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        city, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantCityLengthIsBiggerThan100Characters() throws Exception {
+    var city = StringUtil.generateStringLength(101);
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_CITY,
+        city, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(), restaurantSchema.getState(),
+        restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  void shouldThrowExceptionWhenRestaurantStateIsNullOrEmpty(String state) throws Exception {
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, state, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(),
+        restaurantSchema.getState(), restaurantSchema.getPostalCode());
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantStateLengthIsBiggerThan3Characters() throws Exception {
+    var state = StringUtil.generateStringLength(3);
+    var restaurantSchema = createAndSaveRestaurant(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_CITY, state, DEFAULT_RESTAURANT_POSTAL_CODE);
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        restaurantSchema.getName(), restaurantSchema.getCnpj(),
+        restaurantSchema.getTypeOfCuisine(), restaurantSchema.getLatitude(),
+        restaurantSchema.getLongitude(), restaurantSchema.getOpenAt(),
+        restaurantSchema.getCloseAt(), restaurantSchema.getPeopleCapacity(),
+        restaurantSchema.getStreet(), restaurantSchema.getNumber(),
+        restaurantSchema.getNeighborhood(), restaurantSchema.getCity(), restaurantSchema.getState(),
+        restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
     var request = put(URL_RESTAURANTS + restaurantSchema.getId())

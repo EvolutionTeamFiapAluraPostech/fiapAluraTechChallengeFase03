@@ -27,9 +27,15 @@ public final class RestaurantTestData {
   public static final String ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE = "Argentina";
   public static final Double ALTERNATIVE_RESTAURANT_LATITUDE = -33.563900;
   public static final Double ALTERNATIVE_RESTAURANT_LONGITUDE = -56.652390;
-  public static final String ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT = "11:00";
-  public static final String ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT = "15:00";
-  public static final int ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY = 200;
+  public static final String ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT = "10:00";
+  public static final String ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT = "14:00";
+  public static final int ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY = 100;
+  public static final String ALTERNATIVE_RESTAURANT_STREET = "Av Brasil";
+  public static final String ALTERNATIVE_RESTAURANT_NUMBER = "2000";
+  public static final String ALTERNATIVE_RESTAURANT_NEIGHBORHOOD = "Setor Sul";
+  public static final String ALTERNATIVE_RESTAURANT_CITY = "Águas Lindas";
+  public static final String ALTERNATIVE_RESTAURANT_STATE = "SP";
+  public static final String ALTERNATIVE_RESTAURANT_POSTAL_CODE = "08000000";
 
 
   public static RestaurantInputDto createRestaurantInputDto() {
@@ -53,18 +59,21 @@ public final class RestaurantTestData {
       String alternativeRestaurantValidCnpj, String alternativeRestaurantTypeOfCuisine,
       Double alternativeRestaurantLatitude, Double alternativeRestaurantLongitude,
       String alternativeRestaurantOpenAt, String alternativeRestaurantCloseAt,
-      Integer alternativePeopleCapacity) {
+      Integer alternativePeopleCapacity, String alternativeRestaurantStreet,
+      String alternativeRestaurantNumber, String alternativeRestaurantNeighborhood,
+      String alternativeRestaurantCity, String alternativeRestaurantState,
+      String alternativeRestaurantPostalCode) {
     return new RestaurantInputDto(alternativeRestaurantName,
         alternativeRestaurantValidCnpj,
         alternativeRestaurantTypeOfCuisine,
         alternativeRestaurantLatitude,
         alternativeRestaurantLongitude,
-        DEFAULT_RESTAURANT_STREET,
-        DEFAULT_RESTAURANT_NUMBER,
-        DEFAULT_RESTAURANT_NEIGHBORHOOD,
-        DEFAULT_RESTAURANT_CITY,
-        DEFAULT_RESTAURANT_STATE,
-        DEFAULT_RESTAURANT_POSTAL_CODE,
+        alternativeRestaurantStreet,
+        alternativeRestaurantNumber,
+        alternativeRestaurantNeighborhood,
+        alternativeRestaurantCity,
+        alternativeRestaurantState,
+        alternativeRestaurantPostalCode,
         alternativeRestaurantOpenAt,
         alternativeRestaurantCloseAt,
         alternativePeopleCapacity);
@@ -125,7 +134,9 @@ public final class RestaurantTestData {
     var restaurantSchema = createNewRestaurantSchema(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
     restaurantSchema.setId(UUID.randomUUID());
     return restaurantSchema;
   }
@@ -134,24 +145,27 @@ public final class RestaurantTestData {
     return createNewRestaurantSchema(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
         DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
-        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY,
+        DEFAULT_RESTAURANT_STREET, DEFAULT_RESTAURANT_NUMBER, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE);
   }
 
   public static RestaurantSchema createNewRestaurantSchema(String name, String cnpj,
       String defaultRestaurantTypeOfCuisine, Double latitude, Double longitude, String openAt,
-      String closeAt, Integer peopleCapacity) {
+      String closeAt, Integer peopleCapacity, String street, String number,
+      String neighborhood, String city, String state, String postalCode) {
     return RestaurantSchema.builder()
         .name(name)
         .cnpj(cnpj)
         .typeOfCuisine(defaultRestaurantTypeOfCuisine)
         .latitude(latitude)
         .longitude(longitude)
-        .street(DEFAULT_RESTAURANT_STREET)
-        .number(DEFAULT_RESTAURANT_NUMBER)
-        .neighborhood(DEFAULT_RESTAURANT_NEIGHBORHOOD)
-        .city(DEFAULT_RESTAURANT_CITY)
-        .state(DEFAULT_RESTAURANT_STATE)
-        .postalCode(DEFAULT_RESTAURANT_POSTAL_CODE)
+        .street(street)
+        .number(number)
+        .neighborhood(neighborhood)
+        .city(city)
+        .state(state)
+        .postalCode(postalCode)
         .openAt(openAt)
         .closeAt(closeAt)
         .peopleCapacity(peopleCapacity)

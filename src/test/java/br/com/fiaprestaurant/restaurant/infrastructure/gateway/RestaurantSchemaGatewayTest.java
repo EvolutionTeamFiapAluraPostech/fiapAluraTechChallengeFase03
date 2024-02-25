@@ -1,5 +1,6 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_NAME;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createRestaurantSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -26,7 +27,7 @@ class RestaurantSchemaGatewayTest {
   @Mock
   private RestaurantSchemaRepository restaurantSchemaRepository;
   @InjectMocks
-  private RestaurantSchemaGateway restaurantSchemaService;
+  private RestaurantSchemaGateway restaurantSchemaGateway;
 
   @Test
   void shouldSaveRestaurant() {
@@ -34,7 +35,7 @@ class RestaurantSchemaGatewayTest {
     var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
     when(restaurantSchemaRepository.save(any(RestaurantSchema.class))).thenReturn(restaurantSchema);
 
-    var restaurantSaved = restaurantSchemaService.save(restaurant);
+    var restaurantSaved = restaurantSchemaGateway.save(restaurant);
 
     assertThat(restaurantSaved).isNotNull();
     verify(restaurantSchemaRepository).save(any(RestaurantSchema.class));
@@ -47,7 +48,7 @@ class RestaurantSchemaGatewayTest {
     when(restaurantSchemaRepository.findById(restaurant.getId())).thenReturn(
         Optional.of(restaurantSchema));
 
-    var restaurantFound = restaurantSchemaService.findById(restaurant.getId());
+    var restaurantFound = restaurantSchemaGateway.findById(restaurant.getId());
 
     assertThat(restaurantFound).isNotNull();
     verify(restaurantSchemaRepository).findById(restaurant.getId());
@@ -60,7 +61,7 @@ class RestaurantSchemaGatewayTest {
     when(restaurantSchemaRepository.findById(restaurant.getId())).thenReturn(
         Optional.empty());
 
-    assertThatThrownBy(() -> restaurantSchemaService.findById(restaurant.getId())).isInstanceOf(
+    assertThatThrownBy(() -> restaurantSchemaGateway.findById(restaurant.getId())).isInstanceOf(
         NoResultException.class);
     verify(restaurantSchemaRepository).findById(restaurant.getId());
   }
@@ -72,7 +73,7 @@ class RestaurantSchemaGatewayTest {
     when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
         Optional.of(restaurantSchema));
 
-    var restaurantFound = restaurantSchemaService.findByCnpjRequired(
+    var restaurantFound = restaurantSchemaGateway.findByCnpjRequired(
         restaurant.getCnpj().getCnpjValue());
 
     assertThat(restaurantFound).isNotNull();
@@ -87,7 +88,7 @@ class RestaurantSchemaGatewayTest {
         Optional.empty());
 
     assertThatThrownBy(
-        () -> restaurantSchemaService.findByCnpjRequired(restaurant.getCnpj().getCnpjValue()))
+        () -> restaurantSchemaGateway.findByCnpjRequired(restaurant.getCnpj().getCnpjValue()))
         .isInstanceOf(NoResultException.class);
     verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
   }
@@ -99,7 +100,7 @@ class RestaurantSchemaGatewayTest {
     when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
         Optional.of(restaurantSchema));
 
-    var restaurantFound = restaurantSchemaService.findByCnpj(restaurant.getCnpj().getCnpjValue());
+    var restaurantFound = restaurantSchemaGateway.findByCnpj(restaurant.getCnpj().getCnpjValue());
 
     assertThat(restaurantFound).isNotNull().isPresent();
     verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
@@ -112,7 +113,7 @@ class RestaurantSchemaGatewayTest {
     when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
         Optional.empty());
 
-    var restaurantFound = restaurantSchemaService.findByCnpj(restaurant.getCnpj().getCnpjValue());
+    var restaurantFound = restaurantSchemaGateway.findByCnpj(restaurant.getCnpj().getCnpjValue());
 
     assertThat(restaurantFound).isNotPresent();
     verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
@@ -129,7 +130,7 @@ class RestaurantSchemaGatewayTest {
         restaurantSchema.getLongitude()))
         .thenReturn(restaurantsSchema);
 
-    var restaurants = restaurantSchemaService.queryByNameCoordinatesTypeOfCuisine(
+    var restaurants = restaurantSchemaGateway.queryByNameCoordinatesTypeOfCuisine(
         restaurantSchema.getName(), restaurantSchema.getTypeOfCuisine(),
         restaurantSchema.getLatitude(), restaurantSchema.getLongitude());
 
@@ -138,8 +139,8 @@ class RestaurantSchemaGatewayTest {
 
   @Test
   void shouldThrowExceptionWhenAllParametersAreNullOnQueryByNameCoordinatesTypeOfCuisine() {
-    assertThatThrownBy(() -> restaurantSchemaService.queryByNameCoordinatesTypeOfCuisine(
-        null,null,null,null))
+    assertThatThrownBy(() -> restaurantSchemaGateway.queryByNameCoordinatesTypeOfCuisine(
+        null, null, null, null))
         .isInstanceOf(ValidatorException.class);
   }
 
@@ -153,10 +154,26 @@ class RestaurantSchemaGatewayTest {
         restaurantSchema.getLongitude()))
         .thenReturn(Collections.emptyList());
 
-    assertThatThrownBy(() -> restaurantSchemaService.queryByNameCoordinatesTypeOfCuisine(
+    assertThatThrownBy(() -> restaurantSchemaGateway.queryByNameCoordinatesTypeOfCuisine(
         restaurantSchema.getName(), restaurantSchema.getTypeOfCuisine(),
         restaurantSchema.getLatitude(), restaurantSchema.getLongitude()))
         .isInstanceOf(NoResultException.class);
+  }
+
+  @Test
+  void shouldUpdateRestaurant() {
+    var restaurantSchema = createRestaurantSchema();
+    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
+    restaurantSchema.setName(ALTERNATIVE_RESTAURANT_NAME);
+    when(restaurantSchemaRepository.findById(restaurantSchema.getId())).thenReturn(
+        Optional.of(restaurantSchema));
+    when(restaurantSchemaRepository.save(restaurantSchema)).thenReturn(restaurantSchema);
+
+    var restaurantUpdated = restaurantSchemaGateway.update(restaurantSchema.getId(), restaurant);
+
+    assertThat(restaurantUpdated).isNotNull();
+    assertThat(restaurantUpdated.getId()).isNotNull().isEqualTo(restaurant.getId());
+    assertThat(restaurantUpdated.getName()).isNotNull().isEqualTo(restaurantSchema.getName());
   }
 
 

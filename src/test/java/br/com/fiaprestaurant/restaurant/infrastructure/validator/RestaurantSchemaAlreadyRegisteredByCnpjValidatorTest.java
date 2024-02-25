@@ -1,7 +1,8 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.validator;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_ALREADY_EXISTS_WITH_CNPJ;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
@@ -25,20 +26,23 @@ class RestaurantSchemaAlreadyRegisteredByCnpjValidatorTest {
   @Test
   void shouldValidateWhenRestaurantNotExistWithCnpj() {
     var restaurant = RestaurantTestData.createRestaurant();
-    when(restaurantGateway.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(Optional.empty());
+    when(restaurantGateway.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
+        Optional.empty());
 
-    assertDoesNotThrow(() -> restaurantSchemaAlreadyRegisteredByCnpjValidator.validate(
-        restaurant.getCnpj().getCnpjValue()));
+    assertThatCode(() -> restaurantSchemaAlreadyRegisteredByCnpjValidator.validate(
+        restaurant.getCnpj().getCnpjValue())).doesNotThrowAnyException();
   }
 
   @Test
   void shouldThrowExceptionWhenRestaurantExistsWithCnpj() {
     var restaurant = RestaurantTestData.createRestaurant();
-    when(restaurantGateway.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(Optional.of(restaurant));
+    when(restaurantGateway.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
+        Optional.of(restaurant));
 
-    assertThrows(DuplicatedException.class,
-        () -> restaurantSchemaAlreadyRegisteredByCnpjValidator.validate(
-            restaurant.getCnpj().getCnpjValue()));
+    assertThatThrownBy(() -> restaurantSchemaAlreadyRegisteredByCnpjValidator.validate(
+        restaurant.getCnpj().getCnpjValue()))
+        .isInstanceOf(DuplicatedException.class)
+        .hasMessage(RESTAURANT_ALREADY_EXISTS_WITH_CNPJ.formatted(restaurant.getCnpj().getCnpjValue()));
   }
 
 }

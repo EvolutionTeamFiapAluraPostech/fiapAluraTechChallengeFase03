@@ -58,7 +58,7 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
     restaurantSchema.setPeopleCapacity(restaurant.getPeopleCapacity());
   }
 
-  private RestaurantSchema findRestaurantSchemaByIdRequired(UUID id) {
+  public RestaurantSchema findRestaurantSchemaByIdRequired(UUID id) {
     return restaurantSchemaRepository.findById(id)
         .orElseThrow(() -> new NoResultException(new FieldError(this.getClass().getSimpleName(),
             "Restaurant ID", RESTAURANT_NOT_FOUND_WITH_ID.formatted(id))));

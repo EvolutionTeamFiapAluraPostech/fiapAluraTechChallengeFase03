@@ -54,4 +54,16 @@ public interface RestaurantsApi {
       @Parameter(description = "DTO com atributos para se atualizar um novo restaurante. Requer validação de dados informados, como nome, CNPJ, tipo de cozinha, endereço, capacidade, horário de abertura e fechamento")
       RestaurantInputDto restaurantInputDto);
 
+  @Operation(summary = "Recupera um restaurante",
+      description = "Endpoint para recuperar um restaurante pelo ID cadastrado",
+      tags = {"RestaurantsApi"})
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "successful operation", content = {
+          @Content(mediaType = "application/json", schema = @Schema(implementation = RestaurantOutputDto.class))}),
+      @ApiResponse(responseCode = "404", description = "not found para restaurante não encontrado",
+          content = {@Content(schema = @Schema(hidden = true))})})
+  RestaurantOutputDto getRestaurantById(
+      @Parameter(description = "UUID do restaurante válido") String id);
+
+
 }

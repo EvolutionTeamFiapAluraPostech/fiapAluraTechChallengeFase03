@@ -1,5 +1,7 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 
+import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.RESTAURANT_CNPJ_FIELD;
+import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.RESTAURANT_ID_FIELD;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_CNPJ;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_ID;
@@ -74,7 +76,7 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
   public Optional<Restaurant> findByCnpjRequired(String cnpjValue) {
     var restaurantSchema = restaurantSchemaRepository.findByCnpj(cnpjValue).orElseThrow(
         () -> new NoResultException(
-            new FieldError(this.getClass().getSimpleName(), "Restaurant CNPJ",
+            new FieldError(this.getClass().getSimpleName(), RESTAURANT_CNPJ_FIELD,
                 RESTAURANT_NOT_FOUND_WITH_CNPJ.formatted(cnpjValue))));
     var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
     return Optional.of(restaurant);
@@ -103,6 +105,15 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
 
     return restaurantsSchema.stream().map(RestaurantSchema::createRestaurantFromRestaurantSchema)
         .toList();
+  }
+
+  @Override
+  public Restaurant findByIdRequired(UUID uuid) {
+    var restaurantSchema = restaurantSchemaRepository.findById(uuid).orElseThrow(
+        () -> new NoResultException(
+            new FieldError(this.getClass().getSimpleName(), RESTAURANT_ID_FIELD,
+                RESTAURANT_NOT_FOUND_WITH_ID.formatted(uuid))));
+    return restaurantSchema.createRestaurantFromRestaurantSchema();
   }
 
   private void validateQueryByNameTypeOfCuisineCoordinatesResult(

@@ -19,4 +19,6 @@ public interface RestaurantGateway {
 
   List<Restaurant> queryByNameCoordinatesTypeOfCuisine(String name, String typeOfCuisine,
       Double latitude, Double longitude);
+
+  Restaurant findByIdRequired(UUID uuid);
 }

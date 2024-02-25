@@ -176,5 +176,28 @@ class RestaurantSchemaGatewayTest {
     assertThat(restaurantUpdated.getName()).isNotNull().isEqualTo(restaurantSchema.getName());
   }
 
+  @Test
+  void shouldFindRestaurantByIdRequired() {
+    var restaurantSchema = createRestaurantSchema();
+    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
+    when(restaurantSchemaRepository.findById(restaurantSchema.getId())).thenReturn(
+        Optional.of(restaurantSchema));
+
+    var restaurantFound = restaurantSchemaGateway.findByIdRequired(restaurantSchema.getId());
+
+    assertThat(restaurantFound).isNotNull();
+    assertThat(restaurantFound.getId()).isNotNull().isEqualTo(restaurant.getId());
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantIdDoesNotExist() {
+    var restaurantSchema = createRestaurantSchema();
+    when(restaurantSchemaRepository.findById(restaurantSchema.getId())).thenThrow(
+        NoResultException.class);
+
+    assertThatThrownBy(
+            () -> restaurantSchemaGateway.findByIdRequired(restaurantSchema.getId()))
+        .isInstanceOf(NoResultException.class);
+  }
 
 }

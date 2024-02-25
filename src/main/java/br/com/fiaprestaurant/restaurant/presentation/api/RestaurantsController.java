@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
 import br.com.fiaprestaurant.restaurant.application.usecase.CreateRestaurantUseCase;
+import br.com.fiaprestaurant.restaurant.application.usecase.GetRestaurantByIdUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.GetRestaurantByNameCoordinatesTypeOfCuisineUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.UpdateRestaurantUseCase;
 import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantFilter;
@@ -24,13 +25,16 @@ public class RestaurantsController implements RestaurantsApi {
   private final CreateRestaurantUseCase createRestaurantUseCase;
   private final GetRestaurantByNameCoordinatesTypeOfCuisineUseCase getRestaurantByNameCoordinatesTypeOfCuisineUseCase;
   private final UpdateRestaurantUseCase updateRestaurantUseCase;
+  private final GetRestaurantByIdUseCase getRestaurantByIdUseCase;
 
   public RestaurantsController(CreateRestaurantUseCase createRestaurantUseCase,
       GetRestaurantByNameCoordinatesTypeOfCuisineUseCase getRestaurantByNameCoordinatesTypeOfCuisineUseCase,
-      UpdateRestaurantUseCase updateRestaurantUseCase) {
+      UpdateRestaurantUseCase updateRestaurantUseCase,
+      GetRestaurantByIdUseCase getRestaurantByIdUseCase) {
     this.createRestaurantUseCase = createRestaurantUseCase;
     this.getRestaurantByNameCoordinatesTypeOfCuisineUseCase = getRestaurantByNameCoordinatesTypeOfCuisineUseCase;
     this.updateRestaurantUseCase = updateRestaurantUseCase;
+    this.getRestaurantByIdUseCase = getRestaurantByIdUseCase;
   }
 
   @PostMapping
@@ -61,6 +65,14 @@ public class RestaurantsController implements RestaurantsApi {
     var restaurant = restaurantInputDto.toRestaurantFrom();
     var restaurantSaved = updateRestaurantUseCase.execute(id, restaurant);
     return RestaurantOutputDto.toRestaurantOutputDtoFrom(restaurantSaved);
+  }
+
+  @GetMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  @Override
+  public RestaurantOutputDto getRestaurantById(@PathVariable String id) {
+    var restaurant = getRestaurantByIdUseCase.execute(id);
+    return RestaurantOutputDto.toRestaurantOutputDtoFrom(restaurant);
   }
 
 }

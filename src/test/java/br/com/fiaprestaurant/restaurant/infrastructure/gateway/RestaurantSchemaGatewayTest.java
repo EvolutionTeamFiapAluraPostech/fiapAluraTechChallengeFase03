@@ -3,6 +3,7 @@ package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_NAME;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createRestaurantSchema;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -200,4 +201,24 @@ class RestaurantSchemaGatewayTest {
         .isInstanceOf(NoResultException.class);
   }
 
+  @Test
+  void shouldDeleteRestaurantById() {
+    var restaurantSchema = createRestaurantSchema();
+    when(restaurantSchemaRepository.findById(restaurantSchema.getId())).thenReturn(
+        Optional.of(restaurantSchema));
+
+    assertThatCode(() -> restaurantSchemaGateway.deleteById(restaurantSchema.getId()))
+        .doesNotThrowAnyException();
+  }
+
+  @Test
+  void shouldThrowExceptionWhenDeleteRestaurantAndIdDoesNotExist() {
+    var restaurantSchema = createRestaurantSchema();
+    when(restaurantSchemaRepository.findById(restaurantSchema.getId())).thenThrow(
+        NoResultException.class);
+
+    assertThatThrownBy(
+        () -> restaurantSchemaGateway.deleteById(restaurantSchema.getId()))
+        .isInstanceOf(NoResultException.class);
+  }
 }

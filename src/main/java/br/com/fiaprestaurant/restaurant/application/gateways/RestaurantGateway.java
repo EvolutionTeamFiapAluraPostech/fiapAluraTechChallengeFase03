@@ -21,4 +21,6 @@ public interface RestaurantGateway {
       Double latitude, Double longitude);
 
   Restaurant findByIdRequired(UUID uuid);
+
+  void deleteById(UUID id);
 }

@@ -116,6 +116,13 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
     return restaurantSchema.createRestaurantFromRestaurantSchema();
   }
 
+  @Override
+  public void deleteById(UUID id) {
+    var restaurantSchema = findRestaurantSchemaByIdRequired(id);
+    restaurantSchema.setDeleted(true);
+    restaurantSchemaRepository.save(restaurantSchema);
+  }
+
   private void validateQueryByNameTypeOfCuisineCoordinatesResult(
       List<RestaurantSchema> restaurantsSchema) {
     if (restaurantsSchema == null || restaurantsSchema.isEmpty()) {

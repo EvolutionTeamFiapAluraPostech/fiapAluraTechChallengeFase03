@@ -65,5 +65,17 @@ public interface RestaurantsApi {
   RestaurantOutputDto getRestaurantById(
       @Parameter(description = "UUID do restaurante válido") String id);
 
+  @Operation(summary = "Exclui restaurante",
+      description = "Endpoint para excluir restaurante. A exclusão é feita por soft delete",
+      tags = {"RestaurantsApi"})
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "204", description = "successful operation", content = {
+          @Content(schema = @Schema(hidden = true))}),
+      @ApiResponse(responseCode = "400", description = "bad request para UUID inválido", content = {
+          @Content(schema = @Schema(hidden = true))}),
+      @ApiResponse(responseCode = "404", description = "not found para restaurante não encontrado", content = {
+          @Content(schema = @Schema(hidden = true))})})
+  void deleteRestaurant(@Parameter(description = "UUID do restaurante válido") String userUuid);
+
 
 }

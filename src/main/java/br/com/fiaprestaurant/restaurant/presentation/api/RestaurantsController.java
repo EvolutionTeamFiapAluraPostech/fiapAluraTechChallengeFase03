@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
 import br.com.fiaprestaurant.restaurant.application.usecase.CreateRestaurantUseCase;
+import br.com.fiaprestaurant.restaurant.application.usecase.DeleteRestaurantByIdUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.GetRestaurantByIdUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.GetRestaurantByNameCoordinatesTypeOfCuisineUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.UpdateRestaurantUseCase;
@@ -9,6 +10,7 @@ import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
 import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantOutputDto;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,15 +28,18 @@ public class RestaurantsController implements RestaurantsApi {
   private final GetRestaurantByNameCoordinatesTypeOfCuisineUseCase getRestaurantByNameCoordinatesTypeOfCuisineUseCase;
   private final UpdateRestaurantUseCase updateRestaurantUseCase;
   private final GetRestaurantByIdUseCase getRestaurantByIdUseCase;
+  private final DeleteRestaurantByIdUseCase deleteRestaurantByIdUseCase;
 
   public RestaurantsController(CreateRestaurantUseCase createRestaurantUseCase,
       GetRestaurantByNameCoordinatesTypeOfCuisineUseCase getRestaurantByNameCoordinatesTypeOfCuisineUseCase,
       UpdateRestaurantUseCase updateRestaurantUseCase,
-      GetRestaurantByIdUseCase getRestaurantByIdUseCase) {
+      GetRestaurantByIdUseCase getRestaurantByIdUseCase,
+      DeleteRestaurantByIdUseCase deleteRestaurantByIdUseCase) {
     this.createRestaurantUseCase = createRestaurantUseCase;
     this.getRestaurantByNameCoordinatesTypeOfCuisineUseCase = getRestaurantByNameCoordinatesTypeOfCuisineUseCase;
     this.updateRestaurantUseCase = updateRestaurantUseCase;
     this.getRestaurantByIdUseCase = getRestaurantByIdUseCase;
+    this.deleteRestaurantByIdUseCase = deleteRestaurantByIdUseCase;
   }
 
   @PostMapping
@@ -73,6 +78,13 @@ public class RestaurantsController implements RestaurantsApi {
   public RestaurantOutputDto getRestaurantById(@PathVariable String id) {
     var restaurant = getRestaurantByIdUseCase.execute(id);
     return RestaurantOutputDto.toRestaurantOutputDtoFrom(restaurant);
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @Override
+  public void deleteRestaurant(@PathVariable String id) {
+    deleteRestaurantByIdUseCase.execute(id);
   }
 
 }

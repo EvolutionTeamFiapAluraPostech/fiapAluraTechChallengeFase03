@@ -57,7 +57,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @DatabaseTest
 class PutRestaurantApiTest {
 
-  private static final String URL_RESTAURANTS = "/restaurants/";
+  private static final String URL_RESTAURANTS = "/restaurants/{id}";
   private final MockMvc mockMvc;
   private final EntityManager entityManager;
 
@@ -97,7 +97,7 @@ class PutRestaurantApiTest {
         ALTERNATIVE_RESTAURANT_STATE, ALTERNATIVE_RESTAURANT_POSTAL_CODE);
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     var mvcResult = mockMvc.perform(request)
@@ -119,6 +119,48 @@ class PutRestaurantApiTest {
         .isEqualTo(restaurantInputDto.latitude());
     assertThat(restaurantSchemaFound.getLongitude()).isNotNull()
         .isEqualTo(restaurantInputDto.longitude());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"a", "1", "ABC"})
+  void shouldThrowExceptionWhenIDisInvalid(String id) throws Exception {
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        ALTERNATIVE_RESTAURANT_NAME, ALTERNATIVE_RESTAURANT_VALID_CNPJ,
+        ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE, ALTERNATIVE_RESTAURANT_LATITUDE,
+        ALTERNATIVE_RESTAURANT_LONGITUDE, ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT,
+        ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        ALTERNATIVE_RESTAURANT_STREET, ALTERNATIVE_RESTAURANT_NUMBER,
+        ALTERNATIVE_RESTAURANT_NEIGHBORHOOD, ALTERNATIVE_RESTAURANT_CITY,
+        ALTERNATIVE_RESTAURANT_STATE, ALTERNATIVE_RESTAURANT_POSTAL_CODE);
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS, id)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenIdWasNotFound() throws Exception {
+    var id = UUID.randomUUID();
+    var restaurantInputDto = RestaurantTestData.updateRestaurantInputDto(
+        ALTERNATIVE_RESTAURANT_NAME, ALTERNATIVE_RESTAURANT_VALID_CNPJ,
+        ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE, ALTERNATIVE_RESTAURANT_LATITUDE,
+        ALTERNATIVE_RESTAURANT_LONGITUDE, ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT,
+        ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT, ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY,
+        ALTERNATIVE_RESTAURANT_STREET, ALTERNATIVE_RESTAURANT_NUMBER,
+        ALTERNATIVE_RESTAURANT_NEIGHBORHOOD, ALTERNATIVE_RESTAURANT_CITY,
+        ALTERNATIVE_RESTAURANT_STATE, ALTERNATIVE_RESTAURANT_POSTAL_CODE);
+    var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
+
+    var request = put(URL_RESTAURANTS, id)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(restaurantInputJson);
+    mockMvc.perform(request)
+        .andExpect(status().isNotFound())
+        .andExpect(content().contentType(APPLICATION_JSON));
   }
 
   @Test
@@ -148,7 +190,7 @@ class PutRestaurantApiTest {
         restaurantSchemaArgentino.getState(), restaurantSchemaArgentino.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchemaArgentino.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchemaArgentino.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -175,7 +217,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -202,7 +244,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -232,7 +274,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -260,7 +302,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -288,7 +330,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -316,7 +358,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -344,7 +386,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -372,7 +414,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -399,7 +441,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -426,7 +468,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -454,7 +496,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -482,7 +524,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -509,7 +551,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -536,7 +578,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -563,7 +605,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getState(), restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)
@@ -590,7 +632,7 @@ class PutRestaurantApiTest {
         restaurantSchema.getPostalCode());
     var restaurantInputJson = JsonUtil.toJson(restaurantInputDto);
 
-    var request = put(URL_RESTAURANTS + restaurantSchema.getId())
+    var request = put(URL_RESTAURANTS, restaurantSchema.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(restaurantInputJson);
     mockMvc.perform(request)

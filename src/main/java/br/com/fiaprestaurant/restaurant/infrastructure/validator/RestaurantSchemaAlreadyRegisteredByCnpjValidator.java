@@ -23,7 +23,7 @@ public class RestaurantSchemaAlreadyRegisteredByCnpjValidator implements
     if (cnpj != null && !cnpj.isEmpty()) {
     var restaurant = restaurantGateway.findByCnpj(cnpj);
       if (restaurant.isPresent()) {
-        throw new DuplicatedException(new FieldError(this.getClass().getSimpleName(), "email",
+        throw new DuplicatedException(new FieldError(this.getClass().getSimpleName(), "cnpj",
             RESTAURANT_ALREADY_EXISTS_WITH_CNPJ.formatted(cnpj)));
       }
     }

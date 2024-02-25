@@ -34,10 +34,39 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
   }
 
   @Override
+  public Restaurant update(UUID id, Restaurant restaurant) {
+    var restaurantSchema = findRestaurantSchemaByIdRequired(id);
+    updateAttributes(restaurantSchema, restaurant);
+    var restaurantSchemaSaved = restaurantSchemaRepository.save(restaurantSchema);
+    return restaurantSchemaSaved.createRestaurantFromRestaurantSchema();
+  }
+
+  private void updateAttributes(RestaurantSchema restaurantSchema, Restaurant restaurant) {
+    restaurantSchema.setName(restaurant.getName());
+    restaurantSchema.setCnpj(restaurant.getCnpj().getCnpjValue());
+    restaurantSchema.setTypeOfCuisine(restaurant.getTypeOfCuisine().getTypeOfCuisineDescription());
+    restaurantSchema.setLatitude(restaurant.getAddress().getCoordinates().getLatitude());
+    restaurantSchema.setLongitude(restaurant.getAddress().getCoordinates().getLongitude());
+    restaurantSchema.setStreet(restaurant.getAddress().getStreet());
+    restaurantSchema.setNumber(restaurant.getAddress().getNumber());
+    restaurantSchema.setNeighborhood(restaurant.getAddress().getNeighborhood());
+    restaurantSchema.setCity(restaurant.getAddress().getCity());
+    restaurantSchema.setState(restaurant.getAddress().getState());
+    restaurantSchema.setPostalCode(restaurant.getAddress().getPostalCode());
+    restaurantSchema.setOpenAt(restaurant.getOpenAt());
+    restaurantSchema.setCloseAt(restaurant.getCloseAt());
+    restaurantSchema.setPeopleCapacity(restaurant.getPeopleCapacity());
+  }
+
+  private RestaurantSchema findRestaurantSchemaByIdRequired(UUID id) {
+    return restaurantSchemaRepository.findById(id)
+        .orElseThrow(() -> new NoResultException(new FieldError(this.getClass().getSimpleName(),
+            "Restaurant ID", RESTAURANT_NOT_FOUND_WITH_ID.formatted(id))));
+  }
+
+  @Override
   public Optional<Restaurant> findById(UUID id) {
-    var restaurantSchema = restaurantSchemaRepository.findById(id).orElseThrow(
-        () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "Restaurant ID",
-            RESTAURANT_NOT_FOUND_WITH_ID.formatted(id))));
+    var restaurantSchema = findRestaurantSchemaByIdRequired(id);
     return Optional.of(restaurantSchema.createRestaurantFromRestaurantSchema());
   }
 

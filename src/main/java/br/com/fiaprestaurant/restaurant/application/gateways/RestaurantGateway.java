@@ -9,6 +9,8 @@ public interface RestaurantGateway {
 
   Restaurant save(Restaurant restaurant);
 
+  Restaurant update(UUID id, Restaurant restaurant);
+
   Optional<Restaurant> findById(UUID id);
 
   Optional<Restaurant> findByCnpjRequired(String cnpjValue);

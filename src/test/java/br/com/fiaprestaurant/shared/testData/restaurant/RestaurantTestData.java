@@ -9,7 +9,7 @@ import java.util.UUID;
 public final class RestaurantTestData {
 
   public static final String DEFAULT_RESTAURANT_NAME = "Comida Boa";
-  public static final String DEFAULT_RESTAURANT_VALID_CNPJ = "38246267000136";
+  public static final String DEFAULT_RESTAURANT_VALID_CNPJ = "64647121000102";
   public static final String DEFAULT_RESTAURANT_TYPE_OF_CUISINE = "Francesa";
   public static final Double DEFAULT_RESTAURANT_LATITUDE = -63.56391;
   public static final Double DEFAULT_RESTAURANT_LONGITUDE = -86.65239;
@@ -23,10 +23,13 @@ public final class RestaurantTestData {
   public static final String DEFAULT_RESTAURANT_HOUR_CLOSE_AT = "15:00";
   public static final int DEFAULT_RESTAURANT_PEOPLE_CAPACITY = 200;
   public static final String ALTERNATIVE_RESTAURANT_NAME = "Sabor Argentino";
-  public static final String ALTERNATIVE_RESTAURANT_VALID_CNPJ = "70813077000166";
+  public static final String ALTERNATIVE_RESTAURANT_VALID_CNPJ = "39946063000170";
   public static final String ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE = "Argentina";
   public static final Double ALTERNATIVE_RESTAURANT_LATITUDE = -33.563900;
   public static final Double ALTERNATIVE_RESTAURANT_LONGITUDE = -56.652390;
+  public static final String ALTERNATIVE_RESTAURANT_HOUR_OPEN_AT = "11:00";
+  public static final String ALTERNATIVE_RESTAURANT_HOUR_CLOSE_AT = "15:00";
+  public static final int ALTERNATIVE_RESTAURANT_PEOPLE_CAPACITY = 200;
 
 
   public static RestaurantInputDto createRestaurantInputDto() {
@@ -44,6 +47,27 @@ public final class RestaurantTestData {
         DEFAULT_RESTAURANT_HOUR_OPEN_AT,
         DEFAULT_RESTAURANT_HOUR_CLOSE_AT,
         DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+  }
+
+  public static RestaurantInputDto updateRestaurantInputDto(String alternativeRestaurantName,
+      String alternativeRestaurantValidCnpj, String alternativeRestaurantTypeOfCuisine,
+      Double alternativeRestaurantLatitude, Double alternativeRestaurantLongitude,
+      String alternativeRestaurantOpenAt, String alternativeRestaurantCloseAt,
+      Integer alternativePeopleCapacity) {
+    return new RestaurantInputDto(alternativeRestaurantName,
+        alternativeRestaurantValidCnpj,
+        alternativeRestaurantTypeOfCuisine,
+        alternativeRestaurantLatitude,
+        alternativeRestaurantLongitude,
+        DEFAULT_RESTAURANT_STREET,
+        DEFAULT_RESTAURANT_NUMBER,
+        DEFAULT_RESTAURANT_NEIGHBORHOOD,
+        DEFAULT_RESTAURANT_CITY,
+        DEFAULT_RESTAURANT_STATE,
+        DEFAULT_RESTAURANT_POSTAL_CODE,
+        alternativeRestaurantOpenAt,
+        alternativeRestaurantCloseAt,
+        alternativePeopleCapacity);
   }
 
   public static RestaurantInputDto createRestaurantInputDtoWith(
@@ -100,13 +124,22 @@ public final class RestaurantTestData {
   public static RestaurantSchema createRestaurantSchema() {
     var restaurantSchema = createNewRestaurantSchema(DEFAULT_RESTAURANT_NAME,
         DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
-        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE);
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
     restaurantSchema.setId(UUID.randomUUID());
     return restaurantSchema;
   }
 
+  public static RestaurantSchema createNewRestaurantSchema() {
+    return createNewRestaurantSchema(DEFAULT_RESTAURANT_NAME,
+        DEFAULT_RESTAURANT_VALID_CNPJ, DEFAULT_RESTAURANT_TYPE_OF_CUISINE,
+        DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE, DEFAULT_RESTAURANT_HOUR_OPEN_AT,
+        DEFAULT_RESTAURANT_HOUR_CLOSE_AT, DEFAULT_RESTAURANT_PEOPLE_CAPACITY);
+  }
+
   public static RestaurantSchema createNewRestaurantSchema(String name, String cnpj,
-      String defaultRestaurantTypeOfCuisine, Double latitude, Double longitude) {
+      String defaultRestaurantTypeOfCuisine, Double latitude, Double longitude, String openAt,
+      String closeAt, Integer peopleCapacity) {
     return RestaurantSchema.builder()
         .name(name)
         .cnpj(cnpj)
@@ -119,9 +152,9 @@ public final class RestaurantTestData {
         .city(DEFAULT_RESTAURANT_CITY)
         .state(DEFAULT_RESTAURANT_STATE)
         .postalCode(DEFAULT_RESTAURANT_POSTAL_CODE)
-        .openAt(DEFAULT_RESTAURANT_HOUR_OPEN_AT)
-        .closeAt(DEFAULT_RESTAURANT_HOUR_CLOSE_AT)
-        .peopleCapacity(DEFAULT_RESTAURANT_PEOPLE_CAPACITY)
+        .openAt(openAt)
+        .closeAt(closeAt)
+        .peopleCapacity(peopleCapacity)
         .build();
   }
 

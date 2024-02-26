@@ -49,6 +49,24 @@ class AddressTest {
 
   @ParameterizedTest
   @NullAndEmptySource
+  void shouldThrowExceptionWhenNumberIsNullOrEmpty(String number) {
+    assertThrows(ValidatorException.class,
+        () -> new Address(DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE,
+            DEFAULT_RESTAURANT_STREET, number, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+            DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenNumberLengthIsBetween3And100Characters() {
+    var number = StringUtil.generateStringLength(101);
+    assertThrows(ValidatorException.class,
+        () -> new Address(DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE,
+            DEFAULT_RESTAURANT_STREET, number, DEFAULT_RESTAURANT_NEIGHBORHOOD,
+            DEFAULT_RESTAURANT_CITY, DEFAULT_RESTAURANT_STATE, DEFAULT_RESTAURANT_POSTAL_CODE));
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
   void shouldThrowExceptionWhenNeighborhoodIsNullOrEmpty(String neighborhood) {
     assertThrows(ValidatorException.class,
         () -> new Address(DEFAULT_RESTAURANT_LATITUDE, DEFAULT_RESTAURANT_LONGITUDE,

@@ -55,9 +55,9 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
     restaurantSchema.setCity(restaurant.getAddress().getCity());
     restaurantSchema.setState(restaurant.getAddress().getState());
     restaurantSchema.setPostalCode(restaurant.getAddress().getPostalCode());
-    restaurantSchema.setOpenAt(restaurant.getOpenAt());
-    restaurantSchema.setCloseAt(restaurant.getCloseAt());
-    restaurantSchema.setPeopleCapacity(restaurant.getPeopleCapacity());
+    restaurantSchema.setOpenAt(restaurant.getOpenAt().openAtValue());
+    restaurantSchema.setCloseAt(restaurant.getCloseAt().closeAtValue());
+    restaurantSchema.setPeopleCapacity(restaurant.getPeopleCapacity().peopleCapacityValue());
   }
 
   public RestaurantSchema findRestaurantSchemaByIdRequired(UUID id) {
@@ -164,9 +164,9 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
         .city(restaurant.getAddress().getCity())
         .state(restaurant.getAddress().getState())
         .postalCode(restaurant.getAddress().getPostalCode())
-        .openAt(restaurant.getOpenAt())
-        .closeAt(restaurant.getCloseAt())
-        .peopleCapacity(restaurant.getPeopleCapacity())
+        .openAt(restaurant.getOpenAt().openAtValue())
+        .closeAt(restaurant.getCloseAt().closeAtValue())
+        .peopleCapacity(restaurant.getPeopleCapacity().peopleCapacityValue())
         .build();
   }
 

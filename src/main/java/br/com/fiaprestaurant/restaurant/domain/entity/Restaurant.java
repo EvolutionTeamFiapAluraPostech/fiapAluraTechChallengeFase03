@@ -3,7 +3,10 @@ package br.com.fiaprestaurant.restaurant.domain.entity;
 import br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields;
 import br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages;
 import br.com.fiaprestaurant.restaurant.domain.valueobject.Address;
+import br.com.fiaprestaurant.restaurant.domain.valueobject.CloseAt;
 import br.com.fiaprestaurant.restaurant.domain.valueobject.Cnpj;
+import br.com.fiaprestaurant.restaurant.domain.valueobject.OpenAt;
+import br.com.fiaprestaurant.restaurant.domain.valueobject.PeopleCapacity;
 import br.com.fiaprestaurant.restaurant.domain.valueobject.TypeOfCuisine;
 import br.com.fiaprestaurant.shared.exception.ValidatorException;
 import java.util.UUID;
@@ -16,28 +19,23 @@ public class Restaurant {
   private final Cnpj cnpj;
   private final TypeOfCuisine typeOfCuisine;
   private final Address address;
-  private final String openAt;
-  private final String closeAt;
-  private final int peopleCapacity;
+  private final OpenAt openAt;
+  private final CloseAt closeAt;
+  private final PeopleCapacity peopleCapacity;
 
   public Restaurant(String name, String cnpj, String typeOfCuisine, Double latitude,
       Double longitude, String street, String number, String neighborhood, String city,
       String state, String postalCode, String openAt, String closeAt, int peopleCapacity) {
     validateNameIsNullOrEmpty(name);
     validateNameLength(name);
-    validateOpenAtIsNullOrEmpty(openAt);
-    validateOpenAtIsAValidNumber(openAt);
-    validateCloseAtIsNullOrEmpty(closeAt);
-    validateCloseAtIsAValidNumber(closeAt);
-    validatePeopleCapacity(peopleCapacity);
     this.name = name;
     this.cnpj = new Cnpj(cnpj);
     this.typeOfCuisine = new TypeOfCuisine(typeOfCuisine);
     this.address = new Address(latitude, longitude, street, number, neighborhood, city, state,
         postalCode);
-    this.openAt = openAt;
-    this.closeAt = closeAt;
-    this.peopleCapacity = peopleCapacity;
+    this.openAt = new OpenAt(openAt);
+    this.closeAt = new CloseAt(closeAt);
+    this.peopleCapacity = new PeopleCapacity(peopleCapacity);
   }
 
   public Restaurant(UUID id, String name, String cnpj, String typeOfCuisine, Double latitude,
@@ -68,99 +66,18 @@ public class Restaurant {
     return address;
   }
 
-  public String getOpenAt() {
+  public OpenAt getOpenAt() {
     return openAt;
   }
 
-  public String getCloseAt() {
+  public CloseAt getCloseAt() {
     return closeAt;
   }
 
-  public int getPeopleCapacity() {
+  public PeopleCapacity getPeopleCapacity() {
     return peopleCapacity;
   }
 
-  private void validatePeopleCapacity(Integer peopleCapacity) {
-    if (peopleCapacity == null || peopleCapacity <= 0) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_PEOPLE_CAPACITY_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_PEOPLE_CAPACITY));
-    }
-  }
-
-  private void validateCloseAtIsAValidNumber(String closeAt) {
-    if (closeAt.trim().length() != 5) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_CLOSE_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
-    }
-    if (!closeAt.trim().contains(":")) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_CLOSE_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
-    }
-    try {
-      var hour = closeAt.split(":")[0];
-      Integer.parseInt(hour);
-    } catch (NumberFormatException e) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_CLOSE_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
-    }
-    try {
-      var minute = closeAt.split(":")[1];
-      Integer.parseInt(minute);
-    } catch (NumberFormatException e) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_CLOSE_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR));
-    }
-  }
-
-
-  private void validateCloseAtIsNullOrEmpty(String closeAt) {
-    if (closeAt == null || closeAt.isEmpty()) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_CLOSE_AT_FIELD, RestaurantMessages.ENTER_CLOSING_TIME));
-    }
-  }
-
-  private void validateOpenAtIsAValidNumber(String openAt) {
-    if (openAt.trim().length() != 5) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_OPEN_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
-    }
-    if (!openAt.trim().contains(":")) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_OPEN_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
-    }
-    try {
-      var hour = openAt.split(":")[0];
-      Integer.parseInt(hour);
-    } catch (NumberFormatException e) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_OPEN_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
-    }
-    try {
-      var minute = openAt.split(":")[1];
-      Integer.parseInt(minute);
-    } catch (NumberFormatException e) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_OPEN_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR));
-    }
-  }
-
-  private void validateOpenAtIsNullOrEmpty(String openAt) {
-    if (openAt == null || openAt.isEmpty()) {
-      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
-          RestaurantFields.RESTAURANT_OPEN_AT_FIELD,
-          RestaurantMessages.ENTER_RESTAURANT_OPENING_HOURS));
-    }
-  }
 
   private void validateNameIsNullOrEmpty(String name) {
     if (name == null || name.isEmpty()) {

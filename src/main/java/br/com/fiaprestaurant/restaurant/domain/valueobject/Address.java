@@ -7,6 +7,9 @@ public class Address {
 
   public static final String ENTER_THE_STREET = "Enter the street";
   public static final String STREET_FIELD = "street";
+  public static final String ENTER_THE_NUMBER = "Enter the number";
+  public static final String NUMBER_FIELD = "number";
+  public static final String NUMBER_LENGTH_MUST_BE_LESS_THAN_100_CHARACTERS = "Number length must be between 3 and 255 characters. It has %s.";
   public static final String NEIGHBORHOOD_FIELD = "neighborhood";
   public static final String ENTER_THE_NEIGHBORHOOD = "Enter the neighborhood.";
   public static final String CITY_FIELD = "city";
@@ -29,6 +32,8 @@ public class Address {
       String neighborhood, String city, String state, String postalCode) {
     validateNullOrEmptyStreet(street);
     validateLengthStreet(street);
+    validateNullOrEmptyNumber(number);
+    validateLengthNumber(number);
     validateNullOrEmptyNeighborhood(neighborhood);
     validateLengthNeighborhood(neighborhood);
     validateNullOrEmptyCity(city);
@@ -42,6 +47,20 @@ public class Address {
     this.city = city;
     this.state = state;
     this.postalCode = postalCode;
+  }
+
+  private void validateLengthNumber(String number) {
+    if (number.trim().length() > 100) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), NUMBER_FIELD,
+          NUMBER_LENGTH_MUST_BE_LESS_THAN_100_CHARACTERS.formatted(number.trim().length())));
+    }
+  }
+
+  private void validateNullOrEmptyNumber(String number) {
+    if (number == null || number.isEmpty()) {
+      throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), NUMBER_FIELD,
+          ENTER_THE_NUMBER));
+    }
   }
 
   private void validateLengthState(String state) {

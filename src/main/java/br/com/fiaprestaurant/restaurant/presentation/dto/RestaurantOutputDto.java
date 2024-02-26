@@ -49,9 +49,9 @@ public record RestaurantOutputDto(
         restaurant.getAddress().getCity(),
         restaurant.getAddress().getState(),
         restaurant.getAddress().getPostalCode(),
-        restaurant.getOpenAt(),
-        restaurant.getCloseAt(),
-        restaurant.getPeopleCapacity());
+        restaurant.getOpenAt().openAtValue(),
+        restaurant.getCloseAt().closeAtValue(),
+        restaurant.getPeopleCapacity().peopleCapacityValue());
   }
 
   public static List<RestaurantOutputDto> toRestaurantsOutputDtoFrom(List<Restaurant> restaurants) {

@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "9e3a864d-e347-4b90-b3b9-b51ff0d45da0",
+		"name": "Fiap/Alura - Tech Challenge - Fase 03",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "9250904"
+	},
+	"item": [
+		{
+			"name": "00 - Autenticate",
+			"item": [
+				{
+					"name": "01 - POST authenticate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"thomas.anderson@itcompany.com\",\n    \"password\": \"@Bcd1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/authenticate"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "01 - User",
+			"item": [
+				{
+					"name": "01 - Create new Users",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Oracle\",\n    \"email\": \"jvm@matrix.com\",\n    \"cpf\": \"23234143056\",\n    \"password\": \"@Bcd1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/users"
+					},
+					"response": []
+				},
+				{
+					"name": "02 - Find all users paginated",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/users"
+					},
+					"response": []
+				},
+				{
+					"name": "03 - Update users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Agent Smith\",\n    \"email\": \"agent.smith@matrix.com\",\n    \"cpf\": \"28492740035\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/users/83099fa9-776b-4867-ae8e-170fd751b775"
+					},
+					"response": []
+				},
+				{
+					"name": "05 - Find user by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/users/cdd0724e-3f51-4ace-8d5f-11b3277a3532"
+					},
+					"response": []
+				},
+				{
+					"name": "06 - Delete user by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/users/cdd0724e-3f51-4ace-8d5f-11b3277a3532"
+					},
+					"response": []
+				},
+				{
+					"name": "07 - Find user by email",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/users/email/thomas.anderson@itcompany.com"
+					},
+					"response": []
+				},
+				{
+					"name": "08 - Find user by name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/users/name/thomas anderson"
+					},
+					"response": []
+				},
+				{
+					"name": "09 - Find user by cpf",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{auth_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/users/cpf/95962710088"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02 - Restaurant",
+			"item": [
+				{
+					"name": "01 - Create new restaurant",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var current_timestamp = new Date();",
+									"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/restaurants"
+					},
+					"response": []
+				},
+				{
+					"name": "02 - Find restaurant by name type of cuisine coordinates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?latitude=-23.5691&longitude=-46.65239",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								"name-coordinates-typeofcuisine"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "-23.5691"
+								},
+								{
+									"key": "longitude",
+									"value": "-46.65239"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03 - Update restaurant",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var current_timestamp = new Date();",
+									"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": \"04638576000130\",\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/restaurants/5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f"
+					},
+					"response": []
+				},
+				{
+					"name": "04 - Get restaurant by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/restaurants/f7cb8b14-b7f1-4250-827f-6b14fee2b105"
+					},
+					"response": []
+				},
+				{
+					"name": "05 - Delete restaurant by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/restaurants/f7cb8b14-b7f1-4250-827f-6b14fee2b105"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{auth_token}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

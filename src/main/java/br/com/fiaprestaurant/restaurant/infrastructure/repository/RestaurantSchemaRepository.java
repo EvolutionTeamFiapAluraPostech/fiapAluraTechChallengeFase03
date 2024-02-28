@@ -1,6 +1,5 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.repository;
 
-import br.com.fiaprestaurant.restaurant.domain.repository.RestaurantRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +7,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface RestaurantSchemaRepository extends RestaurantRepository,
-    JpaRepository<RestaurantSchema, UUID> {
+public interface RestaurantSchemaRepository extends JpaRepository<RestaurantSchema, UUID> {
 
   Optional<RestaurantSchema> findByCnpj(String cnpjValue);
 

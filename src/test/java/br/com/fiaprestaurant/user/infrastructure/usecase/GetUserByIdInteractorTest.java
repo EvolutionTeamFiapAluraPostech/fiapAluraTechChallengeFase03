@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.util.Optional;

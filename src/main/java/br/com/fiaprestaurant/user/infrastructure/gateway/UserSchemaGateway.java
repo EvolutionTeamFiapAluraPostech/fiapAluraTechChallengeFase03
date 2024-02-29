@@ -3,7 +3,7 @@ package br.com.fiaprestaurant.user.infrastructure.gateway;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_NOT_FOUND;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_ID_NOT_FOUND;
 
-import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import br.com.fiaprestaurant.user.infrastructure.repository.UserSchemaRepository;

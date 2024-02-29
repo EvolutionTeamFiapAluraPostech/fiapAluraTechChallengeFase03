@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.exception.DuplicatedException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.infrastructure.gateway.UserSchemaGateway;
 import java.util.Optional;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;

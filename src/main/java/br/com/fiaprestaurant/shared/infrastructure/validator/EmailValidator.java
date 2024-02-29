@@ -2,7 +2,7 @@ package br.com.fiaprestaurant.shared.infrastructure.validator;
 
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_EMAIL_INVALID;
 
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;

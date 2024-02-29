@@ -5,7 +5,7 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_NAME_
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_NAME_MIN_LENGTH;
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_NAME_REQUIRED;
 
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.util.UUID;
 import org.springframework.validation.FieldError;
 

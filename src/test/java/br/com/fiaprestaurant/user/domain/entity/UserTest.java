@@ -7,7 +7,7 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_US
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

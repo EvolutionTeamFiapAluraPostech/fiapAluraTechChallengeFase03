@@ -7,7 +7,7 @@ import static br.com.fiaprestaurant.restaurant.domain.messages.AddressFields.STA
 import static br.com.fiaprestaurant.restaurant.domain.messages.AddressFields.STREET_FIELD;
 
 import br.com.fiaprestaurant.restaurant.domain.messages.AddressMessages;
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import org.springframework.validation.FieldError;
 
 public class Address {

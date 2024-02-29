@@ -2,7 +2,7 @@ package br.com.fiaprestaurant.user.infrastructure.validator;
 
 import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_CPF_ALREADY_EXISTS;
 
-import br.com.fiaprestaurant.shared.exception.DuplicatedException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredInOtherUserValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;

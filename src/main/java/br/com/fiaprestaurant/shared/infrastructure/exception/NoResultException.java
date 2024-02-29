@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.shared.exception;
+package br.com.fiaprestaurant.shared.infrastructure.exception;
 
 import lombok.Getter;
 import org.springframework.validation.FieldError;

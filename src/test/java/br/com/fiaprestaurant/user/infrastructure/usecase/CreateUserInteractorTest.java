@@ -11,7 +11,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.exception.DuplicatedException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.DuplicatedException;
 import br.com.fiaprestaurant.user.application.validator.UserCpfAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.application.validator.UserEmailAlreadyRegisteredValidator;
 import br.com.fiaprestaurant.user.domain.entity.User;

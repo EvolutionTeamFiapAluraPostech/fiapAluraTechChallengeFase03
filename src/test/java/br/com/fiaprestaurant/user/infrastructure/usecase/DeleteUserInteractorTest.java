@@ -9,8 +9,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.exception.NoResultException;
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.infrastructure.validator.UuidValidatorImpl;
 import br.com.fiaprestaurant.user.domain.entity.User;
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;

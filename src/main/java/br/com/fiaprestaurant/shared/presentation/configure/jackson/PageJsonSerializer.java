@@ -1,4 +1,4 @@
-package br.com.fiaprestaurant.shared.configure.jackson;
+package br.com.fiaprestaurant.shared.presentation.configure.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

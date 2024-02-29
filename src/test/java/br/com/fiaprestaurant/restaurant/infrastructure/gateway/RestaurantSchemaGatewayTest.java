@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.RestaurantSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
-import br.com.fiaprestaurant.shared.exception.NoResultException;
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

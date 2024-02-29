@@ -1,8 +1,8 @@
 package br.com.fiaprestaurant.shared.presentation.exception;
 
-import br.com.fiaprestaurant.shared.exception.DuplicatedException;
-import br.com.fiaprestaurant.shared.exception.NoResultException;
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.DuplicatedException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.presentation.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

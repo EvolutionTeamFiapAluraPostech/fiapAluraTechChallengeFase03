@@ -3,7 +3,7 @@ package br.com.fiaprestaurant.shared.infrastructure.validator;
 import static br.com.fiaprestaurant.shared.domain.messages.SharedMessages.UUID_INVALID;
 
 import br.com.fiaprestaurant.shared.domain.validator.UuidValidator;
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.util.IsUUID;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;

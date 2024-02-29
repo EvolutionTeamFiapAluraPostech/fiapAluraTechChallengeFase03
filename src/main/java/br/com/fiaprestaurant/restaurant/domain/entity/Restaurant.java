@@ -8,7 +8,7 @@ import br.com.fiaprestaurant.restaurant.domain.valueobject.Cnpj;
 import br.com.fiaprestaurant.restaurant.domain.valueobject.OpenAt;
 import br.com.fiaprestaurant.restaurant.domain.valueobject.PeopleCapacity;
 import br.com.fiaprestaurant.restaurant.domain.valueobject.TypeOfCuisine;
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.util.UUID;
 import org.springframework.validation.FieldError;
 

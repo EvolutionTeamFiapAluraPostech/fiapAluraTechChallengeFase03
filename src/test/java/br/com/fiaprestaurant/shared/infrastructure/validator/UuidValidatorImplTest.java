@@ -2,7 +2,7 @@ package br.com.fiaprestaurant.shared.infrastructure.validator;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

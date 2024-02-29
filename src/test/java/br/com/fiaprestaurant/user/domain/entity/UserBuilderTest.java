@@ -8,7 +8,7 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_US
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import org.junit.jupiter.api.Test;
 
 class UserBuilderTest {

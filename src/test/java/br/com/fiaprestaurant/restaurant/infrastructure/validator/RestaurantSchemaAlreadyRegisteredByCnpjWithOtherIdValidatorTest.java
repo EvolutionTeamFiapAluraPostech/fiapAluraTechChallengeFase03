@@ -20,11 +20,10 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
 import br.com.fiaprestaurant.restaurant.domain.entity.RestaurantBuilder;
-import br.com.fiaprestaurant.shared.exception.DuplicatedException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.DuplicatedException;
 import br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData;
 import java.util.Optional;
 import java.util.UUID;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -2,7 +2,7 @@ package br.com.fiaprestaurant.restaurant.domain.valueobject;
 
 import br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields;
 import br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages;
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import org.springframework.validation.FieldError;
 
 public record CloseAt(String closeAtValue) {

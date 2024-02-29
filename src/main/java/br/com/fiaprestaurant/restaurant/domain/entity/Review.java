@@ -7,7 +7,7 @@ import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessage
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_REVIEW_SCORE_MUST_BE_GREATER_THAN_ZERO;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_REVIEW_SCORE_MUST_BE_GREATER_THAN_ZERO_AND_LESS_THAN_TEN;
 
-import br.com.fiaprestaurant.shared.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.util.UUID;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;

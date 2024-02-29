@@ -4,7 +4,7 @@ import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessage
 
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
 import br.com.fiaprestaurant.restaurant.application.validator.RestaurantAlreadyRegisteredByCnpjWithOtherIdValidator;
-import br.com.fiaprestaurant.shared.exception.DuplicatedException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.DuplicatedException;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;

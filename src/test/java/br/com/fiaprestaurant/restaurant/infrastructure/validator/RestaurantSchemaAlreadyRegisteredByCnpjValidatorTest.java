@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
-import br.com.fiaprestaurant.shared.exception.DuplicatedException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.DuplicatedException;
 import br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;

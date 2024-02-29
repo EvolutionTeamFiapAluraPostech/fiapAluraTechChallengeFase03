@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.user.infrastructure.repository.UserSchemaRepository;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.ArrayList;

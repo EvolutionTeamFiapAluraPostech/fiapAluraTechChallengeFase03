@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-import br.com.fiaprestaurant.shared.exception.NoResultException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.user.domain.messages.UserMessages;
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.util.Optional;

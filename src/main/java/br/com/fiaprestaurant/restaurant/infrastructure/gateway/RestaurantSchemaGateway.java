@@ -1,17 +1,15 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 
-import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.RESTAURANT_CNPJ_FIELD;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.RESTAURANT_ID_FIELD;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND;
-import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_CNPJ;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_NOT_FOUND_WITH_ID;
 
-import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
+import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.RestaurantSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
-import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -64,22 +62,6 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
     return restaurantSchemaRepository.findById(id)
         .orElseThrow(() -> new NoResultException(new FieldError(this.getClass().getSimpleName(),
             "Restaurant ID", RESTAURANT_NOT_FOUND_WITH_ID.formatted(id))));
-  }
-
-  @Override
-  public Optional<Restaurant> findById(UUID id) {
-    var restaurantSchema = findRestaurantSchemaByIdRequired(id);
-    return Optional.of(restaurantSchema.createRestaurantFromRestaurantSchema());
-  }
-
-  @Override
-  public Optional<Restaurant> findByCnpjRequired(String cnpjValue) {
-    var restaurantSchema = restaurantSchemaRepository.findByCnpj(cnpjValue).orElseThrow(
-        () -> new NoResultException(
-            new FieldError(this.getClass().getSimpleName(), RESTAURANT_CNPJ_FIELD,
-                RESTAURANT_NOT_FOUND_WITH_CNPJ.formatted(cnpjValue))));
-    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
-    return Optional.of(restaurant);
   }
 
   @Override

@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.RestaurantSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
-import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,58 +40,6 @@ class RestaurantSchemaGatewayTest {
 
     assertThat(restaurantSaved).isNotNull();
     verify(restaurantSchemaRepository).save(any(RestaurantSchema.class));
-  }
-
-  @Test
-  void shouldFindRestaurantById() {
-    var restaurantSchema = createRestaurantSchema();
-    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
-    when(restaurantSchemaRepository.findById(restaurant.getId())).thenReturn(
-        Optional.of(restaurantSchema));
-
-    var restaurantFound = restaurantSchemaGateway.findById(restaurant.getId());
-
-    assertThat(restaurantFound).isNotNull();
-    verify(restaurantSchemaRepository).findById(restaurant.getId());
-  }
-
-  @Test
-  void shouldThrowExceptionWhenRestaurantWasNotFoundById() {
-    var restaurantSchema = createRestaurantSchema();
-    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
-    when(restaurantSchemaRepository.findById(restaurant.getId())).thenReturn(
-        Optional.empty());
-
-    assertThatThrownBy(() -> restaurantSchemaGateway.findById(restaurant.getId())).isInstanceOf(
-        NoResultException.class);
-    verify(restaurantSchemaRepository).findById(restaurant.getId());
-  }
-
-  @Test
-  void shouldFindRestaurantByCnpjRequired() {
-    var restaurantSchema = createRestaurantSchema();
-    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
-    when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
-        Optional.of(restaurantSchema));
-
-    var restaurantFound = restaurantSchemaGateway.findByCnpjRequired(
-        restaurant.getCnpj().getCnpjValue());
-
-    assertThat(restaurantFound).isNotNull();
-    verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
-  }
-
-  @Test
-  void shouldThrowExceptionWhenRestaurantWasNotFoundByCnpjRequired() {
-    var restaurantSchema = createRestaurantSchema();
-    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
-    when(restaurantSchemaRepository.findByCnpj(restaurant.getCnpj().getCnpjValue())).thenReturn(
-        Optional.empty());
-
-    assertThatThrownBy(
-        () -> restaurantSchemaGateway.findByCnpjRequired(restaurant.getCnpj().getCnpjValue()))
-        .isInstanceOf(NoResultException.class);
-    verify(restaurantSchemaRepository).findByCnpj(restaurant.getCnpj().getCnpjValue());
   }
 
   @Test

@@ -11,10 +11,6 @@ public interface RestaurantGateway {
 
   Restaurant update(UUID id, Restaurant restaurant);
 
-  Optional<Restaurant> findById(UUID id);
-
-  Optional<Restaurant> findByCnpjRequired(String cnpjValue);
-
   Optional<Restaurant> findByCnpj(String cnpjValue);
 
   List<Restaurant> queryByNameCoordinatesTypeOfCuisine(String name, String typeOfCuisine,

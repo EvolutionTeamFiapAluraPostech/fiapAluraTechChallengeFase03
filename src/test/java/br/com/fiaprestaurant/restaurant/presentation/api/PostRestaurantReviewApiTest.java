@@ -17,6 +17,7 @@ import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
 import br.com.fiaprestaurant.shared.api.JsonUtil;
 import br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData;
 import br.com.fiaprestaurant.shared.testData.user.UserTestData;
+import br.com.fiaprestaurant.shared.util.StringUtil;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import com.jayway.jsonpath.JsonPath;
 import jakarta.persistence.EntityManager;
@@ -120,6 +121,25 @@ class PostRestaurantReviewApiTest {
   @ParameterizedTest
   @NullAndEmptySource
   void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidDescription(String description) throws Exception {
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var userSchema = createAndPersistUserSchema();
+    var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantSchema.getId(),
+        description, DEFAULT_RESTAURANT_REVIEW_SCORE, userSchema.getId());
+
+    var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
+
+    var request = post(URL_RESTAURANTS_REVIEW,
+        restaurantSchema.getId().toString(), userSchema.getId().toString())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+
+    mockMvc.perform(request)
+        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+  }
+
+  @Test
+  void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidDescriptionLength() throws Exception {
+    String description = StringUtil.generateStringLength(501);
     var restaurantSchema = createAndPersistRestaurantSchema();
     var userSchema = createAndPersistUserSchema();
     var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantSchema.getId(),

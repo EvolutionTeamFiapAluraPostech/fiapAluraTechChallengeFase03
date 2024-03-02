@@ -14,6 +14,7 @@ import org.springframework.validation.FieldError;
 
 public class Review {
 
+  private UUID id;
   private UUID restaurantId;
   private String description;
   private Integer score;
@@ -30,8 +31,13 @@ public class Review {
     this.userId = userId;
   }
 
+  public Review(UUID id, UUID restaurantId, String description, Integer score, UUID userId) {
+    this(restaurantId, description, score, userId);
+    this.id = id;
+  }
+
   private void validateReviewScoreBetweenZeroAndTen(Integer score) {
-    if (score == null || score < 0) {
+    if (score == null || score < 0 || score > 10) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), RESTAURANT_REVIEW_SCORE_FIELD,
               RESTAURANT_REVIEW_SCORE_MUST_BE_GREATER_THAN_ZERO_AND_LESS_THAN_TEN));
@@ -61,6 +67,10 @@ public class Review {
           new FieldError(this.getClass().getSimpleName(), RESTAURANT_REVIEW_DESCRIPTION_FIELD,
               ENTER_RESTAURANT_REVIEW_DESCRIPTION));
     }
+  }
+
+  public UUID getId() {
+    return id;
   }
 
   public UUID getRestaurantId() {

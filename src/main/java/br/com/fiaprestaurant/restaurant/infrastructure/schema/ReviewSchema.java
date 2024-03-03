@@ -33,6 +33,6 @@ public class ReviewSchema extends BaseEntity {
 
   public Review toReview() {
     return new Review(this.getId(), this.getRestaurantSchema().getId(), this.getDescription(),
-        this.getScore(), this.getUserSchema().getId());
+        this.getScore(), this.getUserSchema().getId(), this.getUserSchema().getName());
   }
 }

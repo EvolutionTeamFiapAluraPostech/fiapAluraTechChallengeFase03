@@ -3,6 +3,9 @@ package br.com.fiaprestaurant.restaurant.presentation.api;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantReviewTestData.DEFAULT_RESTAURANT_REVIEW_DESCRIPTION;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantReviewTestData.DEFAULT_RESTAURANT_REVIEW_SCORE;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantReviewTestData.createRestaurantReviewInputDto;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createNewRestaurantSchema;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
+import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUserSchema;
 import static br.com.fiaprestaurant.shared.util.IsUUID.isUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -16,8 +19,6 @@ import br.com.fiaprestaurant.restaurant.infrastructure.schema.ReviewSchema;
 import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
 import br.com.fiaprestaurant.shared.annotation.IntegrationTest;
 import br.com.fiaprestaurant.shared.api.JsonUtil;
-import br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData;
-import br.com.fiaprestaurant.shared.testData.user.UserTestData;
 import br.com.fiaprestaurant.shared.util.StringUtil;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import com.jayway.jsonpath.JsonPath;
@@ -35,7 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @DatabaseTest
 class PostRestaurantReviewApiTest {
 
-  private static final String URL_RESTAURANTS_REVIEW = "/restaurants/{restaurant-id}/review/{user-id}";
+  private static final String URL_RESTAURANTS_REVIEWS = "/restaurants/{restaurant-id}/reviews/{user-id}";
   private final MockMvc mockMvc;
   private final EntityManager entityManager;
 
@@ -46,13 +47,13 @@ class PostRestaurantReviewApiTest {
   }
 
   private RestaurantSchema createAndPersistRestaurantSchema() {
-    var restaurantSchema = RestaurantTestData.createNewRestaurantSchema();
+    var restaurantSchema = createNewRestaurantSchema();
     return entityManager.merge(restaurantSchema);
   }
 
   private UserSchema createAndPersistUserSchema() {
-    var user = UserTestData.createNewUser();
-    var userSchema = UserTestData.createNewUserSchema(user);
+    var user = createNewUser();
+    var userSchema = createNewUserSchema(user);
     return entityManager.merge(userSchema);
   }
 
@@ -72,7 +73,7 @@ class PostRestaurantReviewApiTest {
         DEFAULT_RESTAURANT_REVIEW_DESCRIPTION, DEFAULT_RESTAURANT_REVIEW_SCORE, userSchema.getId());
     var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
 
-    var request = post(URL_RESTAURANTS_REVIEW,
+    var request = post(URL_RESTAURANTS_REVIEWS,
         restaurantSchema.getId().toString(), userSchema.getId().toString())
         .contentType(APPLICATION_JSON)
         .content(requestBody);
@@ -99,7 +100,7 @@ class PostRestaurantReviewApiTest {
     var requestBody = REVIEW_JSON_TEMPLATE.formatted(restaurantIdParam,
         DEFAULT_RESTAURANT_REVIEW_DESCRIPTION, DEFAULT_RESTAURANT_REVIEW_SCORE, userSchema.getId());
 
-    var request = post(URL_RESTAURANTS_REVIEW,
+    var request = post(URL_RESTAURANTS_REVIEWS,
         UUID.randomUUID(), userSchema.getId().toString())
         .contentType(APPLICATION_JSON)
         .content(requestBody);
@@ -118,7 +119,7 @@ class PostRestaurantReviewApiTest {
         DEFAULT_RESTAURANT_REVIEW_DESCRIPTION, DEFAULT_RESTAURANT_REVIEW_SCORE, userSchema.getId());
     var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
 
-    var request = post(URL_RESTAURANTS_REVIEW,
+    var request = post(URL_RESTAURANTS_REVIEWS,
         restaurantId.toString(), userSchema.getId().toString())
         .contentType(APPLICATION_JSON)
         .content(requestBody);
@@ -136,7 +137,7 @@ class PostRestaurantReviewApiTest {
         DEFAULT_RESTAURANT_REVIEW_DESCRIPTION, DEFAULT_RESTAURANT_REVIEW_SCORE, userId);
     var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
 
-    var request = post(URL_RESTAURANTS_REVIEW,
+    var request = post(URL_RESTAURANTS_REVIEWS,
         restaurantSchema.getId().toString(), userId.toString())
         .contentType(APPLICATION_JSON)
         .content(requestBody);
@@ -157,7 +158,7 @@ class PostRestaurantReviewApiTest {
 
     var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
 
-    var request = post(URL_RESTAURANTS_REVIEW,
+    var request = post(URL_RESTAURANTS_REVIEWS,
         restaurantSchema.getId().toString(), userSchema.getId().toString())
         .contentType(APPLICATION_JSON)
         .content(requestBody);
@@ -177,7 +178,7 @@ class PostRestaurantReviewApiTest {
 
     var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
 
-    var request = post(URL_RESTAURANTS_REVIEW,
+    var request = post(URL_RESTAURANTS_REVIEWS,
         restaurantSchema.getId().toString(), userSchema.getId().toString())
         .contentType(APPLICATION_JSON)
         .content(requestBody);
@@ -198,7 +199,7 @@ class PostRestaurantReviewApiTest {
 
     var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
 
-    var request = post(URL_RESTAURANTS_REVIEW,
+    var request = post(URL_RESTAURANTS_REVIEWS,
         restaurantSchema.getId().toString(), userSchema.getId().toString())
         .contentType(APPLICATION_JSON)
         .content(requestBody);
@@ -206,4 +207,43 @@ class PostRestaurantReviewApiTest {
     mockMvc.perform(request)
         .andExpect(status().isBadRequest());
   }
+
+  @Test
+  void shouldReturnBadRequestWhenRequestWithDifferentRestaurantIdPathVariableAndRestaurantIdRequestBodyAttribute()
+      throws Exception {
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var userSchema = createAndPersistUserSchema();
+    var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantSchema.getId(),
+        DEFAULT_RESTAURANT_REVIEW_DESCRIPTION, DEFAULT_RESTAURANT_REVIEW_SCORE, userSchema.getId());
+
+    var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
+
+    var request = post(URL_RESTAURANTS_REVIEWS,
+        UUID.randomUUID(), userSchema.getId())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void shouldReturnBadRequestWhenRequestWithDifferentUserIdPathVariableAndUserIdRequestBodyAttribute()
+      throws Exception {
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var userSchema = createAndPersistUserSchema();
+    var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantSchema.getId(),
+        DEFAULT_RESTAURANT_REVIEW_DESCRIPTION, DEFAULT_RESTAURANT_REVIEW_SCORE, userSchema.getId());
+
+    var requestBody = JsonUtil.toJson(restaurantReviewInputDto);
+
+    var request = post(URL_RESTAURANTS_REVIEWS,
+        restaurantSchema.getId(), UUID.randomUUID())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest());
+  }
+
 }

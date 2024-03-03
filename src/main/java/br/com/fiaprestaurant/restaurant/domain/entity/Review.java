@@ -19,6 +19,7 @@ public class Review {
   private String description;
   private Integer score;
   private UUID userId;
+  private String userName;
 
   public Review(UUID restaurantId, String description, Integer score, UUID userId) {
     validateReviewDescriptionIsNullOrEmpty(description);
@@ -34,6 +35,12 @@ public class Review {
   public Review(UUID id, UUID restaurantId, String description, Integer score, UUID userId) {
     this(restaurantId, description, score, userId);
     this.id = id;
+  }
+
+  public Review(UUID id, UUID restaurantId, String description, Integer score, UUID userId,
+      String userName) {
+    this(id, restaurantId, description, score, userId);
+    this.userName = userName;
   }
 
   private void validateReviewScoreBetweenZeroAndTen(Integer score) {
@@ -52,12 +59,14 @@ public class Review {
     }
   }
 
-  private void validateReviewDescriptionLengthItMustHaveBetween3And100Characters(String description) {
+  private void validateReviewDescriptionLengthItMustHaveBetween3And100Characters(
+      String description) {
     var reviewDescriptionLength = description.trim().length();
     if (reviewDescriptionLength > 100) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), RESTAURANT_REVIEW_DESCRIPTION_FIELD,
-              RESTAURANT_REVIEW_DESCRIPTION_LENGTH_MUST_HAVE_BETWEEN_3_AND_100_CHARACTERS.formatted(reviewDescriptionLength)));
+              RESTAURANT_REVIEW_DESCRIPTION_LENGTH_MUST_HAVE_BETWEEN_3_AND_100_CHARACTERS.formatted(
+                  reviewDescriptionLength)));
     }
   }
 
@@ -87,5 +96,9 @@ public class Review {
 
   public UUID getUserId() {
     return userId;
+  }
+
+  public String getUserName() {
+    return userName;
   }
 }

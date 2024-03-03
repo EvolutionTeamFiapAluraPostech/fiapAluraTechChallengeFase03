@@ -9,6 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.ReviewSchemaRepository;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,6 +46,33 @@ class ReviewSchemaGatewayTest {
         .isEqualTo(reviewSchemaSaved.getScore());
     assertThat(reviewSaved.getUserId()).isNotNull()
         .isEqualTo(reviewSchemaSaved.getUserSchema().getId());
+  }
+
+  @Test
+  void shouldFindReviewsByRestaurantId() {
+    var review = createRestaurantReview(UUID.randomUUID(), DEFAULT_RESTAURANT_REVIEW_DESCRIPTION,
+        DEFAULT_RESTAURANT_REVIEW_SCORE, UUID.randomUUID());
+    var reviewSchema = createNewRestaurantReviewSchema(review);
+    var reviews = List.of(reviewSchema);
+    when(reviewSchemaRepository.findByRestaurantSchemaIdOrderByRestaurantSchemaCreatedAtDesc(
+        reviewSchema.getRestaurantSchema().getId())).thenReturn(reviews);
+
+    var reviewsFound = reviewSchemaGateway.findReviewsByRestaurantId(
+        reviewSchema.getRestaurantSchema().getId());
+
+    assertThat(reviewsFound).isNotEmpty().hasSize(1);
+  }
+
+  @Test
+  void shouldReturnEmptyListWhenFindReviewsByRestaurantIdWasNotFound() {
+    var review = createRestaurantReview(UUID.randomUUID(), DEFAULT_RESTAURANT_REVIEW_DESCRIPTION,
+        DEFAULT_RESTAURANT_REVIEW_SCORE, UUID.randomUUID());
+    when(reviewSchemaRepository.findByRestaurantSchemaIdOrderByRestaurantSchemaCreatedAtDesc(
+        review.getRestaurantId())).thenReturn(Collections.emptyList());
+
+    var reviewsFound = reviewSchemaGateway.findReviewsByRestaurantId(review.getRestaurantId());
+
+    assertThat(reviewsFound).isEmpty();
   }
 
 }

@@ -33,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -281,6 +282,7 @@ class PostRestaurantApiTest {
   }
 
   @ParameterizedTest
+  @NullSource
   @ValueSource(ints = {-1, 0})
   void shouldThrowExceptionWhenRestaurantPeopleCapacitySmallerThan0(Integer peopleCapacity) {
     var restaurantInputDto = createRestaurantInputDtoWith(DEFAULT_RESTAURANT_NAME,

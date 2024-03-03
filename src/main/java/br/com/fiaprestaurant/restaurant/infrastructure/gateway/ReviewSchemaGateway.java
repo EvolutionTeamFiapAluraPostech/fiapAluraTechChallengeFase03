@@ -6,6 +6,8 @@ import br.com.fiaprestaurant.restaurant.infrastructure.repository.ReviewSchemaRe
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.ReviewSchema;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +24,13 @@ public class ReviewSchemaGateway implements ReviewGateway {
     var reviewSchema = convertToReviewSchema(review);
     var reviewSchemaSaved = reviewSchemaRepository.save(reviewSchema);
     return reviewSchemaSaved.toReview();
+  }
+
+  @Override
+  public List<Review> findReviewsByRestaurantId(UUID restaurantId) {
+    var reviews = reviewSchemaRepository.findByRestaurantSchemaIdOrderByRestaurantSchemaCreatedAtDesc(
+        restaurantId);
+    return reviews.stream().map(ReviewSchema::toReview).toList();
   }
 
   private ReviewSchema convertToReviewSchema(Review review) {

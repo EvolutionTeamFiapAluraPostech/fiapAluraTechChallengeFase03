@@ -4,6 +4,8 @@ import br.com.fiaprestaurant.restaurant.domain.entity.Review;
 import br.com.fiaprestaurant.shared.domain.entity.BaseEntity;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,9 +22,13 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLRestriction("deleted = false")
 public class ReviewSchema extends BaseEntity {
 
+  @ManyToOne
+  @JoinColumn(name = "restaurant_id")
   private RestaurantSchema restaurantSchema;
   private String description;
   private Integer score;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
   private UserSchema userSchema;
 
   public Review toReview() {

@@ -43,7 +43,7 @@ class CreateUserInteractorTest {
     var user = createNewUser();
     var userToSave = createNewUserWithId();
     when(passwordEncoder.encode(any(String.class))).thenReturn(
-        user.getPassword().getPasswordValue());
+        user.getPassword().passwordValue());
     when(userService.save(any(User.class))).thenReturn(userToSave);
 
     var userSaved = createUserInteractor.execute(user);
@@ -55,7 +55,7 @@ class CreateUserInteractorTest {
     assertThat(userSaved.getCpf().getCpfNumber()).isEqualTo(user.getCpf().getCpfNumber());
     verify(userEmailAlreadyRegisteredValidator).validate(user.getEmail().address());
     verify(userCpfAlreadyRegisteredValidator).validate(user.getCpf().getCpfNumber());
-    verify(passwordEncoder).encode(user.getPassword().getPasswordValue());
+    verify(passwordEncoder).encode(user.getPassword().passwordValue());
   }
 
   @Test

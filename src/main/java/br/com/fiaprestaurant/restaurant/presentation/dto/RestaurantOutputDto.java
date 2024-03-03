@@ -40,7 +40,7 @@ public record RestaurantOutputDto(
     return new RestaurantOutputDto(restaurant.getId() != null ? restaurant.getId().toString() : "",
         restaurant.getName(),
         restaurant.getCnpj().getCnpjValue(),
-        restaurant.getTypeOfCuisine().getTypeOfCuisineDescription(),
+        restaurant.getTypeOfCuisine().typeOfCuisineDescription(),
         restaurant.getAddress().getCoordinates().getLatitude(),
         restaurant.getAddress().getCoordinates().getLongitude(),
         restaurant.getAddress().getStreet(),

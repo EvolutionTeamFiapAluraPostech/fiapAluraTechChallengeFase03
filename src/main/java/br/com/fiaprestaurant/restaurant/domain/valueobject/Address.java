@@ -33,11 +33,11 @@ public class Address {
     validateNullOrEmptyState(state);
     validateLengthState(state);
     this.coordinates = new Coordinates(latitude, longitude);
-    this.street = street;
-    this.number = number;
-    this.neighborhood = neighborhood;
-    this.city = city;
-    this.state = state;
+    this.street = street.trim();
+    this.number = number.trim();
+    this.neighborhood = neighborhood.trim();
+    this.city = city.trim();
+    this.state = state.trim();
     this.postalCode = postalCode;
   }
 
@@ -49,7 +49,7 @@ public class Address {
   }
 
   private void validateNullOrEmptyNumber(String number) {
-    if (number == null || number.isEmpty()) {
+    if (number == null || number.isBlank()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), NUMBER_FIELD,
           AddressMessages.ENTER_THE_NUMBER));
     }
@@ -63,7 +63,7 @@ public class Address {
   }
 
   private void validateNullOrEmptyState(String state) {
-    if (state == null || state.isEmpty()) {
+    if (state == null || state.isBlank()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STATE_FIELD,
           AddressMessages.ENTER_THE_STATE));
     }
@@ -77,7 +77,7 @@ public class Address {
   }
 
   private void validateNullOrEmptyCity(String city) {
-    if (city == null || city.isEmpty()) {
+    if (city == null || city.isBlank()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), CITY_FIELD,
           AddressMessages.ENTER_THE_CITY));
     }
@@ -92,7 +92,7 @@ public class Address {
   }
 
   private void validateNullOrEmptyNeighborhood(String neighborhood) {
-    if (neighborhood == null || neighborhood.isEmpty()) {
+    if (neighborhood == null || neighborhood.isBlank()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
           NEIGHBORHOOD_FIELD, AddressMessages.ENTER_THE_NEIGHBORHOOD));
     }
@@ -106,7 +106,7 @@ public class Address {
   }
 
   private void validateNullOrEmptyStreet(String street) {
-    if (street == null || street.isEmpty()) {
+    if (street == null || street.isBlank()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(), STREET_FIELD,
           AddressMessages.ENTER_THE_STREET));
     }

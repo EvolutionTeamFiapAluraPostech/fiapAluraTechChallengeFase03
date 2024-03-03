@@ -36,6 +36,13 @@ public class ApiExceptionHandler {
     return ResponseEntity.badRequest().body(errors.stream().map(ErrorDto::new).toList());
   }
 
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<?> handlerMethodArgumentNotValidException(
+      IllegalArgumentException illegalArgumentException) {
+    var errors = illegalArgumentException.getMessage();
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+  }
+
   @ExceptionHandler(NoResultException.class)
   public ResponseEntity<?> handlerNoResultException(NoResultException exception) {
     var error = exception.getFieldError();

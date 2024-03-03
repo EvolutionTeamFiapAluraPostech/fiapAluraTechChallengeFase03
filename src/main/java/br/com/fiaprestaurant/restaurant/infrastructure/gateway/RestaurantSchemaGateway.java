@@ -44,7 +44,7 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
   private void updateAttributes(RestaurantSchema restaurantSchema, Restaurant restaurant) {
     restaurantSchema.setName(restaurant.getName());
     restaurantSchema.setCnpj(restaurant.getCnpj().getCnpjValue());
-    restaurantSchema.setTypeOfCuisine(restaurant.getTypeOfCuisine().getTypeOfCuisineDescription());
+    restaurantSchema.setTypeOfCuisine(restaurant.getTypeOfCuisine().typeOfCuisineDescription());
     restaurantSchema.setLatitude(restaurant.getAddress().getCoordinates().getLatitude());
     restaurantSchema.setLongitude(restaurant.getAddress().getCoordinates().getLongitude());
     restaurantSchema.setStreet(restaurant.getAddress().getStreet());
@@ -137,7 +137,7 @@ public class RestaurantSchemaGateway implements RestaurantGateway {
     return RestaurantSchema.builder()
         .name(restaurant.getName())
         .cnpj(restaurant.getCnpj().getCnpjValue())
-        .typeOfCuisine(restaurant.getTypeOfCuisine().getTypeOfCuisineDescription())
+        .typeOfCuisine(restaurant.getTypeOfCuisine().typeOfCuisineDescription())
         .latitude(restaurant.getAddress().getCoordinates().getLatitude())
         .longitude(restaurant.getAddress().getCoordinates().getLongitude())
         .street(restaurant.getAddress().getStreet())

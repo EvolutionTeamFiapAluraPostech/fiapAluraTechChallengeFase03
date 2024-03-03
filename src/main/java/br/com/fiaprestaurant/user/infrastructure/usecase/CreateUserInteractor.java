@@ -32,7 +32,7 @@ public class CreateUserInteractor implements CreateUserUseCase {
   public User execute(User user) {
     userEmailAlreadyRegisteredValidator.validate(user.getEmail().address());
     userCpfAlreadyRegisteredValidator.validate(user.getCpf().getCpfNumber());
-    var passwordEncoded = passwordEncoder.encode(user.getPassword().getPasswordValue());
+    var passwordEncoded = passwordEncoder.encode(user.getPassword().passwordValue());
     var userToSave = new User(user.getName(), user.getEmail().address(),
         user.getCpf().getCpfNumber(), passwordEncoded);
     return userService.save(userToSave);

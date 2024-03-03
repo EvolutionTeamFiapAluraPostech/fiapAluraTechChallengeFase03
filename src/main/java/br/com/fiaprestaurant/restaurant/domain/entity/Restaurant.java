@@ -28,7 +28,7 @@ public class Restaurant {
       String state, String postalCode, String openAt, String closeAt, int peopleCapacity) {
     validateNameIsNullOrEmpty(name);
     validateNameLength(name);
-    this.name = name;
+    this.name = name.trim();
     this.cnpj = new Cnpj(cnpj);
     this.typeOfCuisine = new TypeOfCuisine(typeOfCuisine);
     this.address = new Address(latitude, longitude, street, number, neighborhood, city, state,
@@ -80,7 +80,7 @@ public class Restaurant {
 
 
   private void validateNameIsNullOrEmpty(String name) {
-    if (name == null || name.isEmpty()) {
+    if (name == null || name.trim().isEmpty()) {
       throw new ValidatorException(new FieldError(this.getClass().getSimpleName(),
           RestaurantFields.RESTAURANT_NAME_FIELD, RestaurantMessages.ENTER_THE_RESTAURANT_NAME));
     }

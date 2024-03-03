@@ -8,6 +8,7 @@ import br.com.fiaprestaurant.restaurant.application.usecase.UpdateRestaurantUseC
 import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantFilter;
 import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantInputDto;
 import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantOutputDto;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +46,7 @@ public class RestaurantsController implements RestaurantsApi {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @Override
-  public RestaurantOutputDto postRestaurant(@RequestBody RestaurantInputDto restaurantInputDto) {
+  public RestaurantOutputDto postRestaurant(@RequestBody @Valid RestaurantInputDto restaurantInputDto) {
     var restaurant = restaurantInputDto.toRestaurantFrom();
     var restaurantSaved = createRestaurantUseCase.execute(restaurant);
     return RestaurantOutputDto.toRestaurantOutputDtoFrom(restaurantSaved);
@@ -66,7 +67,7 @@ public class RestaurantsController implements RestaurantsApi {
   @ResponseStatus(HttpStatus.ACCEPTED)
   @Override
   public RestaurantOutputDto putRestaurant(@PathVariable String id,
-      @RequestBody RestaurantInputDto restaurantInputDto) {
+      @RequestBody @Valid RestaurantInputDto restaurantInputDto) {
     var restaurant = restaurantInputDto.toRestaurantFrom();
     var restaurantSaved = updateRestaurantUseCase.execute(id, restaurant);
     return RestaurantOutputDto.toRestaurantOutputDtoFrom(restaurantSaved);

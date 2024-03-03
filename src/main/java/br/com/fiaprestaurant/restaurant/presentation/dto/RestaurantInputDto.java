@@ -3,6 +3,8 @@ package br.com.fiaprestaurant.restaurant.presentation.dto;
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Tag(name = "RestaurantInputDto", description = "DTO de entrada de dados do restaurante.")
 public record RestaurantInputDto(
@@ -32,6 +34,8 @@ public record RestaurantInputDto(
     String openAt,
     @Schema(example = "23:00", description = "Horário de fechamento.", minLength = 5, maxLength = 5)
     String closeAt,
+    @NotNull
+    @Positive
     @Schema(example = "200", description = "Capacidade total de pessoas", format = "Numérico")
     Integer peopleCapacity) {
 

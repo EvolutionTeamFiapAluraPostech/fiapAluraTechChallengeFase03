@@ -9,6 +9,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.ReviewSchema;
@@ -29,7 +30,6 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @IntegrationTest
 @DatabaseTest
@@ -56,6 +56,14 @@ class PostRestaurantReviewApiTest {
     return entityManager.merge(userSchema);
   }
 
+  private static final String REVIEW_JSON_TEMPLATE = """
+      {
+         "restaurantId": "%s",
+         "description": "%s",
+         "score": %s,
+         "userId": "%s"
+      }""";
+
   @Test
   void shouldCreateRestaurantReview() throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
@@ -70,7 +78,7 @@ class PostRestaurantReviewApiTest {
         .content(requestBody);
 
     var mvcResult = mockMvc.perform(request)
-        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(status().isCreated())
         .andExpect(content().contentType(APPLICATION_JSON))
         .andExpect(jsonPath("$.id", isUUID()))
         .andReturn();
@@ -82,8 +90,28 @@ class PostRestaurantReviewApiTest {
     assertThat(reviewFound.getRestaurantSchema().getId()).isEqualTo(restaurantSchema.getId());
   }
 
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {"a", "1"})
+  void shouldReturnBadRequestWhenCreateRestaurantReviewWithAnInvalidRestaurantId(
+      String restaurantIdParam) throws Exception {
+    var userSchema = createAndPersistUserSchema();
+    var requestBody = REVIEW_JSON_TEMPLATE.formatted(restaurantIdParam,
+        DEFAULT_RESTAURANT_REVIEW_DESCRIPTION, DEFAULT_RESTAURANT_REVIEW_SCORE, userSchema.getId());
+
+    var request = post(URL_RESTAURANTS_REVIEW,
+        UUID.randomUUID(), userSchema.getId().toString())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(APPLICATION_JSON));
+  }
+
   @Test
-  void shouldReturnNotFoundWhenCreateRestaurantReviewWithInvalidRestaurant() throws Exception {
+  void shouldReturnNotFoundWhenCreateRestaurantReviewWithAnNonExistentRestaurant()
+      throws Exception {
     var restaurantId = UUID.randomUUID();
     var userSchema = createAndPersistUserSchema();
     var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantId,
@@ -96,12 +124,12 @@ class PostRestaurantReviewApiTest {
         .content(requestBody);
 
     mockMvc.perform(request)
-        .andExpect(MockMvcResultMatchers.status().isNotFound())
+        .andExpect(status().isNotFound())
         .andExpect(content().contentType(APPLICATION_JSON));
   }
 
   @Test
-  void shouldReturnNotFoundWhenCreateRestaurantReviewWithInvalidUser() throws Exception {
+  void shouldReturnNotFoundWhenCreateRestaurantReviewWithAnNonExistentUser() throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
     var userId = UUID.randomUUID();
     var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantSchema.getId(),
@@ -114,13 +142,14 @@ class PostRestaurantReviewApiTest {
         .content(requestBody);
 
     mockMvc.perform(request)
-        .andExpect(MockMvcResultMatchers.status().isNotFound())
+        .andExpect(status().isNotFound())
         .andExpect(content().contentType(APPLICATION_JSON));
   }
 
   @ParameterizedTest
   @NullAndEmptySource
-  void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidDescription(String description) throws Exception {
+  void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidDescription(String description)
+      throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
     var userSchema = createAndPersistUserSchema();
     var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantSchema.getId(),
@@ -134,11 +163,12 @@ class PostRestaurantReviewApiTest {
         .content(requestBody);
 
     mockMvc.perform(request)
-        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
-  void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidDescriptionLength() throws Exception {
+  void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidDescriptionLength()
+      throws Exception {
     String description = StringUtil.generateStringLength(501);
     var restaurantSchema = createAndPersistRestaurantSchema();
     var userSchema = createAndPersistUserSchema();
@@ -153,13 +183,14 @@ class PostRestaurantReviewApiTest {
         .content(requestBody);
 
     mockMvc.perform(request)
-        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(ints = {-1, 11})
-  void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidScore(Integer score) throws Exception {
+  void shouldReturnBadRequestWhenCreateRestaurantReviewWithInvalidScore(Integer score)
+      throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
     var userSchema = createAndPersistUserSchema();
     var restaurantReviewInputDto = createRestaurantReviewInputDto(restaurantSchema.getId(),
@@ -173,6 +204,6 @@ class PostRestaurantReviewApiTest {
         .content(requestBody);
 
     mockMvc.perform(request)
-        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        .andExpect(status().isBadRequest());
   }
 }

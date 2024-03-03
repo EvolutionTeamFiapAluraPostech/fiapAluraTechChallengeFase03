@@ -13,7 +13,7 @@ public class Cnpj {
   public Cnpj(String cnpjValue) {
     validateCnpjIsNullOrEmpty(cnpjValue);
     isValidCNPJ(cnpjValue);
-    this.cnpjValue = cnpjValue;
+    this.cnpjValue = cnpjValue.trim();
   }
 
   public String getCnpjValue() {
@@ -21,7 +21,7 @@ public class Cnpj {
   }
 
   private void validateCnpjIsNullOrEmpty(String cnpjValue) {
-    if ((cnpjValue == null) || (cnpjValue.isEmpty())) {
+    if ((cnpjValue == null) || (cnpjValue.trim().isEmpty())) {
       throwInvalidCnpjException(cnpjValue);
     }
   }

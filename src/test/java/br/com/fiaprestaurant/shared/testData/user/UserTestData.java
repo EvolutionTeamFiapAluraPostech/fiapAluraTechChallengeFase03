@@ -44,7 +44,7 @@ public final class UserTestData {
         .name(user.getName())
         .email(user.getEmail().address())
         .cpf(user.getCpf().getCpfNumber())
-        .password(user.getPassword().getPasswordValue())
+        .password(user.getPassword().passwordValue())
         .build();
   }
 
@@ -53,7 +53,7 @@ public final class UserTestData {
         .name(user.getName())
         .email(user.getEmail().address())
         .cpf(user.getCpf().getCpfNumber())
-        .password(user.getPassword().getPasswordValue())
+        .password(user.getPassword().passwordValue())
         .build();
   }
 

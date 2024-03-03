@@ -8,27 +8,21 @@ import static br.com.fiaprestaurant.user.domain.messages.UserMessages.USER_PASSW
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import org.springframework.validation.FieldError;
 
-public class Password {
+public record Password(String passwordValue) {
 
   private static final String PASSWORD_FIELD_NAME = "password";
   public static final String NUMBER_IN_PASSWORD_REGEX = "(.*\\d.*)";
   public static final String LOWER_CHAR_IN_PASSWORD_REGEX = "(.*[a-z].*)";
   public static final String UPPER_CHAR_IN_PASSWORD_REGEX = "(.*[A-Z].*)";
   public static final String SPECIAL_CHAR_IN_PASSWORD_REGEX = "(.*[@#$%^&+=].*)";
-  private final String passwordValue;
 
-  public Password(String passwordValue) {
-    if (passwordValue != null && !passwordValue.isEmpty()) {
+  public Password {
+    if (passwordValue != null && !passwordValue.trim().isEmpty()) {
       this.validateNumberInPassword(passwordValue);
       this.validateLowerCharacterInPassword(passwordValue);
       this.validateUpperCharacterInPassword(passwordValue);
       this.validateSpecialCharacterInPassword(passwordValue);
     }
-    this.passwordValue = passwordValue;
-  }
-
-  public String getPasswordValue() {
-    return passwordValue;
   }
 
   private void validateNumberInPassword(String password) {

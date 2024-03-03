@@ -176,123 +176,2898 @@
 			"name": "02 - Restaurant",
 			"item": [
 				{
-					"name": "01 - Create new restaurant",
-					"event": [
+					"name": "Create",
+					"item": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"var current_timestamp = new Date();",
-									"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "localhost:8080/restaurants"
-					},
-					"response": []
-				},
-				{
-					"name": "02 - Find restaurant by name type of cuisine coordinates",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?latitude=-23.5691&longitude=-46.65239",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurants",
-								"name-coordinates-typeofcuisine"
-							],
-							"query": [
+							"name": "01 - Return created status when create new restaurant",
+							"event": [
 								{
-									"key": "latitude",
-									"value": "-23.5691"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var current_timestamp = new Date();",
+											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "longitude",
-									"value": "-46.65239"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "03 - Update restaurant",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"var current_timestamp = new Date();",
-									"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": \"04638576000130\",\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
 						},
-						"url": "localhost:8080/restaurants/5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f"
-					},
-					"response": []
+						{
+							"name": "02 - Return conflict status when the restaurant's CNPJ already exists in another restaurant",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var current_timestamp = new Date();",
+											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return bad request status when the restaurant's name is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantName = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantName\", restaurantName);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant {{restaurantName}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return bad request status when the restaurant's name is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "05 - Return bad request status when the restaurant's name is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "06 - Return bad request status when the restaurant's CNPJ is invalid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"11111111111111\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "07 - Return bad request status when the restaurant's CNPJ is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "08 - Return bad request status when the restaurant's CNPJ is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "09 - Return bad request status when the restaurant's Open At is invalid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:oo\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "10 - Return bad request status when the restaurant's Open At is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "11 - Return bad request status when the restaurant's Open At is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "12 - Return bad request status when the restaurant's Close At is invalid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:oo\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "13 - Return bad request status when the restaurant's Close At is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "14 - Return bad request status when the restaurant's Close At is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "15 - Return bad request status when the restaurant's people capacity is negative",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": -200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "16 - Return bad request status when the restaurant's people capacity is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "17 - Return bad request status when the restaurant's type of cuisine is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": \"200\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "18 - Return bad request status when the restaurant's type of cuisine is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"   \",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": \"200\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "19 - Return bad request status when the restaurant's type of cuisine is bigger than 50 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantTypeOfCuisine = Array(51).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantTypeOfCuisine\", restaurantTypeOfCuisine);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira {{restaurantTypeOfCuisine}}\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "20 - Return bad request status when the restaurant's street is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "21 - Return bad request status when the restaurant's street is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \" \",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "22 - Return bad request status when the restaurant's street is bigger than 255 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantStreet = Array(251).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantStreet\", restaurantStreet);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás {{restaurantStreet}}\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "23 - Return bad request status when the restaurant's number is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás {{restaurantStreet}}\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "24 - Return bad request status when the restaurant's number is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás {{restaurantStreet}}\",\n    \"number\": \"\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "25 - Return bad request status when the restaurant's number is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantNumber = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantNumber\", restaurantNumber);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000 {{restaurantNumber}}\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "26 - Return bad request status when the restaurant's neighborhood is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "27 - Return bad request status when the restaurant's neighborhood is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "28 - Return bad request status when the restaurant's neighborhood is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantNeighborhood = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantNeighborhood\", restaurantNeighborhood);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro  {{restaurantNeighborhood}}\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "29 - Return bad request status when the restaurant's city is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "30 - Return bad request status when the restaurant's city is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "31 - Return bad request status when the restaurant's city is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantCity = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantCity\", restaurantCity);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia {{restaurantCity}}\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "32 - Return bad request status when the restaurant's latitude is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "33 - Return bad request status when the restaurant's latitude is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": \"\",\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "34 - Return bad request status when the restaurant's latitude is lower than -90 or bigger than 90",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -91,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "35 - Return bad request status when the restaurant's longitude is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -33,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "36 - Return bad request status when the restaurant's longitude is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -33,\n    \"longitude\": \"\",\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						},
+						{
+							"name": "37 - Return bad request status when the restaurant's longitude is lower than -90 or bigger than 90",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -33,\n    \"longitude\": -91,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants"
+							},
+							"response": []
+						}
+					]
 				},
 				{
-					"name": "04 - Get restaurant by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "localhost:8080/restaurants/f7cb8b14-b7f1-4250-827f-6b14fee2b105"
-					},
-					"response": []
+					"name": "Get restaurant by name/coordinates/type of cuisine",
+					"item": [
+						{
+							"name": "01 - Return ok status when find restaurant by name",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?name={{restaurantName}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"name-coordinates-typeofcuisine"
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "-23.5691",
+											"disabled": true
+										},
+										{
+											"key": "longitude",
+											"value": "-46.65239",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "{{restaurantName}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return not found status when find restaurant by name and it does not exist",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?name=xpto",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"name-coordinates-typeofcuisine"
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "-23.5691",
+											"disabled": true
+										},
+										{
+											"key": "longitude",
+											"value": "-46.65239",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "xpto"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return ok status when find restaurant by type of cuisine",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?typeOfCuisine={{typeOfCuisine}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"name-coordinates-typeofcuisine"
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "-23.5691",
+											"disabled": true
+										},
+										{
+											"key": "longitude",
+											"value": "-46.65239",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Restaurant",
+											"disabled": true
+										},
+										{
+											"key": "typeOfCuisine",
+											"value": "{{typeOfCuisine}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return not found status when find restaurant by type of cuisine and it does not exist",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?typeOfCuisine=Italiana",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"name-coordinates-typeofcuisine"
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "-23.5691",
+											"disabled": true
+										},
+										{
+											"key": "longitude",
+											"value": "-46.65239",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Português",
+											"disabled": true
+										},
+										{
+											"key": "typeOfCuisine",
+											"value": "Italiana"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "05 - Return ok status when find restaurant by coordinates",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?latitude={{latitude}}&longitude={{longitude}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"name-coordinates-typeofcuisine"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Restaurant",
+											"disabled": true
+										},
+										{
+											"key": "typeOfCuisine",
+											"value": "Brasileira",
+											"disabled": true
+										},
+										{
+											"key": "latitude",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "longitude",
+											"value": "{{longitude}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "06 - Return not found status when find restaurant by coordinates and it does not exist",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?latitude=-89&longitude=-89",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"name-coordinates-typeofcuisine"
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "-89"
+										},
+										{
+											"key": "longitude",
+											"value": "-89"
+										},
+										{
+											"key": "name",
+											"value": "Português",
+											"disabled": true
+										},
+										{
+											"key": "typeOfCuisine",
+											"value": "Italiana",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "07 - Return bad request status when find restaurant without params",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"name-coordinates-typeofcuisine"
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "-89",
+											"disabled": true
+										},
+										{
+											"key": "longitude",
+											"value": "-89",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Português",
+											"disabled": true
+										},
+										{
+											"key": "typeOfCuisine",
+											"value": "Italiana",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
-					"name": "05 - Delete restaurant by id",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": "localhost:8080/restaurants/f7cb8b14-b7f1-4250-827f-6b14fee2b105"
-					},
-					"response": []
+					"name": "Update",
+					"item": [
+						{
+							"name": "01 - Return accepted status when update restaurant",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var current_timestamp = new Date();",
+											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": \"04638576000130\",\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request status when update an existent restaurant with invalid uuid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var current_timestamp = new Date();",
+											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": \"66554196000174\",\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/9a"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return not found status when update an non-existent restaurant",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var current_timestamp = new Date();",
+											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": \"66554196000174\",\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/99654d36-5fc9-41bf-a6e4-9db3f0beacea"
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return conflict status when update an existent restaurant with cnpj from other existing restaurant",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var current_timestamp = new Date();",
+											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": \"04638576000130\",\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/99654d36-5fc9-41bf-a6e4-9db3f0beacea"
+							},
+							"response": []
+						},
+						{
+							"name": "05 - Return bad request status when the restaurant's name is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantName = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantName\", restaurantName);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant {{restaurantName}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "06 - Return bad request status when the restaurant's name is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "07 - Return bad request status when the restaurant's name is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "08 - Return bad request status when the restaurant's CNPJ is invalid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"11111111111111\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "09 - Return bad request status when the restaurant's CNPJ is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "10 - Return bad request status when the restaurant's CNPJ is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "11 - Return bad request status when the restaurant's Open At is invalid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:oo\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "12 - Return bad request status when the restaurant's Open At is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "13 - Return bad request status when the restaurant's Open At is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "14 - Return bad request status when the restaurant's Close At is invalid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:oo\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "15 - Return bad request status when the restaurant's Close At is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "16 - Return bad request status when the restaurant's Close At is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "17 - Return bad request status when the restaurant's people capacity is negative",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": -200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "18 - Return bad request status when the restaurant's people capacity is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "19 - Return bad request status when the restaurant's type of cuisine is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": \"200\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "20 - Return bad request status when the restaurant's type of cuisine is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"   \",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": \"200\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "21 - Return bad request status when the restaurant's type of cuisine is bigger than 50 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantTypeOfCuisine = Array(51).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantTypeOfCuisine\", restaurantTypeOfCuisine);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira {{restaurantTypeOfCuisine}}\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "22 - Return bad request status when the restaurant's street is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "23 - Return bad request status when the restaurant's street is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \" \",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "24 - Return bad request status when the restaurant's street is bigger than 255 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantStreet = Array(251).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantStreet\", restaurantStreet);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás {{restaurantStreet}}\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "25 - Return bad request status when the restaurant's number is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás {{restaurantStreet}}\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "26 - Return bad request status when the restaurant's number is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás {{restaurantStreet}}\",\n    \"number\": \"\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "27 - Return bad request status when the restaurant's number is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantNumber = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantNumber\", restaurantNumber);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000 {{restaurantNumber}}\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "28 - Return bad request status when the restaurant's neighborhood is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "29 - Return bad request status when the restaurant's neighborhood is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "30 - Return bad request status when the restaurant's neighborhood is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantNeighborhood = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantNeighborhood\", restaurantNeighborhood);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro  {{restaurantNeighborhood}}\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "31 - Return bad request status when the restaurant's city is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "32 - Return bad request status when the restaurant's city is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "33 - Return bad request status when the restaurant's city is bigger than 100 characters",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var restaurantCity = Array(101).join('x');",
+											"postman.setEnvironmentVariable(\"restaurantCity\", restaurantCity);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia {{restaurantCity}}\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "34 - Return bad request status when the restaurant's latitude is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "35 - Return bad request status when the restaurant's latitude is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": \"\",\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "36 - Return bad request status when the restaurant's latitude is lower than -90 or bigger than 90",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -91,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "37 - Return bad request status when the restaurant's longitude is null",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -33,\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "38 - Return bad request status when the restaurant's longitude is empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -33,\n    \"longitude\": \"\",\n    \"street\": \"Av Goiás\",\n    \"number\": \"100\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "39 - Return bad request status when the restaurant's longitude is lower than -90 or bigger than 90",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -33,\n    \"longitude\": -91,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get restaurant by ID",
+					"item": [
+						{
+							"name": "01 - Return ok status when get restaurant by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request when get restaurant by invalid id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:8080/restaurants/a1"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return not found when get restaurant by id and it does not exist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:8080/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "01 - Return no content status when delete restaurant by id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request when get restaurant by invalid id Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "localhost:8080/restaurants/a1"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return not found when get restaurant by id and it does not exist Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "localhost:8080/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "03 - Restaurant Review",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "01 - Return created status when create new restaurant review",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request status when create new restaurant review with an invalid restaurant id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"1\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return bad request status when create new restaurant  review with null restaurant id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return bad request status when create new restaurant review with empty restaurant id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \" \",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "05 - Return not found status when create new restaurant review with an non-existent restaurant id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"4e2780fe-27ed-45f0-b04c-634cff9a1178\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "06 - Return bad request status when create new restaurant review with a restaurant id param different from restaurant id request body attribute",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"4e2780fe-27ed-45f0-b04c-634cff9a1178\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "07 - Return bad request status when create new restaurant review with an invalid user id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "08 - Return bad request status when create new restaurant review with null user id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "09 - Return bad request status when create new restaurant review with empty user id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \" \"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						},
+						{
+							"name": "10 - Return not found status when create new restaurant review with an non-existent user id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"4e2780fe-27ed-45f0-b04c-634cff9a1178\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/4e2780fe-27ed-45f0-b04c-634cff9a1178"
+							},
+							"response": []
+						},
+						{
+							"name": "11 - Return bad request status when create new restaurant review with a user id param different from user id request body attribute",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"4e2780fe-27ed-45f0-b04c-634cff9a1178\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get restaurant reviews",
+					"item": [
+						{
+							"name": "01 - Return ok status when find restaurant reviews",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request status when find restaurant by invalid restaurant ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:8080/restaurants/a1b2/reviews"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return not found status when find restaurant by not found restaurant ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:8080/restaurants/f7cb8b14-b7f1-4250-827f-6b14fee2b105/reviews"
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -321,6 +3096,40 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "restaurantId",
+			"value": "5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f"
+		},
+		{
+			"key": "userId",
+			"value": "3a406452-e16a-4eb1-8245-7416a79721fe"
+		},
+		{
+			"key": "restaurantName",
+			"value": "Restaurant",
+			"type": "string"
+		},
+		{
+			"key": "typeOfCuisine",
+			"value": "Brasileira"
+		},
+		{
+			"key": "latitude",
+			"value": "-23.5691",
+			"type": "string"
+		},
+		{
+			"key": "longitude",
+			"value": "-46.65239",
+			"type": "string"
 		}
 	]
 }

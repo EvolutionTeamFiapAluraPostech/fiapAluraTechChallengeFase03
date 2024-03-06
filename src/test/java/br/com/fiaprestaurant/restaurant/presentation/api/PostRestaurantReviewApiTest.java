@@ -37,6 +37,13 @@ import org.springframework.test.web.servlet.MockMvc;
 class PostRestaurantReviewApiTest {
 
   private static final String URL_RESTAURANTS_REVIEWS = "/restaurants/{restaurant-id}/reviews/{user-id}";
+  private static final String REVIEW_JSON_TEMPLATE = """
+      {
+         "restaurantId": "%s",
+         "description": "%s",
+         "score": %s,
+         "userId": "%s"
+      }""";
   private final MockMvc mockMvc;
   private final EntityManager entityManager;
 
@@ -56,14 +63,6 @@ class PostRestaurantReviewApiTest {
     var userSchema = createNewUserSchema(user);
     return entityManager.merge(userSchema);
   }
-
-  private static final String REVIEW_JSON_TEMPLATE = """
-      {
-         "restaurantId": "%s",
-         "description": "%s",
-         "score": %s,
-         "userId": "%s"
-      }""";
 
   @Test
   void shouldCreateRestaurantReview() throws Exception {

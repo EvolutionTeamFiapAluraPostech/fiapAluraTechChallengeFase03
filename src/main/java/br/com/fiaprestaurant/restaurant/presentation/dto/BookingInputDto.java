@@ -1,22 +1,32 @@
 package br.com.fiaprestaurant.restaurant.presentation.dto;
 
+import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.UUID;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Tag(name = "RestaurantBookingInputDto", description = "DTO de entrada de dados da reserva de restaurante.")
-public record RestaurantBookingInputDto(
+public record BookingInputDto(
     @NotBlank
-    @UUID
+    @org.hibernate.validator.constraints.UUID
     @Schema(example = "bae0fc3d-be9d-472a-bf03-7a7ee2411ce1", description = "Identificador único do restaurante.")
     String restaurantId,
     @NotBlank
-    @UUID
+    @org.hibernate.validator.constraints.UUID
     @Schema(example = "bae0fc3d-be9d-472a-bf03-7a7ee2411ce1", description = "Identificador único do usuário.")
     String userId,
+    @Schema(example = "Mesa próxima a uma janela", description = "Uma observação referente a reserva.")
+    String description,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(example = "2024-01-3-26 20:00:00", description = "Data e hora da reserva.")
     String bookingDate) {
+
+  public Booking toBookingfrom() {
+    return new Booking(UUID.fromString(restaurantId), UUID.fromString(userId), description,
+        LocalDateTime.parse(bookingDate));
+  }
 
 }

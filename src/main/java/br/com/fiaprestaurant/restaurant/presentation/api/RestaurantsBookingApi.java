@@ -1,7 +1,7 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
-import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantBookingInputDto;
-import br.com.fiaprestaurant.restaurant.presentation.dto.RestaurantBookingOutputDto;
+import br.com.fiaprestaurant.restaurant.presentation.dto.BookingInputDto;
+import br.com.fiaprestaurant.restaurant.presentation.dto.BookingOutputDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,11 +19,11 @@ public interface RestaurantsBookingApi {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "successful operation",
           content = {
-              @Content(mediaType = "application/json", schema = @Schema(implementation = RestaurantBookingOutputDto.class))}),
+              @Content(mediaType = "application/json", schema = @Schema(implementation = BookingOutputDto.class))}),
       @ApiResponse(responseCode = "400", description = "bad request para validação do ID do restaurante, ID do usuário solicitante, data e hora da reserva.",
           content = {@Content(schema = @Schema(hidden = true))})})
-  RestaurantBookingOutputDto postRestaurantBooking(
+  BookingOutputDto postRestaurantBooking(
       @Parameter(description = "UUID do restaurante válido") String restaurantId,
-      RestaurantBookingInputDto restaurantBookingInputDto);
+      BookingInputDto bookingInputDto);
 
 }

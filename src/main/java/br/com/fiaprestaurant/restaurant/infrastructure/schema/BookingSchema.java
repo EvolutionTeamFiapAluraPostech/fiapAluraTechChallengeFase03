@@ -1,5 +1,6 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.schema;
 
+import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import br.com.fiaprestaurant.shared.domain.entity.BaseEntity;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import jakarta.persistence.Entity;
@@ -28,7 +29,12 @@ public class BookingSchema extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private UserSchema userSchema;
+  private String description;
   private LocalDateTime bookingDate;
+  private String bookingState;
 
-
+  public Booking toBooking() {
+    return new Booking(this.getId(), this.restaurantSchema.getId(), this.userSchema.getId(),
+        this.description, this.bookingDate, this.bookingState);
+  }
 }

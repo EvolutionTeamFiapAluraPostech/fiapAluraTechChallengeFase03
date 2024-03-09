@@ -1,5 +1,6 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantBookingTestData.RESTAURANT_BOOKING_DESCRIPTION;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantBookingTestData.createRestaurantBookingInputDto;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createNewRestaurantSchema;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createNewUser;
@@ -22,7 +23,6 @@ import com.jayway.jsonpath.JsonPath;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,13 +53,26 @@ class PostRestaurantBookingApiTest {
     return entityManager.merge(userSchema);
   }
 
+  private void createRestaurantBookingCollection(UserSchema userSchema,
+      RestaurantSchema restaurantSchema) {
+    var bookingDate = LocalDateTime.now().plusDays(1);
+    for (int i = 1; i <= 51; i++) {
+      bookingDate = bookingDate.plusSeconds(1);
+      var bookingSchema = BookingSchema.builder().restaurantSchema(restaurantSchema)
+          .userSchema(userSchema).description("Mesa longe da porta").bookingDate(bookingDate)
+          .bookingState("RESERVED").build();
+      entityManager.merge(bookingSchema);
+    }
+  }
+
   @Test
   void shouldCreateRestaurantBooking() throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingDate = LocalDateTime.now().toString();
+    var bookingDate = LocalDateTime.now().plusDays(1).toString();
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
-        restaurantSchema.getId().toString(), userSchema.getId().toString(), bookingDate);
+        restaurantSchema.getId().toString(), userSchema.getId().toString(),
+        RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
     var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
 
     var request = post(URL_RESTAURANTS_BOOKING, restaurantSchema.getId())
@@ -86,33 +99,110 @@ class PostRestaurantBookingApiTest {
   }
 
   @Test
-  void shouldReturnBadRequestWhenCreateRestaurantBookingWithAnInvalidRestaurantId() {
-    Assertions.fail("");
+  void shouldReturnBadRequestWhenCreateRestaurantBookingWithAnInvalidRestaurantId()
+      throws Exception {
+    var userSchema = createAndPersistUserSchema();
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var bookingDate = LocalDateTime.now().toString();
+    var invalidRestaurantId = "code1";
+    var restaurantBookingInputDto = createRestaurantBookingInputDto(
+        invalidRestaurantId, userSchema.getId().toString(), RESTAURANT_BOOKING_DESCRIPTION,
+        bookingDate);
+    var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
+
+    var request = post(URL_RESTAURANTS_BOOKING, restaurantSchema.getId())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest());
   }
 
   @Test
-  void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentRestaurant() {
-    Assertions.fail("");
+  void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentRestaurant()
+      throws Exception {
+    var userSchema = createAndPersistUserSchema();
+    var bookingDate = LocalDateTime.now().toString();
+    var invalidRestaurantId = UUID.randomUUID();
+    var restaurantBookingInputDto = createRestaurantBookingInputDto(
+        invalidRestaurantId.toString(), userSchema.getId().toString(),
+        RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
+    var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
+
+    var request = post(URL_RESTAURANTS_BOOKING, invalidRestaurantId)
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+    mockMvc.perform(request)
+        .andExpect(status().isNotFound());
   }
 
   @Test
-  void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentUser() {
-    Assertions.fail("");
+  void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentUser() throws Exception {
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var bookingDate = LocalDateTime.now().toString();
+    var invalidUserId = UUID.randomUUID();
+    var restaurantBookingInputDto = createRestaurantBookingInputDto(
+        restaurantSchema.getId().toString(), invalidUserId.toString(),
+        RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
+    var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
+
+    var request = post(URL_RESTAURANTS_BOOKING, restaurantSchema.getId())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+    mockMvc.perform(request)
+        .andExpect(status().isNotFound());
   }
 
   @Test
-  void shouldReturnBadRequestWhenCreateRestaurantBookingWithInvalidDate() {
-    Assertions.fail("");
+  void shouldReturnBadRequestWhenCreateRestaurantBookingWithInvalidDate() throws Exception {
+    var userSchema = createAndPersistUserSchema();
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var bookingDate = LocalDateTime.now().minusDays(1).toString();
+    var restaurantBookingInputDto = createRestaurantBookingInputDto(
+        restaurantSchema.getId().toString(), userSchema.getId().toString(),
+        RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
+    var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
+
+    var request = post(URL_RESTAURANTS_BOOKING, restaurantSchema.getId())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest());
   }
 
   @Test
-  void shouldReturnBadRequestWhenCreateRestaurantBookingWithInvalidDateTime() {
-    Assertions.fail("");
+  void shouldReturnBadRequestWhenCreateRestaurantBookingWithInvalidDateTime() throws Exception {
+    var userSchema = createAndPersistUserSchema();
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var bookingDate = LocalDateTime.now().minusHours(1).toString();
+    var restaurantBookingInputDto = createRestaurantBookingInputDto(
+        restaurantSchema.getId().toString(), userSchema.getId().toString(),
+        RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
+    var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
+
+    var request = post(URL_RESTAURANTS_BOOKING, restaurantSchema.getId())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest());
   }
 
   @Test
-  void shouldReturnBadRequestWhenCreateRestaurantBookingAtOverBookingCapacity() {
-    Assertions.fail("");
+  void shouldReturnBadRequestWhenCreateRestaurantBookingAtOverBookingCapacity() throws Exception {
+    var userSchema = createAndPersistUserSchema();
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    createRestaurantBookingCollection(userSchema, restaurantSchema);
+
+    var bookingDate = LocalDateTime.now().plusDays(1).toString();
+    var restaurantBookingInputDto = createRestaurantBookingInputDto(
+        restaurantSchema.getId().toString(), userSchema.getId().toString(),
+        RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
+    var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
+
+    var request = post(URL_RESTAURANTS_BOOKING, restaurantSchema.getId())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest());
   }
 
 }

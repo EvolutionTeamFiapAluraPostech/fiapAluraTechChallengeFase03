@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public final class RestaurantTestData {
 
+  public static final UUID DEFAULT_RESTAURANT_ID = UUID.randomUUID();
+  public static final String DEFAULT_RESTAURANT_ID_STRING = DEFAULT_RESTAURANT_ID.toString();
   public static final String DEFAULT_RESTAURANT_NAME = "Comida Boa";
   public static final String DEFAULT_RESTAURANT_VALID_CNPJ = "64647121000102";
   public static final String DEFAULT_RESTAURANT_TYPE_OF_CUISINE = "Francesa";
@@ -21,7 +23,7 @@ public final class RestaurantTestData {
   public static final String DEFAULT_RESTAURANT_POSTAL_CODE = "74000000";
   public static final String DEFAULT_RESTAURANT_HOUR_OPEN_AT = "11:00";
   public static final String DEFAULT_RESTAURANT_HOUR_CLOSE_AT = "15:00";
-  public static final int DEFAULT_RESTAURANT_PEOPLE_CAPACITY = 200;
+  public static final int DEFAULT_RESTAURANT_PEOPLE_CAPACITY = 8;
   public static final String ALTERNATIVE_RESTAURANT_NAME = "Sabor Argentino";
   public static final String ALTERNATIVE_RESTAURANT_VALID_CNPJ = "39946063000170";
   public static final String ALTERNATIVE_RESTAURANT_TYPE_OF_CUISINE = "Argentina";

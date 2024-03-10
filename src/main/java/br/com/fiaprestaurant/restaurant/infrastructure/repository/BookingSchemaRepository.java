@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookingSchemaRepository extends JpaRepository<BookingSchema, UUID> {
 
-  List<BookingSchema> findBookingSchemaByRestaurantSchemaIdAndBookingDateBetween(UUID restaurantId,
-      LocalDateTime startBookingDate, LocalDateTime endBookingDate);
+  List<BookingSchema> findBookingSchemaByRestaurantSchemaIdAndBookingStateAndBookingDateBetween(
+      UUID restaurantId, String bookingState, LocalDateTime startBookingDate,
+      LocalDateTime endBookingDate);
 
 }

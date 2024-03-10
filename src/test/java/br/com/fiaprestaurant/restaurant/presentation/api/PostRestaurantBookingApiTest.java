@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingStateEnum;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
@@ -60,7 +61,7 @@ class PostRestaurantBookingApiTest {
       bookingDate = bookingDate.plusSeconds(1);
       var bookingSchema = BookingSchema.builder().restaurantSchema(restaurantSchema)
           .userSchema(userSchema).description("Mesa longe da porta").bookingDate(bookingDate)
-          .bookingState("RESERVED").build();
+          .bookingState(BookingStateEnum.RESERVED.getLabel()).build();
       entityManager.merge(bookingSchema);
     }
   }
@@ -121,7 +122,7 @@ class PostRestaurantBookingApiTest {
   void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentRestaurant()
       throws Exception {
     var userSchema = createAndPersistUserSchema();
-    var bookingDate = LocalDateTime.now().toString();
+    var bookingDate = LocalDateTime.now().plusDays(1).toString();
     var invalidRestaurantId = UUID.randomUUID();
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         invalidRestaurantId.toString(), userSchema.getId().toString(),
@@ -138,7 +139,7 @@ class PostRestaurantBookingApiTest {
   @Test
   void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentUser() throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingDate = LocalDateTime.now().toString();
+    var bookingDate = LocalDateTime.now().plusDays(1).toString();
     var invalidUserId = UUID.randomUUID();
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         restaurantSchema.getId().toString(), invalidUserId.toString(),

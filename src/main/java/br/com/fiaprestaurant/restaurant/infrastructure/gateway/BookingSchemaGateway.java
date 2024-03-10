@@ -3,6 +3,7 @@ package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 import br.com.fiaprestaurant.restaurant.application.gateways.BookingGateway;
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
+import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingStateEnum;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.BookingSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
@@ -31,10 +32,10 @@ public class BookingSchemaGateway implements BookingGateway {
   @Override
   public boolean restaurantBookingIsOverLimit(Restaurant restaurant, LocalDateTime startBookingDate,
       LocalDateTime endBookingDate) {
-    var bookingSchemas = bookingSchemaRepository.findBookingSchemaByRestaurantSchemaIdAndBookingDateBetween(
-        restaurant.getId(), startBookingDate, endBookingDate);
+    var bookingSchemas = bookingSchemaRepository.findBookingSchemaByRestaurantSchemaIdAndBookingStateAndBookingDateBetween(
+        restaurant.getId(), BookingStateEnum.RESERVED.getLabel(), startBookingDate, endBookingDate);
     var restaurantBookingPeopleCount = getRestaurantBookingPeopleCount(bookingSchemas);
-    return restaurantBookingPeopleCount > restaurant.getPeopleCapacity().peopleCapacityValue();
+    return restaurantBookingPeopleCount >= restaurant.getPeopleCapacity().peopleCapacityValue();
   }
 
   private long getRestaurantBookingPeopleCount(List<BookingSchema> bookingSchemas) {

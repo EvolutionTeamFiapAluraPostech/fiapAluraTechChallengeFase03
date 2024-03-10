@@ -19,6 +19,8 @@ public final class RestaurantMessages {
   public static final String ENTER_RESTAURANT_VALID_NUMBER_FOR_OPENING_HOUR = "Enter a valid number for opening hour.";
   public static final String ENTER_RESTAURANT_VALID_NUMBER_FOR_CLOSING_HOUR = "Enter a valid number for closing hour.";
   public static final String ENTER_RESTAURANT_REVIEW_DESCRIPTION = "Enter a review description.";
+  public static final String ENTER_RESTAURANT_BOOKING_DATE = "Enter the restaurant booking date.";
+  public static final String ENTER_RESTAURANT_BOOKING_STATE = "Enter the restaurant booking state.";
 
   private RestaurantMessages() {
   }

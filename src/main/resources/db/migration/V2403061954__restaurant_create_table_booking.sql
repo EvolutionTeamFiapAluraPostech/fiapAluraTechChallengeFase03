@@ -7,7 +7,7 @@ create table if not exists "restaurant_management"."booking"
     "created_by"    varchar(255)                null,
     "updated_at"    timestamp without time zone null,
     "updated_by"    varchar(255)                null,
-    "description"   varchar(500)                not null,
+    "description"   varchar(500)                null,
     "restaurant_id" uuid                        not null,
     "user_id"       uuid                        not null,
     "booking_date"  timestamp without time zone not null,

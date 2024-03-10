@@ -3070,6 +3070,177 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "04 - Restaurant booking",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "Over limit booking",
+							"item": [
+								{
+									"name": "07 - Return created status when create a new restaurant with 8 people capacity",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": \"84747644000138\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 8\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "localhost:8080/restaurants"
+									},
+									"response": []
+								},
+								{
+									"name": "07.1 - Return bad request status when create a new restaurant booking with over limit capacity",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"restaurantId\": \"1b62582f-745d-43f8-8f20-9c10d50f9d7f\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T18:00:00\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "localhost:8080/restaurants/1b62582f-745d-43f8-8f20-9c10d50f9d7f/booking"
+									},
+									"response": []
+								}
+							],
+							"description": "Requisições para simular uma tentativa de reserva de restaurante acima da capacidade. A requisição 07 cadastra um restaurante com capacidade para 8 pessoas. A requisição 07.1 cadastra a reserva. Esta deve ser executada 3 vezes para simular a reserva com capacidade de pessoas superior ao limite."
+						},
+						{
+							"name": "01 - Return created status when create a new restaurant booking",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T10:08:34.480790882\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request status when create a new restaurant booking with an invalid restaurant ID",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T10:08:34.480790882\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/codigo1/booking"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return not found status when create a new restaurant booking with an inexistent restaurant ID",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"{{invalid-restaurant-id}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T10:08:34.480790882\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{invalid-restaurant-id}}/booking"
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return not found status when create a new restaurant booking with an inexistent user ID",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{invalid-user-id}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T10:08:34.480790882\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+							},
+							"response": []
+						},
+						{
+							"name": "05 - Return bad request status when create a new restaurant booking with an invalid booking date",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-02-11T10:08:34.480790882\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+							},
+							"response": []
+						},
+						{
+							"name": "06 - Return bad request status when create a new restaurant booking with an invalid booking date time",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-02-10T12:12:34.480790882\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {
@@ -3084,7 +3255,13 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"var current_timestamp = new Date();",
+					"",
+					"postman.setEnvironmentVariable(\"current-date-time\", generateDatabaseDateTime(current_timestamp));",
+					"",
+					"function generateDatabaseDateTime(date) {",
+					"  return date.toISOString().replace(\"Z\",\" \").substring(0, 19);",
+					"}"
 				]
 			}
 		},
@@ -3129,6 +3306,21 @@
 		{
 			"key": "longitude",
 			"value": "-46.65239",
+			"type": "string"
+		},
+		{
+			"key": "invalid-restaurant-id",
+			"value": "0f449700-cc88-4f03-8cfc-9adc77d0c591",
+			"type": "string"
+		},
+		{
+			"key": "invalid-user-id",
+			"value": "0f449700-cc88-4f03-8cfc-9adc77d0c591",
+			"type": "string"
+		},
+		{
+			"key": "current-date-time",
+			"value": "",
 			"type": "string"
 		}
 	]

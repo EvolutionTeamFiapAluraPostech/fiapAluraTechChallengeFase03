@@ -5,7 +5,6 @@ import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessage
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_DATE_MUST_BE_GREATER_THAN_ACTUAL_DATE;
 
 import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
-import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingStateEnum;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,13 +18,13 @@ public class Booking {
   private final UUID userId;
   private final String description;
   private final LocalDateTime bookingDate;
-  private BookingState bookingState;
+  private String bookingState;
 
   public Booking(UUID id, UUID restaurantId, UUID userId, String description,
       LocalDateTime bookingDate, String bookingState) {
     this(restaurantId, userId, description, bookingDate);
     this.id = id;
-    this.bookingState = new BookingState(bookingState);
+    this.bookingState = bookingState;
   }
 
   public Booking(UUID restaurantId, UUID userId, String description, LocalDateTime bookingDate) {
@@ -35,7 +34,7 @@ public class Booking {
     this.userId = userId;
     this.description = description;
     this.bookingDate = bookingDate;
-    this.bookingState = new BookingState(BookingStateEnum.RESERVED.getLabel());
+    this.bookingState = BookingState.RESERVED.name();
   }
 
   private void validateBookingDateIsNull(LocalDateTime bookingDate) {
@@ -78,6 +77,6 @@ public class Booking {
   }
 
   public String getBookingState() {
-    return bookingState.getValue();
+    return bookingState;
   }
 }

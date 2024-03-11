@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingStateEnum;
+import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.shared.annotation.DatabaseTest;
@@ -61,7 +61,7 @@ class PostRestaurantBookingApiTest {
       bookingDate = bookingDate.plusSeconds(1);
       var bookingSchema = BookingSchema.builder().restaurantSchema(restaurantSchema)
           .userSchema(userSchema).description("Mesa longe da porta").bookingDate(bookingDate)
-          .bookingState(BookingStateEnum.RESERVED.getLabel()).build();
+          .bookingState(BookingState.RESERVED.name()).build();
       entityManager.merge(bookingSchema);
     }
   }
@@ -70,7 +70,7 @@ class PostRestaurantBookingApiTest {
   void shouldCreateRestaurantBooking() throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingDate = LocalDateTime.now().plusDays(1).toString();
+    var bookingDate = LocalDateTime.now().plusDays(1);
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         restaurantSchema.getId().toString(), userSchema.getId().toString(),
         RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
@@ -96,7 +96,9 @@ class PostRestaurantBookingApiTest {
     assertThat(bookingFound.getUserSchema()).isNotNull();
     assertThat(bookingFound.getUserSchema().getId()).isNotNull().isEqualTo(userSchema.getId());
     assertThat(bookingFound.getBookingDate()).isNotNull();
-    assertThat(bookingFound.getBookingDate().toString()).hasToString(bookingDate);
+    assertThat(bookingFound.getBookingDate()).isEqualTo(bookingDate);
+    assertThat(bookingFound.getBookingState()).isNotBlank().isEqualTo(BookingState.RESERVED.name());
+    assertThat(bookingFound.getDescription()).isEqualTo(RESTAURANT_BOOKING_DESCRIPTION);
   }
 
   @Test
@@ -104,7 +106,7 @@ class PostRestaurantBookingApiTest {
       throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingDate = LocalDateTime.now().toString();
+    var bookingDate = LocalDateTime.now().plusDays(1);
     var invalidRestaurantId = "code1";
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         invalidRestaurantId, userSchema.getId().toString(), RESTAURANT_BOOKING_DESCRIPTION,
@@ -122,7 +124,7 @@ class PostRestaurantBookingApiTest {
   void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentRestaurant()
       throws Exception {
     var userSchema = createAndPersistUserSchema();
-    var bookingDate = LocalDateTime.now().plusDays(1).toString();
+    var bookingDate = LocalDateTime.now().plusDays(1);
     var invalidRestaurantId = UUID.randomUUID();
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         invalidRestaurantId.toString(), userSchema.getId().toString(),
@@ -139,7 +141,7 @@ class PostRestaurantBookingApiTest {
   @Test
   void shouldReturnNotFoundWhenCreateRestaurantBookingWithAnNonExistentUser() throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingDate = LocalDateTime.now().plusDays(1).toString();
+    var bookingDate = LocalDateTime.now().plusDays(1);
     var invalidUserId = UUID.randomUUID();
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         restaurantSchema.getId().toString(), invalidUserId.toString(),
@@ -154,10 +156,26 @@ class PostRestaurantBookingApiTest {
   }
 
   @Test
+  void shouldReturnBadRequestWhenCreateRestaurantBookingWithNullBookingDate() throws Exception {
+    var userSchema = createAndPersistUserSchema();
+    var restaurantSchema = createAndPersistRestaurantSchema();
+    var restaurantBookingInputDto = createRestaurantBookingInputDto(
+        restaurantSchema.getId().toString(), userSchema.getId().toString(),
+        RESTAURANT_BOOKING_DESCRIPTION, null);
+    var requestBody = JsonUtil.toJson(restaurantBookingInputDto);
+
+    var request = post(URL_RESTAURANTS_BOOKING, restaurantSchema.getId())
+        .contentType(APPLICATION_JSON)
+        .content(requestBody);
+    mockMvc.perform(request)
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   void shouldReturnBadRequestWhenCreateRestaurantBookingWithInvalidDate() throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingDate = LocalDateTime.now().minusDays(1).toString();
+    var bookingDate = LocalDateTime.now().minusDays(1);
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         restaurantSchema.getId().toString(), userSchema.getId().toString(),
         RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
@@ -174,7 +192,7 @@ class PostRestaurantBookingApiTest {
   void shouldReturnBadRequestWhenCreateRestaurantBookingWithInvalidDateTime() throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingDate = LocalDateTime.now().minusHours(1).toString();
+    var bookingDate = LocalDateTime.now().minusHours(1);
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         restaurantSchema.getId().toString(), userSchema.getId().toString(),
         RESTAURANT_BOOKING_DESCRIPTION, bookingDate);
@@ -193,7 +211,7 @@ class PostRestaurantBookingApiTest {
     var restaurantSchema = createAndPersistRestaurantSchema();
     createRestaurantBookingCollection(userSchema, restaurantSchema);
 
-    var bookingDate = LocalDateTime.now().plusDays(1).toString();
+    var bookingDate = LocalDateTime.now().plusDays(1);
     var restaurantBookingInputDto = createRestaurantBookingInputDto(
         restaurantSchema.getId().toString(), userSchema.getId().toString(),
         RESTAURANT_BOOKING_DESCRIPTION, bookingDate);

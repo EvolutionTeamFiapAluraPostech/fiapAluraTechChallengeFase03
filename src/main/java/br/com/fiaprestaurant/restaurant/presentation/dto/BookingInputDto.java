@@ -1,7 +1,6 @@
 package br.com.fiaprestaurant.restaurant.presentation.dto;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
@@ -20,13 +19,12 @@ public record BookingInputDto(
     String userId,
     @Schema(example = "Mesa próxima a uma janela", description = "Uma observação referente a reserva.")
     String description,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(example = "2024-01-3-26 20:00:00", description = "Data e hora da reserva.")
-    String bookingDate) {
+    @Schema(example = "2024-03-26 20:00:00", description = "Data e hora da reserva.")
+    LocalDateTime bookingDate) {
 
   public Booking toBookingfrom() {
     return new Booking(UUID.fromString(restaurantId), UUID.fromString(userId), description,
-        LocalDateTime.parse(bookingDate));
+        bookingDate);
   }
 
 }

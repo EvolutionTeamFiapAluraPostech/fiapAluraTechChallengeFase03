@@ -1,7 +1,7 @@
 package br.com.fiaprestaurant.shared.testData.restaurant;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
-import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingStateEnum;
+import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.restaurant.presentation.dto.BookingInputDto;
@@ -17,7 +17,7 @@ public final class RestaurantBookingTestData {
   }
 
   public static BookingInputDto createRestaurantBookingInputDto(String restaurantId,
-      String userId, String description, String bookingDate) {
+      String userId, String description, LocalDateTime bookingDate) {
     return new BookingInputDto(restaurantId, userId, description, bookingDate);
   }
 
@@ -25,7 +25,7 @@ public final class RestaurantBookingTestData {
       String userId, String description, String bookingDate) {
     return new Booking(UUID.randomUUID(), UUID.fromString(restaurantId), UUID.fromString(userId),
         description, (bookingDate != null ? LocalDateTime.parse(bookingDate) : null),
-        BookingStateEnum.RESERVED.getLabel());
+        BookingState.RESERVED.name());
   }
 
   public static BookingSchema createRestaurantBookingSchema(Booking booking) {
@@ -34,6 +34,7 @@ public final class RestaurantBookingTestData {
         .userSchema(UserSchema.builder().id(booking.getUserId()).build())
         .bookingDate(booking.getBookingDate())
         .bookingState(booking.getBookingState())
+        .description(booking.getDescription())
         .build();
   }
 

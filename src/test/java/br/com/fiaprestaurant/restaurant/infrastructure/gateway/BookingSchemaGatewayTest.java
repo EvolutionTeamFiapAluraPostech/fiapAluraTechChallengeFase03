@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
-import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingStateEnum;
+import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.BookingSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
 import br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData;
@@ -73,7 +73,7 @@ class BookingSchemaGatewayTest {
     var bookingSchemas = List.of(bookingSchema);
     when(
         bookingSchemaRepository.findBookingSchemaByRestaurantSchemaIdAndBookingStateAndBookingDateBetween(
-            booking.getRestaurantId(), BookingStateEnum.RESERVED.getLabel(), startBookingDate,
+            booking.getRestaurantId(), BookingState.RESERVED.name(), startBookingDate,
             endBookingDate)).thenReturn(
         bookingSchemas);
 
@@ -91,7 +91,7 @@ class BookingSchemaGatewayTest {
     var bookingSchemas = createBookingSchemas(restaurant, startBookingDate);
     when(
         bookingSchemaRepository.findBookingSchemaByRestaurantSchemaIdAndBookingStateAndBookingDateBetween(
-            restaurant.getId(), BookingStateEnum.RESERVED.getLabel(), startBookingDate,
+            restaurant.getId(), BookingState.RESERVED.name(), startBookingDate,
             endBookingDate)).thenReturn(
         bookingSchemas);
 

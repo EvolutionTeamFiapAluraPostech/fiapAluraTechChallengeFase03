@@ -3,6 +3,7 @@ package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantBookingTestData.RESTAURANT_BOOKING_DESCRIPTION;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantBookingTestData.createRestaurantBooking;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantBookingTestData.createRestaurantBookingSchema;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_ID;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_ID_STRING;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID_FROM_STRING;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -99,6 +100,26 @@ class BookingSchemaGatewayTest {
         startBookingDate, endBookingDate);
 
     assertThat(isOverBooking).isTrue();
+  }
+
+  @Test
+  void shouldFindBookingByRestaurantIdAndBookingStateAndBookingDateBetween() {
+    var startBookingDate = LocalDateTime.now().plusDays(1);
+    var endBookingDate = startBookingDate.plusDays(1);
+    var booking = createRestaurantBooking(DEFAULT_RESTAURANT_ID_STRING,
+        DEFAULT_USER_UUID_FROM_STRING, RESTAURANT_BOOKING_DESCRIPTION, startBookingDate.toString());
+    var bookingSchema = createRestaurantBookingSchema(booking);
+    bookingSchema.setId(booking.getId());
+    when(
+        bookingSchemaRepository.findBookingSchemaByRestaurantSchemaIdAndBookingStateAndBookingDateBetween(
+            DEFAULT_RESTAURANT_ID, BookingState.RESERVED.name(), startBookingDate, endBookingDate))
+        .thenReturn(List.of(bookingSchema));
+
+    var bookingList = bookingSchemaGateway.findBookingByRestaurantIdAndBookingStateAndBookingDateBetween(
+        DEFAULT_RESTAURANT_ID, BookingState.RESERVED.name(), startBookingDate, endBookingDate);
+
+    assertThat(bookingList).isNotEmpty().hasSize(1);
+    assertThat(bookingList.get(0).getId()).isNotNull().isEqualTo(booking.getId());
   }
 
 }

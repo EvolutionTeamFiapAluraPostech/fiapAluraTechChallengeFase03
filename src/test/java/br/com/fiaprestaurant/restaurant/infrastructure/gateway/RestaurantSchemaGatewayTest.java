@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.ALTERNATIVE_RESTAURANT_NAME;
+import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_ID;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.createRestaurantSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -145,7 +146,7 @@ class RestaurantSchemaGatewayTest {
         NoResultException.class);
 
     assertThatThrownBy(
-            () -> restaurantSchemaGateway.findByIdRequired(restaurantSchema.getId()))
+        () -> restaurantSchemaGateway.findByIdRequired(restaurantSchema.getId()))
         .isInstanceOf(NoResultException.class);
   }
 
@@ -169,4 +170,38 @@ class RestaurantSchemaGatewayTest {
         () -> restaurantSchemaGateway.deleteById(restaurantSchema.getId()))
         .isInstanceOf(NoResultException.class);
   }
+
+  @Test
+  void shouldFindRestaurantSchemaByIdRequired() {
+    var restaurantSchema = createRestaurantSchema();
+    var restaurant = restaurantSchema.createRestaurantFromRestaurantSchema();
+    when(restaurantSchemaRepository.findById(restaurantSchema.getId())).thenReturn(
+        Optional.of(restaurantSchema));
+
+    var restaurantFound = restaurantSchemaGateway.findByIdRequired(restaurantSchema.getId());
+
+    assertThat(restaurantFound).isNotNull();
+    assertThat(restaurantFound.getId()).isNotNull().isEqualTo(restaurant.getId());
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantWasNotFoundByIdRequired() {
+    when(restaurantSchemaRepository.findById(DEFAULT_RESTAURANT_ID)).thenThrow(
+        NoResultException.class);
+
+    assertThatThrownBy(
+            () -> restaurantSchemaGateway.findByIdRequired(DEFAULT_RESTAURANT_ID))
+        .isInstanceOf(NoResultException.class);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRestaurantSchemaWasNotFoundByIdRequired() {
+    when(restaurantSchemaRepository.findById(DEFAULT_RESTAURANT_ID)).thenThrow(
+        NoResultException.class);
+
+    assertThatThrownBy(
+            () -> restaurantSchemaGateway.findRestaurantSchemaByIdRequired(DEFAULT_RESTAURANT_ID))
+        .isInstanceOf(NoResultException.class);
+  }
+
 }

@@ -29,6 +29,7 @@ class ReviewTest {
     assertThat(review.getDescription()).isNotBlank()
         .isEqualTo(DEFAULT_RESTAURANT_REVIEW_DESCRIPTION);
     assertThat(review.getScore()).isNotNull().isEqualTo(DEFAULT_RESTAURANT_REVIEW_SCORE);
+    assertThat(review.getUserName()).isNull();
   }
 
   @ParameterizedTest

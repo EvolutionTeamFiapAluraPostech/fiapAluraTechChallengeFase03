@@ -10,6 +10,7 @@ import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +37,15 @@ public class BookingSchemaGateway implements BookingGateway {
         restaurant.getId(), BookingState.RESERVED.name(), startBookingDate, endBookingDate);
     var restaurantBookingPeopleCount = getRestaurantBookingPeopleCount(bookingSchemas);
     return restaurantBookingPeopleCount >= restaurant.getPeopleCapacity().peopleCapacityValue();
+  }
+
+  @Override
+  public List<Booking> findBookingByRestaurantIdAndBookingStateAndBookingDateBetween(
+      UUID restaurantId, String bookingState, LocalDateTime startBookingDate,
+      LocalDateTime endBookingDate) {
+    var bookingSchemas = bookingSchemaRepository.findBookingSchemaByRestaurantSchemaIdAndBookingStateAndBookingDateBetween(
+        restaurantId, bookingState, startBookingDate, endBookingDate);
+    return bookingSchemas.stream().map(BookingSchema::toBooking).toList();
   }
 
   private long getRestaurantBookingPeopleCount(List<BookingSchema> bookingSchemas) {

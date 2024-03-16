@@ -38,5 +38,4 @@ public interface RestaurantsReviewsApi {
   List<RestaurantReviewsOutputDto> getAllReviewsByRestaurantId(
       @Parameter(description = "UUID do restaurante válido") String restaurantId);
 
-
 }

@@ -2,6 +2,7 @@ package br.com.fiaprestaurant.restaurant.infrastructure.usecase;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.BookingGateway;
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
+import br.com.fiaprestaurant.restaurant.application.mailer.CreateRestaurantBookingMailer;
 import br.com.fiaprestaurant.restaurant.application.usecase.CreateRestaurantBookingUseCase;
 import br.com.fiaprestaurant.restaurant.application.validator.RestaurantBookingCapacityOfPeopleValidator;
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
@@ -19,24 +20,29 @@ public class CreateRestaurantBookingInteractor implements CreateRestaurantBookin
   private final UserGateway userGateway;
   private final UuidValidator uuidValidator;
   private final RestaurantBookingCapacityOfPeopleValidator restaurantBookingCapacityOfPeopleValidator;
+  private final CreateRestaurantBookingMailer createRestaurantBookingMailer;
 
   public CreateRestaurantBookingInteractor(BookingGateway bookingGateway,
       RestaurantGateway restaurantGateway, UserGateway userGateway, UuidValidator uuidValidator,
-      RestaurantBookingCapacityOfPeopleValidator restaurantBookingCapacityOfPeopleValidator) {
+      RestaurantBookingCapacityOfPeopleValidator restaurantBookingCapacityOfPeopleValidator,
+      CreateRestaurantBookingMailer createRestaurantBookingMailer) {
     this.bookingGateway = bookingGateway;
     this.restaurantGateway = restaurantGateway;
     this.userGateway = userGateway;
     this.uuidValidator = uuidValidator;
     this.restaurantBookingCapacityOfPeopleValidator = restaurantBookingCapacityOfPeopleValidator;
+    this.createRestaurantBookingMailer = createRestaurantBookingMailer;
   }
 
   @Transactional
   @Override
   public Booking execute(String restaurantId, Booking booking) {
     uuidValidator.validate(restaurantId);
-    userGateway.findUserByIdRequired(booking.getUserId());
+    var user = userGateway.findUserByIdRequired(booking.getUserId());
     var restaurant = restaurantGateway.findByIdRequired(UUID.fromString(restaurantId));
     restaurantBookingCapacityOfPeopleValidator.validate(restaurant, booking);
-    return bookingGateway.save(booking);
+    var bookingSaved = bookingGateway.save(booking);
+    createRestaurantBookingMailer.createAndSendEmail(booking, restaurant, user);
+    return bookingSaved;
   }
 }

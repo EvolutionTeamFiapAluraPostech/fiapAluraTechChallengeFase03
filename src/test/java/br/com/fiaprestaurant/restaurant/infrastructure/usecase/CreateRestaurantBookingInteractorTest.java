@@ -13,11 +13,13 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.BookingGateway;
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
+import br.com.fiaprestaurant.restaurant.application.mailer.CreateRestaurantBookingMailer;
 import br.com.fiaprestaurant.restaurant.application.validator.RestaurantBookingCapacityOfPeopleValidator;
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.domain.validator.UuidValidator;
 import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
+import br.com.fiaprestaurant.shared.testData.user.UserTestData;
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -41,6 +43,8 @@ class CreateRestaurantBookingInteractorTest {
   private UuidValidator uuidValidator;
   @Mock
   private RestaurantBookingCapacityOfPeopleValidator restaurantBookingCapacityOfPeopleValidator;
+  @Mock
+  private CreateRestaurantBookingMailer createRestaurantBookingMailer;
   @InjectMocks
   private CreateRestaurantBookingInteractor createRestaurantBookingInteractor;
 
@@ -48,9 +52,12 @@ class CreateRestaurantBookingInteractorTest {
   void shouldCreateRestaurantBooking() {
     var restaurant = createRestaurant();
     var restaurantId = restaurant.getId().toString();
-    var userId = DEFAULT_USER_UUID_FROM_STRING;
+    var user = UserTestData.createUser();
+    var userId = user.getId();
     var bookingDate = LocalDateTime.now().plusDays(1);
-    var booking = createRestaurantBooking(restaurantId, userId, "", bookingDate.toString());
+    var booking = createRestaurantBooking(restaurantId, userId.toString(), "",
+        bookingDate.toString());
+    when(userGateway.findUserByIdRequired(userId)).thenReturn(user);
     when(restaurantGateway.findByIdRequired(restaurant.getId())).thenReturn(restaurant);
     when(bookingGateway.save(Mockito.any(Booking.class))).thenReturn(booking);
 
@@ -60,8 +67,10 @@ class CreateRestaurantBookingInteractorTest {
     assertThat(bookingSaved).isNotNull();
     assertThat(bookingSaved.getId()).isNotNull().isEqualTo(booking.getId());
     verify(uuidValidator).validate(restaurantId);
-    verify(userGateway).findUserByIdRequired(UUID.fromString(userId));
+    verify(userGateway).findUserByIdRequired(userId);
     verify(restaurantBookingCapacityOfPeopleValidator).validate(restaurant, booking);
+    verify(bookingGateway).save(booking);
+    verify(createRestaurantBookingMailer).createAndSendEmail(booking, restaurant, user);
   }
 
   @Test

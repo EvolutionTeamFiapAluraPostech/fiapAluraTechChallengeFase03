@@ -37,9 +37,10 @@ class GetAllBookingSchemaByRestaurantIdAndStateAndBookingDateBetweenFieldsValida
     var state = BookingState.RESERVED.name();
     var startBookingDate = LocalDateTime.now();
     var endBookingDate = LocalDateTime.now();
-    assertThatCode(
+    assertThatThrownBy(
         () -> getAllBookingByRestaurantIdAndStateAndBookingDateBetweenFieldsValidator.validate(
-            restaurantId, state, startBookingDate, endBookingDate)).doesNotThrowAnyException();
+            restaurantId, state, startBookingDate, endBookingDate)).isInstanceOf(
+        ValidatorException.class);
   }
 
   @ParameterizedTest
@@ -47,10 +48,10 @@ class GetAllBookingSchemaByRestaurantIdAndStateAndBookingDateBetweenFieldsValida
   void shouldThrowExceptionWhenBookingStateWasNotFilled(String state) {
     var startBookingDate = LocalDateTime.now();
     var endBookingDate = LocalDateTime.now();
-    assertThatCode(
+    assertThatThrownBy(
         () -> getAllBookingByRestaurantIdAndStateAndBookingDateBetweenFieldsValidator.validate(
             DEFAULT_RESTAURANT_ID_STRING, state, startBookingDate,
-            endBookingDate)).doesNotThrowAnyException();
+            endBookingDate)).isInstanceOf(ValidatorException.class);
   }
 
   @Test

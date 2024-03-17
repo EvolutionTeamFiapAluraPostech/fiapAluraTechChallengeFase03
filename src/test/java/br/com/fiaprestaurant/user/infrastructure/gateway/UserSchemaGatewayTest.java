@@ -196,7 +196,7 @@ class UserSchemaGatewayTest {
 
     assertThat(userFound).isNotNull();
     assertThat(userFound.getName()).isEqualTo(userSchema.getName());
-    assertThat(userFound.getEmail()).isEqualTo(userSchema.getEmail());
+    assertThat(userFound.getEmail().address()).isEqualTo(userSchema.getEmail());
   }
 
   @Test

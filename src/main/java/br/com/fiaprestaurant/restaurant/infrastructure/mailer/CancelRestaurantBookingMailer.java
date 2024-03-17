@@ -2,19 +2,19 @@ package br.com.fiaprestaurant.restaurant.infrastructure.mailer;
 
 import br.com.fiaprestaurant.restaurant.application.event.EmailEvent;
 import br.com.fiaprestaurant.restaurant.application.event.EmailEventPublisher;
-import br.com.fiaprestaurant.restaurant.application.mailer.CreateRestaurantBookingMailer;
+import br.com.fiaprestaurant.restaurant.application.mailer.RestaurantBookingMailer;
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import br.com.fiaprestaurant.user.domain.entity.User;
 import java.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
 
-@Component
-public class CreateRestaurantBookingMailerImpl implements CreateRestaurantBookingMailer {
+@Component("cancelRestaurantBookingMailer")
+public class CancelRestaurantBookingMailer implements RestaurantBookingMailer {
 
   private final EmailEventPublisher emailEventPublisher;
 
-  public CreateRestaurantBookingMailerImpl(EmailEventPublisher emailEventPublisher) {
+  public CancelRestaurantBookingMailer(EmailEventPublisher emailEventPublisher) {
     this.emailEventPublisher = emailEventPublisher;
   }
 
@@ -30,7 +30,7 @@ public class CreateRestaurantBookingMailerImpl implements CreateRestaurantBookin
     var formatDate = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     var bookingDateTime = formatDate.format(booking.getBookingDate());
     return """
-        Hello %s, your reservation at the %s restaurant, for %s, was made successfully!
+        Hello %s, your reservation at the %s restaurant, for %s, was canceled successfully!
         """.formatted(user.getName(), restaurant.getName(), bookingDateTime);
   }
 }

@@ -7,16 +7,20 @@ import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestDat
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData.DEFAULT_RESTAURANT_ID_STRING;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_USER_UUID_FROM_STRING;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
 import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.BookingSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.shared.testData.restaurant.RestaurantTestData;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -120,6 +124,46 @@ class BookingSchemaGatewayTest {
 
     assertThat(bookingList).isNotEmpty().hasSize(1);
     assertThat(bookingList.get(0).getId()).isNotNull().isEqualTo(booking.getId());
+  }
+
+  @Test
+  void shouldFindBookingByIdRequired() {
+    var startBookingDate = LocalDateTime.now().plusDays(1);
+    var booking = createRestaurantBooking(DEFAULT_RESTAURANT_ID_STRING,
+        DEFAULT_USER_UUID_FROM_STRING, RESTAURANT_BOOKING_DESCRIPTION, startBookingDate.toString());
+    var bookingSchema = createRestaurantBookingSchema(booking);
+    bookingSchema.setId(booking.getId());
+    when(bookingSchemaRepository.findById(booking.getId())).thenReturn(Optional.of(bookingSchema));
+
+    var bookingFound = bookingSchemaGateway.findByIdRequired(booking.getId());
+
+    assertThat(bookingFound).isNotNull();
+    assertThat(bookingFound.getId()).isNotNull().isEqualTo(booking.getId());
+  }
+
+  @Test
+  void shouldThrowExceptionWhenFindBookingByIdRequiredWasNotFound() {
+    var startBookingDate = LocalDateTime.now().plusDays(1);
+    var booking = createRestaurantBooking(DEFAULT_RESTAURANT_ID_STRING,
+        DEFAULT_USER_UUID_FROM_STRING, RESTAURANT_BOOKING_DESCRIPTION, startBookingDate.toString());
+    var bookingSchema = createRestaurantBookingSchema(booking);
+    bookingSchema.setId(booking.getId());
+    when(bookingSchemaRepository.findById(booking.getId())).thenThrow(NoResultException.class);
+
+    assertThatThrownBy(() -> bookingSchemaGateway.findByIdRequired(booking.getId()))
+        .isInstanceOf(NoResultException.class);
+  }
+
+  @Test
+  void shouldCancelBooking() {
+    var startBookingDate = LocalDateTime.now().plusDays(1);
+    var booking = createRestaurantBooking(DEFAULT_RESTAURANT_ID_STRING,
+        DEFAULT_USER_UUID_FROM_STRING, RESTAURANT_BOOKING_DESCRIPTION, startBookingDate.toString());
+    var bookingSchema = createRestaurantBookingSchema(booking);
+    bookingSchema.setId(booking.getId());
+    bookingSchema.setBookingState(BookingState.CANCELED.name());
+
+    assertThatCode(() -> bookingSchemaGateway.cancel(booking)).doesNotThrowAnyException();
   }
 
 }

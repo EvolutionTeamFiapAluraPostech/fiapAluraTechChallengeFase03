@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.BookingGateway;
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
-import br.com.fiaprestaurant.restaurant.application.mailer.CreateRestaurantBookingMailer;
+import br.com.fiaprestaurant.restaurant.application.mailer.RestaurantBookingMailer;
 import br.com.fiaprestaurant.restaurant.application.validator.RestaurantBookingCapacityOfPeopleValidator;
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
@@ -44,7 +44,7 @@ class CreateRestaurantBookingInteractorTest {
   @Mock
   private RestaurantBookingCapacityOfPeopleValidator restaurantBookingCapacityOfPeopleValidator;
   @Mock
-  private CreateRestaurantBookingMailer createRestaurantBookingMailer;
+  private RestaurantBookingMailer restaurantBookingMailer;
   @InjectMocks
   private CreateRestaurantBookingInteractor createRestaurantBookingInteractor;
 
@@ -70,7 +70,7 @@ class CreateRestaurantBookingInteractorTest {
     verify(userGateway).findUserByIdRequired(userId);
     verify(restaurantBookingCapacityOfPeopleValidator).validate(restaurant, booking);
     verify(bookingGateway).save(booking);
-    verify(createRestaurantBookingMailer).createAndSendEmail(booking, restaurant, user);
+    verify(restaurantBookingMailer).createAndSendEmail(booking, restaurant, user);
   }
 
   @Test

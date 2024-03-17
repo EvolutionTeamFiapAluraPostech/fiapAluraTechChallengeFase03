@@ -1,11 +1,13 @@
 package br.com.fiaprestaurant.user.infrastructure.security;
 
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;
+import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -32,8 +34,15 @@ public class SecurityFilter extends OncePerRequestFilter {
     if (tokenJwt != null) {
       var subject = tokenService.getSubject(tokenJwt);
       var user = userService.findByEmailRequired(subject);
-      var authenticationToken = new UsernamePasswordAuthenticationToken(user, null,
-          user.getAuthorities());
+      var userSchema = UserSchema.builder()
+          .id(user.getId())
+          .email(user.getEmail().address())
+          .cpf(user.getCpf().getCpfNumber())
+          .name(user.getName())
+          .authorities(new ArrayList<>())
+          .build();
+      var authenticationToken = new UsernamePasswordAuthenticationToken(userSchema, null,
+          userSchema.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
     filterChain.doFilter(request, response);

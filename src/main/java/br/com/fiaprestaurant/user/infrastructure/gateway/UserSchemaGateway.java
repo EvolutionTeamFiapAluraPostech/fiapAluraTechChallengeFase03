@@ -86,11 +86,12 @@ public class UserSchemaGateway implements UserGateway {
     return userSchemaOptional.map(UserSchema::getUser);
   }
 
-  public UserSchema findByEmailRequired(String email) {
-    return userRepository.findByEmail(email)
+  public User findByEmailRequired(String email) {
+    var userSchema = userRepository.findByEmail(email)
         .orElseThrow(
             () -> new NoResultException(new FieldError(this.getClass().getSimpleName(), "email",
                 USER_EMAIL_NOT_FOUND.formatted(email))));
+    return userSchema.getUser();
   }
 
   public Optional<User> findByCpf(String cpf) {

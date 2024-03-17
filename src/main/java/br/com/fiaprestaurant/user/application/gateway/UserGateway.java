@@ -1,7 +1,6 @@
 package br.com.fiaprestaurant.user.application.gateway;
 
 import br.com.fiaprestaurant.user.domain.entity.User;
-import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,7 @@ public interface UserGateway {
 
   Optional<User> findByEmail(String email);
 
-  UserSchema findByEmailRequired(String email);
+  User findByEmailRequired(String email);
 
   Optional<User> findByCpf(String cpf);
 

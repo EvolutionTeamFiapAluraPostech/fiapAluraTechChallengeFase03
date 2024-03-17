@@ -15,4 +15,8 @@ public interface BookingGateway {
 
   List<Booking> findBookingByRestaurantIdAndBookingStateAndBookingDateBetween(UUID restaurantId,
       String bookingState, LocalDateTime startBookingDate, LocalDateTime endBookingDate);
+
+  Booking findByIdRequired(UUID bookingId);
+
+  void cancel(Booking booking);
 }

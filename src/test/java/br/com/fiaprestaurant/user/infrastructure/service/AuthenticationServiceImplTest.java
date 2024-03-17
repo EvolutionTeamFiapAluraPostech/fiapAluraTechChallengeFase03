@@ -4,8 +4,10 @@ import static br.com.fiaprestaurant.shared.testData.user.UserTestData.DEFAULT_US
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUser;
 import static br.com.fiaprestaurant.shared.testData.user.UserTestData.createUserSchema;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.user.application.gateway.UserGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +28,7 @@ class AuthenticationServiceImplTest {
     var user = createUser();
     var userSchema = createUserSchema(user);
 
-    when(userService.findByEmailRequired(userSchema.getEmail())).thenReturn(userSchema);
+    when(userService.findByEmailRequired(userSchema.getEmail())).thenReturn(user);
     var userFound = UserDetailsService.loadUserByUsername(userSchema.getUsername());
 
     assertThat(userFound).isNotNull();
@@ -35,9 +37,9 @@ class AuthenticationServiceImplTest {
 
   @Test
   void shouldThrowExceptionWhenUserIsNotFound() {
-    when(userService.findByEmailRequired(DEFAULT_USER_EMAIL)).thenReturn(null);
-    var userFound = UserDetailsService.loadUserByUsername(DEFAULT_USER_EMAIL);
-
-    assertThat(userFound).isNull();
+    when(userService.findByEmailRequired(DEFAULT_USER_EMAIL)).thenThrow(NoResultException.class);
+    assertThatThrownBy(
+        () -> UserDetailsService.loadUserByUsername(DEFAULT_USER_EMAIL)).isInstanceOf(
+        NoResultException.class);
   }
 }

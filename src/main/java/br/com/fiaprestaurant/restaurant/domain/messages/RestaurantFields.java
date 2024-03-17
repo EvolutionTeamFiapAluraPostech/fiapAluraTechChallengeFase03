@@ -12,6 +12,7 @@ public final class RestaurantFields {
   public static final String RESTAURANT_BOOKING_DATE_FIELD = "booking date";
   public static final String RESTAURANT_BOOKING_PEOPLE_CAPACITY_FIELD = "booking people capacity";
   public static final String RESTAURANT_BOOKING_STATE_FIELD = "booking state";
+  public static final String RESTAURANT_BOOKING_ID_FIELD = "booking id";
 
   private RestaurantFields() {
   }

@@ -161,7 +161,9 @@ class BookingSchemaGatewayTest {
         DEFAULT_USER_UUID_FROM_STRING, RESTAURANT_BOOKING_DESCRIPTION, startBookingDate.toString());
     var bookingSchema = createRestaurantBookingSchema(booking);
     bookingSchema.setId(booking.getId());
-    bookingSchema.setBookingState(BookingState.CANCELED.name());
+    bookingSchema.setBookingState(BookingState.RESERVED.name());
+    when(bookingSchemaRepository.findById(bookingSchema.getId())).thenReturn(
+        Optional.of(bookingSchema));
 
     assertThatCode(() -> bookingSchemaGateway.cancel(booking)).doesNotThrowAnyException();
   }

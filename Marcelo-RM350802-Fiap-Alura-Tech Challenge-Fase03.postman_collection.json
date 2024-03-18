@@ -3116,7 +3116,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"restaurantId\": \"1b62582f-745d-43f8-8f20-9c10d50f9d7f\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T18:00:00\"\n}",
+											"raw": "{\n    \"restaurantId\": \"1b62582f-745d-43f8-8f20-9c10d50f9d7f\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-13T18:00:00\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -3137,7 +3137,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T10:08:34.480790882\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha {{current-date-time}}\",\n    \"bookingDate\": \"2024-03-18T20:00:00\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3173,7 +3173,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"{{invalid-restaurant-id}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T10:08:34.480790882\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{invalid-restaurant-id}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"{{current-date-time}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3191,7 +3191,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{invalid-user-id}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-11T10:08:34.480790882\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{invalid-user-id}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"{{current-date-time}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3235,6 +3235,206 @@
 									}
 								},
 								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get restaurant booking",
+					"item": [
+						{
+							"name": "01 - Return ok status when find restaurant booking",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/restaurants/{{restaurantId}}/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-19T21:00:00",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"{{restaurantId}}",
+										"booking"
+									],
+									"query": [
+										{
+											"key": "bookingState",
+											"value": "RESERVED"
+										},
+										{
+											"key": "startBookingDate",
+											"value": "2024-03-18T20:00:00"
+										},
+										{
+											"key": "endBookingDate",
+											"value": "2024-03-19T21:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request status when find restaurant booking by invalid restaurant id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/restaurants/1aBc/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-18T21:00:00",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"1aBc",
+										"booking"
+									],
+									"query": [
+										{
+											"key": "bookingState",
+											"value": "RESERVED"
+										},
+										{
+											"key": "startBookingDate",
+											"value": "2024-03-18T20:00:00"
+										},
+										{
+											"key": "endBookingDate",
+											"value": "2024-03-18T21:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return not found status when find restaurant booking by not existent restaurant id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/restaurants/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-18T21:00:00",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"41aa0b37-978b-4482-b9c7-cc78aa1d99cd",
+										"booking"
+									],
+									"query": [
+										{
+											"key": "bookingState",
+											"value": "RESERVED"
+										},
+										{
+											"key": "startBookingDate",
+											"value": "2024-03-18T20:00:00"
+										},
+										{
+											"key": "endBookingDate",
+											"value": "2024-03-18T21:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return ok status when find restaurant booking by restaurant id but nothing was found",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/restaurants/{{restaurantId}}/booking?bookingState=RESERVED&startBookingDate=2024-03-19T20:00:00&endBookingDate=2024-03-19T21:00:00",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										"{{restaurantId}}",
+										"booking"
+									],
+									"query": [
+										{
+											"key": "bookingState",
+											"value": "RESERVED"
+										},
+										{
+											"key": "startBookingDate",
+											"value": "2024-03-19T20:00:00"
+										},
+										{
+											"key": "endBookingDate",
+											"value": "2024-03-19T21:00:00"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cancel restaurant booking",
+					"item": [
+						{
+							"name": "01 - Return accepted status when cancel restaurant booking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/cancel"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request status when cancel restaurant booking with invalid restaurant id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/1Ab/booking/{{bookingId}}/cancel"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return bad request status when cancel restaurant booking by non existent restaurant id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/booking/{{bookingId}}/cancel"
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return bad request status when cancel restaurant booking with invalid booking id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/1aB/cancel"
+							},
+							"response": []
+						},
+						{
+							"name": "05 - Return bad request status when cancel restaurant booking by non existent booking id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/cancel"
+							},
+							"response": []
+						},
+						{
+							"name": "06 - Return bad request status when cancel restaurant booking already canceled",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/cancel"
 							},
 							"response": []
 						}
@@ -3321,6 +3521,11 @@
 		{
 			"key": "current-date-time",
 			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bookingId",
+			"value": "3ddf135e-ed35-4df2-a8a8-51893942de51",
 			"type": "string"
 		}
 	]

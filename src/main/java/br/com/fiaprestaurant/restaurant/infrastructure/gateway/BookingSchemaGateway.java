@@ -1,6 +1,9 @@
 package br.com.fiaprestaurant.restaurant.infrastructure.gateway;
 
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.RESTAURANT_BOOKING_ID_FIELD;
+import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.RESTAURANT_BOOKING_STATE_FIELD;
+import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_ALREADY_CANCELED;
+import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_ALREADY_CLOSED;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_NOT_FOUND_WITH_ID;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.BookingGateway;
@@ -10,6 +13,7 @@ import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.BookingSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
+import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.infrastructure.exception.NoResultException;
 import br.com.fiaprestaurant.user.infrastructure.schema.UserSchema;
 import java.time.LocalDateTime;
@@ -64,10 +68,26 @@ public class BookingSchemaGateway implements BookingGateway {
 
   @Override
   public void cancel(Booking booking) {
-    var bookingSchema = convertToBookingSchemaFrom(booking);
+    var bookingFound = isBookingAlreadyClosedOrCanceled(booking);
+    var bookingSchema = convertToBookingSchemaFrom(bookingFound);
     bookingSchema.setId(booking.getId());
     bookingSchema.setBookingState(BookingState.CANCELED.name());
     bookingSchemaRepository.save(bookingSchema);
+  }
+
+  private Booking isBookingAlreadyClosedOrCanceled(Booking booking) {
+    var bookingFound = findByIdRequired(booking.getId());
+    if (BookingState.CLOSED.name().equals(bookingFound.getBookingState())) {
+      throw new ValidatorException(
+          new FieldError(this.getClass().getSimpleName(), RESTAURANT_BOOKING_STATE_FIELD,
+              RESTAURANT_BOOKING_ALREADY_CLOSED));
+    }
+    if (BookingState.CANCELED.name().equals(bookingFound.getBookingState())) {
+      throw new ValidatorException(
+          new FieldError(this.getClass().getSimpleName(), RESTAURANT_BOOKING_STATE_FIELD,
+              RESTAURANT_BOOKING_ALREADY_CANCELED));
+    }
+    return bookingFound;
   }
 
   private long getRestaurantBookingPeopleCount(List<BookingSchema> bookingSchemas) {

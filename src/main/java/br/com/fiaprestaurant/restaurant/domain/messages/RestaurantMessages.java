@@ -13,6 +13,8 @@ public final class RestaurantMessages {
   public static final String RESTAURANT_BOOKING_DATE_MUST_BE_GREATER_THAN_ACTUAL_DATE = "Restaurant booking date must be greater than actual date. Actual date: %s. Booking date: %s.";
   public static final String RESTAURANT_BOOKING_PEOPLE_CAPACITY_MUST_BE_LOWER_THAN_MAX_RESTAURANT_PEOPLE_CAPACITY = "Restaurant booking people capacity must be lower than restaurant people capacity.";
   public static final String RESTAURANT_BOOKING_NOT_FOUND_WITH_ID = "Restaurant booking not found with ID: %s.";
+  public static final String RESTAURANT_BOOKING_ALREADY_CLOSED = "Restaurant booking is already closed.";
+  public static final String RESTAURANT_BOOKING_ALREADY_CANCELED = "Restaurant booking is already canceled.";
   public static final String ENTER_THE_RESTAURANT_ID = "Enter the restaurant ID.";
   public static final String ENTER_THE_RESTAURANT_NAME = "Enter the restaurant name.";
   public static final String ENTER_RESTAURANT_OPENING_HOURS = "Enter opening hours.";

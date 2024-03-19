@@ -5,11 +5,13 @@ import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_ALREADY_CANCELED;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_ALREADY_CLOSED;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_NOT_FOUND_WITH_ID;
+import static br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState.CANCELED;
+import static br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState.CLOSED;
+import static br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState.RESERVED;
 
 import br.com.fiaprestaurant.restaurant.application.gateways.BookingGateway;
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import br.com.fiaprestaurant.restaurant.domain.entity.Restaurant;
-import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.restaurant.infrastructure.repository.BookingSchemaRepository;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.BookingSchema;
 import br.com.fiaprestaurant.restaurant.infrastructure.schema.RestaurantSchema;
@@ -43,7 +45,7 @@ public class BookingSchemaGateway implements BookingGateway {
   public boolean restaurantBookingIsOverLimit(Restaurant restaurant, LocalDateTime startBookingDate,
       LocalDateTime endBookingDate) {
     var bookingSchemas = bookingSchemaRepository.findBookingSchemaByRestaurantSchemaIdAndBookingStateAndBookingDateBetween(
-        restaurant.getId(), BookingState.RESERVED.name(), startBookingDate, endBookingDate);
+        restaurant.getId(), RESERVED.name(), startBookingDate, endBookingDate);
     var restaurantBookingPeopleCount = getRestaurantBookingPeopleCount(bookingSchemas);
     return restaurantBookingPeopleCount >= restaurant.getPeopleCapacity().peopleCapacityValue();
   }
@@ -71,18 +73,27 @@ public class BookingSchemaGateway implements BookingGateway {
     var bookingFound = isBookingAlreadyClosedOrCanceled(booking);
     var bookingSchema = convertToBookingSchemaFrom(bookingFound);
     bookingSchema.setId(booking.getId());
-    bookingSchema.setBookingState(BookingState.CANCELED.name());
+    bookingSchema.setBookingState(CANCELED.name());
+    bookingSchemaRepository.save(bookingSchema);
+  }
+
+  @Override
+  public void close(Booking booking) {
+    var bookingFound = isBookingAlreadyClosedOrCanceled(booking);
+    var bookingSchema = convertToBookingSchemaFrom(bookingFound);
+    bookingSchema.setId(booking.getId());
+    bookingSchema.setBookingState(CLOSED.name());
     bookingSchemaRepository.save(bookingSchema);
   }
 
   private Booking isBookingAlreadyClosedOrCanceled(Booking booking) {
     var bookingFound = findByIdRequired(booking.getId());
-    if (BookingState.CLOSED.name().equals(bookingFound.getBookingState())) {
+    if (CLOSED.name().equals(bookingFound.getBookingState())) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), RESTAURANT_BOOKING_STATE_FIELD,
               RESTAURANT_BOOKING_ALREADY_CLOSED));
     }
-    if (BookingState.CANCELED.name().equals(bookingFound.getBookingState())) {
+    if (CANCELED.name().equals(bookingFound.getBookingState())) {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), RESTAURANT_BOOKING_STATE_FIELD,
               RESTAURANT_BOOKING_ALREADY_CANCELED));

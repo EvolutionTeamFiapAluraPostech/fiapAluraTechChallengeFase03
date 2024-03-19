@@ -168,4 +168,18 @@ class BookingSchemaGatewayTest {
     assertThatCode(() -> bookingSchemaGateway.cancel(booking)).doesNotThrowAnyException();
   }
 
+  @Test
+  void shouldCloseBooking() {
+    var startBookingDate = LocalDateTime.now().plusDays(1);
+    var booking = createRestaurantBooking(DEFAULT_RESTAURANT_ID_STRING,
+        DEFAULT_USER_UUID_FROM_STRING, RESTAURANT_BOOKING_DESCRIPTION, startBookingDate.toString());
+    var bookingSchema = createRestaurantBookingSchema(booking);
+    bookingSchema.setId(booking.getId());
+    bookingSchema.setBookingState(BookingState.RESERVED.name());
+    when(bookingSchemaRepository.findById(bookingSchema.getId())).thenReturn(
+        Optional.of(bookingSchema));
+
+    assertThatCode(() -> bookingSchemaGateway.close(booking)).doesNotThrowAnyException();
+  }
+
 }

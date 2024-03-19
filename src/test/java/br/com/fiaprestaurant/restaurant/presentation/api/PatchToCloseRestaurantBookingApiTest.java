@@ -1,6 +1,5 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
-import static br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState.CANCELED;
 import static br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState.CLOSED;
 import static br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState.RESERVED;
 import static br.com.fiaprestaurant.shared.testData.restaurant.RestaurantBookingTestData.RESTAURANT_BOOKING_DESCRIPTION;
@@ -31,14 +30,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @IntegrationTest
 @DatabaseTest
-class PatchToCancelRestaurantBookingApiTest {
+class PatchToCloseRestaurantBookingApiTest {
 
-  private static final String URL_BOOKING = "/restaurants/{restaurant-id}/booking/{booking-id}/cancel";
+  private static final String URL_BOOKING = "/restaurants/{restaurant-id}/booking/{booking-id}/close";
   private final MockMvc mockMvc;
   private final EntityManager entityManager;
 
   @Autowired
-  PatchToCancelRestaurantBookingApiTest(MockMvc mockMvc, EntityManager entityManager) {
+  PatchToCloseRestaurantBookingApiTest(MockMvc mockMvc, EntityManager entityManager) {
     this.mockMvc = mockMvc;
     this.entityManager = entityManager;
   }
@@ -65,7 +64,7 @@ class PatchToCancelRestaurantBookingApiTest {
   }
 
   @Test
-  void shouldCancelRestaurantBookingByRestaurantIdAndBookingId() throws Exception {
+  void shouldCloseRestaurantBookingByRestaurantIdAndBookingId() throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
     var bookingSchema = createAndPersistBookingSchema(userSchema, restaurantSchema, RESERVED);
@@ -74,15 +73,15 @@ class PatchToCancelRestaurantBookingApiTest {
     mockMvc.perform(request)
         .andExpect(status().isNoContent());
 
-    var bookingSchemaCanceled = entityManager.find(BookingSchema.class, bookingSchema.getId());
-    assertThat(bookingSchemaCanceled).isNotNull();
-    assertThat(bookingSchemaCanceled.getBookingState()).isNotNull().isEqualTo(CANCELED.name());
+    var bookingSchemaClosed = entityManager.find(BookingSchema.class, bookingSchema.getId());
+    assertThat(bookingSchemaClosed).isNotNull();
+    assertThat(bookingSchemaClosed.getBookingState()).isNotNull().isEqualTo(CLOSED.name());
   }
 
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"1", "a", "A1"})
-  void shouldReturnBadRequestWhenCancelBookingWithInvalidRestaurantId(String restaurantId)
+  void shouldReturnBadRequestWhenCloseBookingWithInvalidRestaurantId(String restaurantId)
       throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
@@ -94,7 +93,7 @@ class PatchToCancelRestaurantBookingApiTest {
   }
 
   @Test
-  void shouldReturnNotFoundWhenCancelBookingWithNonExistentRestaurantId() throws Exception {
+  void shouldReturnNotFoundWhenCloseBookingWithNonExistentRestaurantId() throws Exception {
     var restaurantId = UUID.randomUUID();
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
@@ -108,7 +107,7 @@ class PatchToCancelRestaurantBookingApiTest {
   @ParameterizedTest
   @NullAndEmptySource
   @ValueSource(strings = {"1", "a", "A1"})
-  void shouldReturnBadRequestWhenCancelBookingWithInvalidBookingId(String bookingId)
+  void shouldReturnBadRequestWhenCloseBookingWithInvalidBookingId(String bookingId)
       throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
 
@@ -118,7 +117,7 @@ class PatchToCancelRestaurantBookingApiTest {
   }
 
   @Test
-  void shouldReturnNotFoundWhenCancelBookingWithNonExistentBookingId() throws Exception {
+  void shouldReturnNotFoundWhenCloseBookingWithNonExistentBookingId() throws Exception {
     var restaurantSchema = createAndPersistRestaurantSchema();
 
     var request = patch(URL_BOOKING, restaurantSchema.getId(), UUID.randomUUID());
@@ -127,10 +126,10 @@ class PatchToCancelRestaurantBookingApiTest {
   }
 
   @Test
-  void shouldReturnBadRequestWhenCancelBookingAlreadyCanceled() throws Exception {
+  void shouldReturnBadRequestWhenCloseBookingAlreadyCloseed() throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
-    var bookingSchema = createAndPersistBookingSchema(userSchema, restaurantSchema, CANCELED);
+    var bookingSchema = createAndPersistBookingSchema(userSchema, restaurantSchema, CLOSED);
 
     var request = patch(URL_BOOKING, restaurantSchema.getId(), bookingSchema.getId());
     mockMvc.perform(request)
@@ -138,7 +137,7 @@ class PatchToCancelRestaurantBookingApiTest {
   }
 
   @Test
-  void shouldReturnBadRequestWhenCancelBookingAlreadyClosed() throws Exception {
+  void shouldReturnBadRequestWhenCloseBookingAlreadyClosed() throws Exception {
     var userSchema = createAndPersistUserSchema();
     var restaurantSchema = createAndPersistRestaurantSchema();
     var bookingSchema = createAndPersistBookingSchema(userSchema, restaurantSchema, CLOSED);

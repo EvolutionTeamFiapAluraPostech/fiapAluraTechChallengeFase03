@@ -50,4 +50,15 @@ public interface RestaurantsBookingApi {
       @Parameter(description = "UUID do restaurante válido") String restaurantId,
       @Parameter(description = "UUID da reserva válido") String bookingId);
 
+  @Operation(summary = "Fechamento da reserva em restaurante",
+      description = "Endpoint para fechar a reserva de uma mesa em um restaurante. O Necessário ID do restaurante e o ID da reserva.",
+      tags = "RestaurantsBookingApi")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "202", description = "accepted operation",
+          content = {@Content(schema = @Schema(hidden = true))}),
+      @ApiResponse(responseCode = "400", description = "bad request para validação do ID do restaurante, ID da reserva.",
+          content = {@Content(schema = @Schema(hidden = true))})})
+  void patchToCloseRestaurantBooking(
+      @Parameter(description = "UUID do restaurante válido") String restaurantId,
+      @Parameter(description = "UUID da reserva válido") String bookingId);
 }

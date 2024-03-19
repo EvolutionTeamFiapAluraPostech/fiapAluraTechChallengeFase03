@@ -23,7 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class CancelRestaurantBookingInteractorTest {
+class CloseRestaurantBookingInteractorTest {
 
   @Mock
   private BookingGateway bookingGateway;
@@ -36,10 +36,10 @@ class CancelRestaurantBookingInteractorTest {
   @Mock
   private RestaurantBookingMailer restaurantBookingMailer;
   @InjectMocks
-  private CancelRestaurantBookingInteractor cancelRestaurantBookingUseCase;
+  private CloseRestaurantBookingInteractor closeRestaurantBookingUseCase;
 
   @Test
-  void shouldCancelBooking() {
+  void shouldCloseBooking() {
     var user = createUser();
     var restaurant = createRestaurant();
     var startBookingDate = LocalDateTime.now().plusDays(1);
@@ -50,11 +50,10 @@ class CancelRestaurantBookingInteractorTest {
     when(userGateway.findByEmailRequired(user.getEmail().address())).thenReturn(user);
 
     assertThatCode(
-        () -> cancelRestaurantBookingUseCase.execute(
+        () -> closeRestaurantBookingUseCase.execute(
             restaurant.getId().toString(), booking.getId().toString(), user.getEmail().address()))
         .doesNotThrowAnyException();
     verify(uuidValidator, times(2)).validate(any(String.class));
     verify(restaurantBookingMailer).createAndSendEmail(booking, restaurant, user);
   }
-
 }

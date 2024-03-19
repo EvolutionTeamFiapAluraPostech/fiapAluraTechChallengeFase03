@@ -1,6 +1,7 @@
 package br.com.fiaprestaurant.restaurant.presentation.api;
 
 import br.com.fiaprestaurant.restaurant.application.usecase.CancelRestaurantBookingUseCase;
+import br.com.fiaprestaurant.restaurant.application.usecase.CloseRestaurantBookingUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.CreateRestaurantBookingUseCase;
 import br.com.fiaprestaurant.restaurant.application.usecase.GetAllBookingByRestaurantIdAndStateAndBookingDateBetweenUseCase;
 import br.com.fiaprestaurant.restaurant.presentation.dto.BookingFilter;
@@ -25,14 +26,17 @@ public class RestaurantsBookingController implements RestaurantsBookingApi {
   private final CreateRestaurantBookingUseCase createRestaurantBookingUseCase;
   private final GetAllBookingByRestaurantIdAndStateAndBookingDateBetweenUseCase getAllBookingByRestaurantIdAndStateAndBookingDateBetweenUseCase;
   private final CancelRestaurantBookingUseCase cancelRestaurantBookingUseCase;
+  private final CloseRestaurantBookingUseCase closeRestaurantBookingUseCase;
 
   public RestaurantsBookingController(
       CreateRestaurantBookingUseCase createRestaurantBookingUseCase,
       GetAllBookingByRestaurantIdAndStateAndBookingDateBetweenUseCase getAllBookingByRestaurantIdAndStateAndBookingDateBetweenUseCase,
-      CancelRestaurantBookingUseCase cancelRestaurantBookingUseCase) {
+      CancelRestaurantBookingUseCase cancelRestaurantBookingUseCase,
+      CloseRestaurantBookingUseCase closeRestaurantBookingUseCase) {
     this.createRestaurantBookingUseCase = createRestaurantBookingUseCase;
     this.getAllBookingByRestaurantIdAndStateAndBookingDateBetweenUseCase = getAllBookingByRestaurantIdAndStateAndBookingDateBetweenUseCase;
     this.cancelRestaurantBookingUseCase = cancelRestaurantBookingUseCase;
+    this.closeRestaurantBookingUseCase = closeRestaurantBookingUseCase;
   }
 
   @PostMapping
@@ -61,7 +65,7 @@ public class RestaurantsBookingController implements RestaurantsBookingApi {
   }
 
   @PatchMapping("/{booking-id}/cancel")
-  @ResponseStatus(HttpStatus.ACCEPTED)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @Override
   public void patchToCancelRestaurantBooking(
       @PathVariable("restaurant-id") String restaurantId,
@@ -70,5 +74,14 @@ public class RestaurantsBookingController implements RestaurantsBookingApi {
     cancelRestaurantBookingUseCase.execute(restaurantId, bookingId, currentPrincipalName);
   }
 
+  @PatchMapping("/{booking-id}/close")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @Override
+  public void patchToCloseRestaurantBooking(
+      @PathVariable("restaurant-id") String restaurantId,
+      @PathVariable("booking-id") String bookingId) {
+    var currentPrincipalName = SpringSecurityUtils.getCurrentPrincipalUsername();
+    closeRestaurantBookingUseCase.execute(restaurantId, bookingId, currentPrincipalName);
+  }
 
 }

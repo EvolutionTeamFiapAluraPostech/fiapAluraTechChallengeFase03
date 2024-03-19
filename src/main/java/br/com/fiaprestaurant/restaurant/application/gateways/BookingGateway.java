@@ -19,4 +19,6 @@ public interface BookingGateway {
   Booking findByIdRequired(UUID bookingId);
 
   void cancel(Booking booking);
+
+  void close(Booking booking);
 }

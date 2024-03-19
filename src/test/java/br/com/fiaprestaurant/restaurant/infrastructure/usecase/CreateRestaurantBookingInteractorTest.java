@@ -15,6 +15,7 @@ import br.com.fiaprestaurant.restaurant.application.gateways.BookingGateway;
 import br.com.fiaprestaurant.restaurant.application.gateways.RestaurantGateway;
 import br.com.fiaprestaurant.restaurant.application.mailer.RestaurantBookingMailer;
 import br.com.fiaprestaurant.restaurant.application.validator.RestaurantBookingCapacityOfPeopleValidator;
+import br.com.fiaprestaurant.restaurant.application.validator.RestaurantBookingDateValidator;
 import br.com.fiaprestaurant.restaurant.domain.entity.Booking;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import br.com.fiaprestaurant.shared.domain.validator.UuidValidator;
@@ -45,6 +46,8 @@ class CreateRestaurantBookingInteractorTest {
   private RestaurantBookingCapacityOfPeopleValidator restaurantBookingCapacityOfPeopleValidator;
   @Mock
   private RestaurantBookingMailer restaurantBookingMailer;
+  @Mock
+  private RestaurantBookingDateValidator validateBookingDate;
   @InjectMocks
   private CreateRestaurantBookingInteractor createRestaurantBookingInteractor;
 
@@ -69,6 +72,7 @@ class CreateRestaurantBookingInteractorTest {
     verify(uuidValidator).validate(restaurantId);
     verify(userGateway).findUserByIdRequired(userId);
     verify(restaurantBookingCapacityOfPeopleValidator).validate(restaurant, booking);
+    verify(validateBookingDate).validate(bookingDate);
     verify(bookingGateway).save(booking);
     verify(restaurantBookingMailer).createAndSendEmail(booking, restaurant, user);
   }
@@ -85,11 +89,13 @@ class CreateRestaurantBookingInteractorTest {
     when(restaurantGateway.findByIdRequired(restaurantId)).thenThrow(NoResultException.class);
 
     assertThatThrownBy(
-        () -> createRestaurantBookingInteractor.execute(restaurantIdFromString, booking));
+        () -> createRestaurantBookingInteractor.execute(restaurantIdFromString, booking))
+        .isInstanceOf(NoResultException.class);
 
     verify(uuidValidator).validate(restaurantIdFromString);
     verify(userGateway).findUserByIdRequired(UUID.fromString(userId));
     verify(restaurantBookingCapacityOfPeopleValidator, never()).validate(restaurant, booking);
+    verify(validateBookingDate, never()).validate(bookingDate);
     verify(bookingGateway, never()).save(booking);
   }
 
@@ -103,12 +109,14 @@ class CreateRestaurantBookingInteractorTest {
     when(userGateway.findUserByIdRequired(DEFAULT_USER_UUID)).thenThrow(NoResultException.class);
 
     assertThatThrownBy(
-        () -> createRestaurantBookingInteractor.execute(restaurant.getId().toString(), booking));
+        () -> createRestaurantBookingInteractor.execute(restaurant.getId().toString(), booking))
+        .isInstanceOf(NoResultException.class);
 
     verify(uuidValidator).validate(restaurantId);
     verify(userGateway).findUserByIdRequired(UUID.fromString(userId));
     verify(restaurantGateway, never()).findByIdRequired(restaurant.getId());
     verify(restaurantBookingCapacityOfPeopleValidator, never()).validate(restaurant, booking);
+    verify(validateBookingDate, never()).validate(bookingDate);
     verify(bookingGateway, never()).save(booking);
   }
 
@@ -124,11 +132,34 @@ class CreateRestaurantBookingInteractorTest {
         .validate(restaurant, booking);
 
     assertThatThrownBy(
-        () -> createRestaurantBookingInteractor.execute(restaurant.getId().toString(), booking));
+        () -> createRestaurantBookingInteractor.execute(restaurant.getId().toString(), booking))
+        .isInstanceOf(ValidatorException.class);
 
     verify(uuidValidator).validate(restaurantId);
     verify(userGateway).findUserByIdRequired(UUID.fromString(userId));
     verify(restaurantBookingCapacityOfPeopleValidator).validate(restaurant, booking);
+    verify(validateBookingDate, never()).validate(bookingDate);
+    verify(bookingGateway, never()).save(booking);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenCreateRestaurantBookingWithInvalidBookingDate() {
+    var restaurant = createRestaurant();
+    var restaurantId = restaurant.getId().toString();
+    var userId = DEFAULT_USER_UUID_FROM_STRING;
+    var bookingDate = LocalDateTime.now().minusMinutes(1);
+    var booking = createRestaurantBooking(restaurantId, userId, "", bookingDate.toString());
+    when(restaurantGateway.findByIdRequired(restaurant.getId())).thenReturn(restaurant);
+    doThrow(ValidatorException.class).when(validateBookingDate).validate(bookingDate);
+
+    assertThatThrownBy(
+        () -> createRestaurantBookingInteractor.execute(restaurant.getId().toString(), booking))
+        .isInstanceOf(ValidatorException.class);
+
+    verify(uuidValidator).validate(restaurantId);
+    verify(userGateway).findUserByIdRequired(UUID.fromString(userId));
+    verify(restaurantBookingCapacityOfPeopleValidator).validate(restaurant, booking);
+    verify(validateBookingDate).validate(bookingDate);
     verify(bookingGateway, never()).save(booking);
   }
 

@@ -39,13 +39,4 @@ class BookingTest {
         .isInstanceOf(ValidatorException.class);
   }
 
-  @Test
-  void shouldThrowExceptionWhenBookingDateIsInvalid() {
-    var bookingDate = LocalDateTime.now().minusMinutes(1).toString();
-    assertThatThrownBy(
-        () -> createRestaurantBooking(DEFAULT_RESTAURANT_ID_STRING, DEFAULT_USER_UUID_FROM_STRING,
-            RESTAURANT_BOOKING_DESCRIPTION, bookingDate))
-        .isInstanceOf(ValidatorException.class);
-  }
-
 }

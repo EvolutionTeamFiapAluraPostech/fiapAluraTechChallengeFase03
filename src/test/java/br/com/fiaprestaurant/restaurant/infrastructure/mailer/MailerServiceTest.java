@@ -27,7 +27,7 @@ class MailerServiceTest {
   private MailerService mailerService;
 
   @BeforeEach
-  public void before() {
+  void before() {
     mimeMessage = new MimeMessage((Session)null);
   }
 

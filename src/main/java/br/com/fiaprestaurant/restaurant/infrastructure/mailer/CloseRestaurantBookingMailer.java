@@ -9,18 +9,18 @@ import br.com.fiaprestaurant.user.domain.entity.User;
 import java.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
 
-@Component("cancelRestaurantBookingMailer")
-public class CancelRestaurantBookingMailer implements RestaurantBookingMailer {
+@Component("closeRestaurantBookingMailer")
+public class CloseRestaurantBookingMailer implements RestaurantBookingMailer {
 
   private final EmailEventPublisher emailEventPublisher;
 
-  public CancelRestaurantBookingMailer(EmailEventPublisher emailEventPublisher) {
+  public CloseRestaurantBookingMailer(EmailEventPublisher emailEventPublisher) {
     this.emailEventPublisher = emailEventPublisher;
   }
 
   @Override
   public void createAndSendEmail(Booking booking, Restaurant restaurant, User user) {
-    var emailTitle = "Booking canceled at %s restaurant ".formatted(restaurant.getName());
+    var emailTitle = "Booking closed at %s restaurant ".formatted(restaurant.getName());
     var emailBody = createEmailBody(booking, restaurant, user);
     var emailDestination = user.getEmail().address();
     emailEventPublisher.publishEvent(new EmailEvent(emailTitle, emailBody, emailDestination));
@@ -30,7 +30,7 @@ public class CancelRestaurantBookingMailer implements RestaurantBookingMailer {
     var formatDate = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     var bookingDateTime = formatDate.format(booking.getBookingDate());
     return """
-        Hello %s, your reservation at the %s restaurant, for %s, was canceled successfully!
+        Hello %s, your reservation at the %s restaurant, for %s, was closed successfully!
         """.formatted(user.getName(), restaurant.getName(), bookingDateTime);
   }
 }

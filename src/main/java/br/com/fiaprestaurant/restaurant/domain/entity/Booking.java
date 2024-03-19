@@ -2,12 +2,10 @@ package br.com.fiaprestaurant.restaurant.domain.entity;
 
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantFields.RESTAURANT_BOOKING_DATE_FIELD;
 import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.ENTER_RESTAURANT_BOOKING_DATE;
-import static br.com.fiaprestaurant.restaurant.domain.messages.RestaurantMessages.RESTAURANT_BOOKING_DATE_MUST_BE_GREATER_THAN_ACTUAL_DATE;
 
 import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.springframework.validation.FieldError;
 
@@ -29,7 +27,6 @@ public class Booking {
 
   public Booking(UUID restaurantId, UUID userId, String description, LocalDateTime bookingDate) {
     validateBookingDateIsNull(bookingDate);
-    validateBookingDate(bookingDate);
     this.restaurantId = restaurantId;
     this.userId = userId;
     this.description = description;
@@ -42,17 +39,6 @@ public class Booking {
       throw new ValidatorException(
           new FieldError(this.getClass().getSimpleName(), RESTAURANT_BOOKING_DATE_FIELD,
               ENTER_RESTAURANT_BOOKING_DATE));
-    }
-  }
-
-  private void validateBookingDate(LocalDateTime bookingDate) {
-    if (LocalDateTime.now().isAfter(bookingDate)) {
-      var actualDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-      var bookingDateMessage = bookingDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-      throw new ValidatorException(
-          new FieldError(this.getClass().getSimpleName(), RESTAURANT_BOOKING_DATE_FIELD,
-              RESTAURANT_BOOKING_DATE_MUST_BE_GREATER_THAN_ACTUAL_DATE.formatted(actualDate,
-                  bookingDateMessage)));
     }
   }
 

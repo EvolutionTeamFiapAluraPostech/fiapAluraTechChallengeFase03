@@ -3439,6 +3439,65 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Close restaurant booking",
+					"item": [
+						{
+							"name": "01 - Return accepted status when close restaurant booking",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/close"
+							},
+							"response": []
+						},
+						{
+							"name": "02 - Return bad request status when close restaurant booking with invalid restaurant id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/1Ab/booking/{{bookingId}}/close"
+							},
+							"response": []
+						},
+						{
+							"name": "03 - Return bad request status when close restaurant booking by non existent restaurant id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/booking/{{bookingId}}/close"
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return bad request status when close restaurant booking with invalid booking id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/1aB/close"
+							},
+							"response": []
+						},
+						{
+							"name": "05 - Return bad request status when close restaurant booking by non existent booking id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/close"
+							},
+							"response": []
+						},
+						{
+							"name": "06 - Return bad request status when close restaurant booking already canceled",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/close"
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

@@ -1,11 +1,9 @@
 spring:
   profiles:
-    active: test
+    active: dev
   jpa:
     show-sql: true
+    database: postgresql
   flyway:
     baseline-on-migrate: true
     schemas: 'flyway'
-  config:
-    activate:
-      on-profile: test

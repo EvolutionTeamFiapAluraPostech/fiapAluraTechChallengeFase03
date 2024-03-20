@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: prod
+  jpa:
+    show-sql: false
+    database: postgresql
+  flyway:
+    enabled: false
+

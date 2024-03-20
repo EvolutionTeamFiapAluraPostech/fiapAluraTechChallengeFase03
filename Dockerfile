@@ -4,6 +4,5 @@ WORKDIR /home/gradle/src
 RUN gradle build --no-daemon
 
 FROM openjdk:17-alpine
-ARG JAR_FILE=build/libs/fiaprestaurant-*-SNAPSHOT.jar
-COPY ${JAR_FILE} fiaprestaurant.jar
+COPY --from=build /target/fiaprestaurant-*-SNAPSHOT.jar fiaprestaurant.jar
 ENTRYPOINT ["java", "-jar", "/fiaprestaurant.jar"]

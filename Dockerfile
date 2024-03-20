@@ -1,8 +1,6 @@
-FROM gradle:7.6.4-jdk17-alpine AS build
-COPY --chown=gradle:gradle . /home/gradle/src/producer
-WORKDIR /home/gradle/src/producer
-RUN gradle bootJar --no-daemon --stacktrace
-FROM openjdk:17-jdk-alpine
-ARG JAR_FILE=build/libs/*.jar
-COPY --from=build /home/gradle/src/producer/build/libs/*.jar fiaprestaurant.jar
-ENTRYPOINT ["java","-jar","/fiaprestaurant.jar"]
+FROM openjdk:17-alpine
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+ARG JAR_FILE=build/libs/fiaprestaurant-*-SNAPSHOT.jar
+COPY ${JAR_FILE} fiaprestaurant.jar
+ENTRYPOINT ["java", "-jar", "/fiaprestaurant.jar"]

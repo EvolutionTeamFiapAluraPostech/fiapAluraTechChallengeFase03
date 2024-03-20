@@ -4,9 +4,9 @@ spring:
     database: postgresql
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/fiaprestaurant-db}
-    username: ${SPRING_DATASOURCE_USERNAME:fiaprestaurant-postgres-user}
-    password: ${SPRING_DATASOURCE_PASSWORD:fiaprestaurant-postgres-pwd}
+    url: jdbc:postgresql://localhost:5432/fiaprestaurant-db
+    username: fiaprestaurant-postgres-user
+    password: fiaprestaurant-postgres-pwd
   flyway:
     baseline-on-migrate: true
     schemas: 'flyway'
@@ -28,7 +28,7 @@ spring:
             required: true
 
 server:
-  port: ${SERVER_PORT:8080}
+  port: 8080
   error:
     include-stacktrace: never
 

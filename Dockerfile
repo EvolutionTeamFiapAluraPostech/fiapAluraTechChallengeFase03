@@ -4,5 +4,5 @@ WORKDIR /home/gradle/src/producer
 RUN gradle bootJar --no-daemon --stacktrace
 FROM openjdk:17-jdk-alpine
 ARG JAR_FILE=build/libs/*.jar
-COPY --from=build /home/gradle/src/producer/build/libs/*.jar producer.jar
+COPY --from=build /home/gradle/src/producer/build/libs/*.jar fiaprestaurant.jar
 ENTRYPOINT ["java","-jar","/fiaprestaurant.jar"]

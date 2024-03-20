@@ -67,11 +67,7 @@ tasks.register("bootJarDev") {
 tasks.register("bootJarProd") {
     group = "build"
     description = "Runs the Spring Boot application with the prod profile"
-    doFirst {
-        tasks.bootRun.configure {
-            systemProperty("spring.profiles.active", "prod")
-        }
-    }
+    systemProperty("spring.profiles.active", "prod")
     finalizedBy("bootJar")
 }
 

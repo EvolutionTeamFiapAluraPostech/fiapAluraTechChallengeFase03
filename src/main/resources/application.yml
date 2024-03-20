@@ -5,7 +5,8 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
   flyway:
-    enabled: false
+    baseline-on-migrate: true
+    schemas: 'flyway'
   docker:
     compose:
       enabled: true

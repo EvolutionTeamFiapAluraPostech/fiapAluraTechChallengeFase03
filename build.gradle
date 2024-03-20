@@ -53,24 +53,6 @@ tasks.withType(Test) {
     useJUnitPlatform(){}
 }
 
-tasks.register("bootJarDev") {
-    group = "build"
-    description = "Runs the Spring Boot application with the dev profile"
-    doFirst {
-        tasks.bootRun.configure {
-            systemProperty("spring.profiles.active", "dev")
-        }
-    }
-    finalizedBy("bootJar")
-}
-
-tasks.register("bootJarProd") {
-    group = "build"
-    description = "Runs the Spring Boot application with the prod profile"
-    systemProperty("spring.profiles.active", "prod")
-    finalizedBy("bootJar")
-}
-
 /*
 tasks.withType(Test) {
     description = 'Runs the unit tests.'

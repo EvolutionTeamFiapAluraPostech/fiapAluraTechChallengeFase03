@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "AuthenticationApi", description = "API de autenticação no aplicativo Digital Parking")
+@Tag(name = "AuthenticationApi", description = "API de autenticação no aplicativo FiapRestaurant")
 public interface AuthenticationInterface {
 
   @Operation(summary = "Autenticação de usuário do aplicativo",

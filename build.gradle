@@ -50,6 +50,13 @@ dependencies {
 tasks.withType(Test) {
     description = 'Runs the unit tests.'
     group = 'verification'
+    useJUnitPlatform(){}
+}
+
+/*
+tasks.withType(Test) {
+    description = 'Runs the unit tests.'
+    group = 'verification'
     useJUnitPlatform({
         excludeTags 'integrationTest'
     })
@@ -62,3 +69,4 @@ task integrationTest(type: Test) {
         includeTags 'integrationTest'
     }
 }
+*/

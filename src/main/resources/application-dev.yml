@@ -1,6 +1,12 @@
 spring:
-  profiles:
-    active: dev
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/fiaprestaurant-db
+    username: fiaprestaurant-postgres-user
+    password: fiaprestaurant-postgres-pwd
   jpa:
     show-sql: true
     database: postgresql

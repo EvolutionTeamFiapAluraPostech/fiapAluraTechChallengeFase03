@@ -2,9 +2,16 @@ spring:
   config:
     activate:
       on-profile: prod
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     show-sql: false
     database: postgresql
-  flyway:
-    enabled: false
 
+api:
+  security:
+    token:
+      secret: ${API_SECURITY_TOKEN_SECRET}

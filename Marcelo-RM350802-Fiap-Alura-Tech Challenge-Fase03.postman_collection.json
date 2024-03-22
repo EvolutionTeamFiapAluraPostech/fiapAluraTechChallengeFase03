@@ -26,7 +26,7 @@
 								}
 							}
 						},
-						"url": "localhost:8080/authenticate"
+						"url": "{{url}}/authenticate"
 					},
 					"response": []
 				}
@@ -45,29 +45,23 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Oracle\",\n    \"email\": \"jvm@matrix.com\",\n    \"cpf\": \"23234143056\",\n    \"password\": \"@Bcd1234\"\n}",
+							"raw": "{\n    \"name\": \"Neo\",\n    \"email\": \"neo@matrix.com\",\n    \"cpf\": \"43941570056\",\n    \"password\": \"@Bcd1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:8080/users"
+						"url": "{{url}}/users"
 					},
 					"response": []
 				},
 				{
 					"name": "02 - Find all users paginated",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{auth_token}}"
-							}
-						},
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/users"
+						"url": "{{url}}/users"
 					},
 					"response": []
 				},
@@ -91,82 +85,43 @@
 								}
 							}
 						},
-						"url": "localhost:8080/users/83099fa9-776b-4867-ae8e-170fd751b775"
+						"url": "{{url}}/users/{{userId}}"
 					},
 					"response": []
 				},
 				{
 					"name": "05 - Find user by ID",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{auth_token}}"
-							}
-						},
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/users/cdd0724e-3f51-4ace-8d5f-11b3277a3532"
+						"url": "{{url}}/users/{{userId}}"
 					},
 					"response": []
 				},
 				{
 					"name": "06 - Delete user by ID",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{auth_token}}"
-							}
-						},
 						"method": "DELETE",
 						"header": [],
-						"url": "localhost:8080/users/cdd0724e-3f51-4ace-8d5f-11b3277a3532"
+						"url": "{{url}}/users/{{userId}}"
 					},
 					"response": []
 				},
 				{
 					"name": "07 - Find user by email",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{auth_token}}"
-							}
-						},
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/users/email/thomas.anderson@itcompany.com"
-					},
-					"response": []
-				},
-				{
-					"name": "08 - Find user by name",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{auth_token}}"
-							}
-						},
-						"method": "GET",
-						"header": [],
-						"url": "localhost:8080/users/name/thomas anderson"
+						"url": "{{url}}/users/email/{{userEmail}}"
 					},
 					"response": []
 				},
 				{
 					"name": "09 - Find user by cpf",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{auth_token}}"
-							}
-						},
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/users/cpf/95962710088"
+						"url": "{{url}}/users/cpf/{{cpf}}"
 					},
 					"response": []
 				}
@@ -188,7 +143,8 @@
 											"var current_timestamp = new Date();",
 											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -197,14 +153,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": {{restaurantCnpj}},\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -218,7 +174,8 @@
 											"var current_timestamp = new Date();",
 											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -227,14 +184,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"Restaurant {{current_timestamp}}\",\n    \"cnpj\": {{restaurantCnpj}},\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -248,7 +205,8 @@
 											"var restaurantName = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantName\", restaurantName);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -257,14 +215,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurant {{restaurantName}}\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"Restaurant {{restaurantName}}\",\n    \"cnpj\": {{restaurantCnpj}},\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -277,7 +235,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -286,14 +245,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"cnpj\": {{restaurantCnpj}},\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -306,7 +265,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -315,14 +275,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"\",\n    \"cnpj\": \"57584844000144\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"\",\n    \"cnpj\": {{restaurantCnpj}},\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -335,7 +295,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -344,14 +305,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"11111111111111\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"{{invalidCnpj}}\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -364,7 +325,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -380,7 +342,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -393,7 +355,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -409,7 +372,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -422,7 +385,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -431,14 +395,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:oo\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"{{invalidRestaurantOpenAt}}\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -451,7 +415,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -467,7 +432,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -480,7 +445,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -496,7 +462,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -509,7 +475,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -518,14 +485,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:oo\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"cnpj\": \"57584844000144\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"{{invalidRestaurantCloseAt}}\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -538,7 +505,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -554,7 +522,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -567,7 +535,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -583,7 +552,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -596,7 +565,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -612,7 +582,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -625,7 +595,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -641,7 +612,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -654,7 +625,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -670,7 +642,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -683,7 +655,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -699,7 +672,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -713,7 +686,8 @@
 											"var restaurantTypeOfCuisine = Array(51).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantTypeOfCuisine\", restaurantTypeOfCuisine);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -729,7 +703,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -742,7 +716,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -758,7 +733,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -771,7 +746,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -787,7 +763,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -801,7 +777,8 @@
 											"var restaurantStreet = Array(251).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantStreet\", restaurantStreet);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -817,7 +794,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -830,7 +807,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -846,7 +824,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -859,7 +837,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -875,7 +854,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -889,7 +868,8 @@
 											"var restaurantNumber = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantNumber\", restaurantNumber);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -905,7 +885,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -918,7 +898,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -934,7 +915,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -947,7 +928,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -963,7 +945,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -977,7 +959,8 @@
 											"var restaurantNeighborhood = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantNeighborhood\", restaurantNeighborhood);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -993,7 +976,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1006,7 +989,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1022,7 +1006,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1035,7 +1019,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1051,7 +1036,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1065,7 +1050,8 @@
 											"var restaurantCity = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantCity\", restaurantCity);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1081,7 +1067,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1094,7 +1080,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1110,7 +1097,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1123,7 +1110,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1139,7 +1127,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1152,7 +1140,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1168,7 +1157,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1181,7 +1170,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1197,7 +1187,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1210,7 +1200,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1226,7 +1217,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						},
@@ -1239,7 +1230,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1255,7 +1247,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants"
+								"url": "{{url}}/restaurants"
 							},
 							"response": []
 						}
@@ -1282,11 +1274,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?name={{restaurantName}}",
+									"raw": "{{url}}/restaurants/name-coordinates-typeofcuisine?name={{restaurantName}}",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"name-coordinates-typeofcuisine"
@@ -1329,11 +1320,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?name=xpto",
+									"raw": "{{url}}/restaurants/name-coordinates-typeofcuisine?name=xpto",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"name-coordinates-typeofcuisine"
@@ -1376,11 +1366,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?typeOfCuisine={{typeOfCuisine}}",
+									"raw": "{{url}}/restaurants/name-coordinates-typeofcuisine?typeOfCuisine={{typeOfCuisine}}",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"name-coordinates-typeofcuisine"
@@ -1428,11 +1417,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?typeOfCuisine=Italiana",
+									"raw": "{{url}}/restaurants/name-coordinates-typeofcuisine?typeOfCuisine=Italiana",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"name-coordinates-typeofcuisine"
@@ -1480,11 +1468,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?latitude={{latitude}}&longitude={{longitude}}",
+									"raw": "{{url}}/restaurants/name-coordinates-typeofcuisine?latitude={{latitude}}&longitude={{longitude}}",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"name-coordinates-typeofcuisine"
@@ -1531,11 +1518,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine?latitude=-89&longitude=-89",
+									"raw": "{{url}}/restaurants/name-coordinates-typeofcuisine?latitude=-89&longitude=-89",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"name-coordinates-typeofcuisine"
@@ -1582,11 +1568,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurants/name-coordinates-typeofcuisine",
+									"raw": "{{url}}/restaurants/name-coordinates-typeofcuisine",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"name-coordinates-typeofcuisine"
@@ -1616,6 +1601,14 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					]
 				},
@@ -1632,7 +1625,8 @@
 											"var current_timestamp = new Date();",
 											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1641,14 +1635,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": \"04638576000130\",\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
+									"raw": "{\n    \"name\": \"Restaurante Peruano {{current_timestamp}}\",\n    \"cnpj\": {{restaurantCnpj}},\n    \"typeOfCuisine\": \"Peruana\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av São Paulo\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Jataí\",\n    \"state\": \"GO\",\n    \"postalCode\": \"75000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"14:30\",\n    \"peopleCapacity\": 150\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1662,7 +1656,8 @@
 											"var current_timestamp = new Date();",
 											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1678,7 +1673,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/9a"
+								"url": "{{url}}/restaurants/9a"
 							},
 							"response": []
 						},
@@ -1692,7 +1687,8 @@
 											"var current_timestamp = new Date();",
 											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1708,7 +1704,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/99654d36-5fc9-41bf-a6e4-9db3f0beacea"
+								"url": "{{url}}/restaurants/{{non-existent-restaurant-id}}"
 							},
 							"response": []
 						},
@@ -1722,7 +1718,8 @@
 											"var current_timestamp = new Date();",
 											"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toLocaleTimeString());"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1738,7 +1735,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/99654d36-5fc9-41bf-a6e4-9db3f0beacea"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1752,7 +1749,8 @@
 											"var restaurantName = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantName\", restaurantName);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1768,7 +1766,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1781,7 +1779,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1797,7 +1796,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1810,7 +1809,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1826,7 +1826,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1839,7 +1839,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1848,14 +1849,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"11111111111111\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
+									"raw": "{\n    \"name\": \"Restaurant\",\n    \"cnpj\": \"{{invalidCnpj}}\",\n    \"typeOfCuisine\": \"Brasileira\",\n    \"latitude\": -23.5691,\n    \"longitude\": -46.65239,\n    \"street\": \"Av Goiás\",\n    \"number\": \"1000\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Goiânia\",\n    \"state\": \"GO\",\n    \"postalCode\": \"74000000\",\n    \"openAt\": \"11:00\",\n    \"closeAt\": \"15:00\",\n    \"peopleCapacity\": 200\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1868,7 +1869,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1884,7 +1886,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1897,7 +1899,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1913,7 +1916,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1926,7 +1929,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1942,7 +1946,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1955,7 +1959,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1971,7 +1976,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -1984,7 +1989,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2000,7 +2006,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2013,7 +2019,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2029,7 +2036,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2042,7 +2049,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2058,7 +2066,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2071,7 +2079,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2087,7 +2096,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2100,7 +2109,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2116,7 +2126,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2129,7 +2139,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2145,7 +2156,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2158,7 +2169,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2174,7 +2186,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2187,7 +2199,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2203,7 +2216,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2217,7 +2230,8 @@
 											"var restaurantTypeOfCuisine = Array(51).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantTypeOfCuisine\", restaurantTypeOfCuisine);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2233,7 +2247,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2246,7 +2260,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2262,7 +2277,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2275,7 +2290,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2291,7 +2307,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2305,7 +2321,8 @@
 											"var restaurantStreet = Array(251).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantStreet\", restaurantStreet);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2321,7 +2338,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2334,7 +2351,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2350,7 +2368,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2363,7 +2381,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2379,7 +2398,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2393,7 +2412,8 @@
 											"var restaurantNumber = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantNumber\", restaurantNumber);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2409,7 +2429,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2422,7 +2442,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2438,7 +2459,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2451,7 +2472,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2467,7 +2489,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2481,7 +2503,8 @@
 											"var restaurantNeighborhood = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantNeighborhood\", restaurantNeighborhood);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2497,7 +2520,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2510,7 +2533,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2526,7 +2550,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2539,7 +2563,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2555,7 +2580,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2569,7 +2594,8 @@
 											"var restaurantCity = Array(101).join('x');",
 											"postman.setEnvironmentVariable(\"restaurantCity\", restaurantCity);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2585,7 +2611,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2598,7 +2624,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2614,7 +2641,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2627,7 +2654,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2643,7 +2671,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2656,7 +2684,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2672,7 +2701,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2685,7 +2714,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2701,7 +2731,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2714,7 +2744,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2730,7 +2761,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2743,7 +2774,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2759,7 +2791,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						}
@@ -2773,7 +2805,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
@@ -2782,7 +2814,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "localhost:8080/restaurants/a1"
+								"url": "{{url}}/restaurants/a1"
 							},
 							"response": []
 						},
@@ -2791,7 +2823,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "localhost:8080/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178"
+								"url": "{{url}}/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178"
 							},
 							"response": []
 						}
@@ -2805,25 +2837,34 @@
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						},
 						{
-							"name": "02 - Return bad request when get restaurant by invalid id Copy",
+							"name": "02 - Return bad request when delete restaurant by invalid id",
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"url": "localhost:8080/restaurants/a1"
+								"url": "{{url}}/restaurants/a1"
 							},
 							"response": []
 						},
 						{
-							"name": "03 - Return not found when get restaurant by id and it does not exist Copy",
+							"name": "03 - Return not found when delete restaurant by id and it does not exist",
 							"request": {
 								"method": "DELETE",
 								"header": [],
-								"url": "localhost:8080/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178"
+								"url": "{{url}}/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178"
+							},
+							"response": []
+						},
+						{
+							"name": "04 - Return not found when delete restaurant by id and it was already deleted",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{url}}/restaurants/{{restaurantId}}"
 							},
 							"response": []
 						}
@@ -2844,14 +2885,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"{{userId}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2862,14 +2903,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"1\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{invalid-restaurant-id}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"{{userId}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2880,14 +2921,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"raw": "{\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"{{userId}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2898,14 +2939,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \" \",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"raw": "{\n    \"restaurantId\": \" \",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"{{userId}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2916,14 +2957,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"4e2780fe-27ed-45f0-b04c-634cff9a1178\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{non-existent-restaurant-id}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"{{userId}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/4e2780fe-27ed-45f0-b04c-634cff9a1178/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{non-existent-restaurant-id}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2934,14 +2975,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"4e2780fe-27ed-45f0-b04c-634cff9a1178\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\"\n}",
+									"raw": "{\n    \"restaurantId\": \"89da2c6d-7844-4c4f-90c0-46442603f7e8\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"{{userId}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2952,14 +2993,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"1\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"1\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2970,14 +3011,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -2988,14 +3029,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"3a406452-e16a-4eb1-8245-7416a79721fe\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \" \"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \" \"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						},
@@ -3006,14 +3047,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"4e2780fe-27ed-45f0-b04c-634cff9a1178\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"description\": \"Comida saborosa\",\n    \"score\": 9,\n    \"userId\": \"{{non-existent-user-id}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/4e2780fe-27ed-45f0-b04c-634cff9a1178"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{non-existent-user-id}}"
 							},
 							"response": []
 						},
@@ -3031,7 +3072,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews/{{userId}}"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews/{{userId}}"
 							},
 							"response": []
 						}
@@ -3045,7 +3086,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/reviews"
+								"url": "{{url}}/restaurants/{{restaurantId}}/reviews"
 							},
 							"response": []
 						},
@@ -3054,7 +3095,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "localhost:8080/restaurants/a1b2/reviews"
+								"url": "{{url}}/restaurants/a1b2/reviews"
 							},
 							"response": []
 						},
@@ -3063,7 +3104,7 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": "localhost:8080/restaurants/f7cb8b14-b7f1-4250-827f-6b14fee2b105/reviews"
+								"url": "{{url}}/restaurants/{{non-existent-restaurant-id}}/reviews"
 							},
 							"response": []
 						}
@@ -3094,7 +3135,7 @@
 												}
 											}
 										},
-										"url": "localhost:8080/restaurants"
+										"url": "{{url}}/restaurants"
 									},
 									"response": []
 								},
@@ -3107,7 +3148,8 @@
 												"exec": [
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -3116,14 +3158,14 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"restaurantId\": \"1b62582f-745d-43f8-8f20-9c10d50f9d7f\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-13T18:00:00\"\n}",
+											"raw": "{\n    \"restaurantId\": \"{{restaurantIdForBookingException}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"2024-03-22T18:00:00\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
 												}
 											}
 										},
-										"url": "localhost:8080/restaurants/1b62582f-745d-43f8-8f20-9c10d50f9d7f/booking"
+										"url": "{{url}}/restaurants/{{restaurantIdForBookingException}}/booking"
 									},
 									"response": []
 								}
@@ -3137,14 +3179,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha {{current-date-time}}\",\n    \"bookingDate\": \"2024-03-18T20:00:00\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{userId}}\",\n    \"description\": \"Mesa longe da porta da cozinha {{current-date-time}}\",\n    \"bookingDate\": \"2024-03-22T20:00:00\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking"
 							},
 							"response": []
 						},
@@ -3162,7 +3204,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/codigo1/booking"
+								"url": "{{url}}/restaurants/codigo1/booking"
 							},
 							"response": []
 						},
@@ -3180,7 +3222,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{invalid-restaurant-id}}/booking"
+								"url": "{{url}}/restaurants/{{invalid-restaurant-id}}/booking"
 							},
 							"response": []
 						},
@@ -3191,14 +3233,14 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{invalid-user-id}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"{{current-date-time}}\"\n}",
+									"raw": "{\n    \"restaurantId\": \"{{restaurantId}}\",\n    \"userId\": \"{{non-existent-user-id}}\",\n    \"description\": \"Mesa longe da porta da cozinha\",\n    \"bookingDate\": \"{{current-date-time}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking"
 							},
 							"response": []
 						},
@@ -3216,7 +3258,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking"
 							},
 							"response": []
 						},
@@ -3234,7 +3276,7 @@
 										}
 									}
 								},
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking"
 							},
 							"response": []
 						}
@@ -3249,11 +3291,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8080/restaurants/{{restaurantId}}/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-19T21:00:00",
+									"raw": "{{url}}/restaurants/{{restaurantId}}/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-22T21:00:00",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"{{restaurantId}}",
@@ -3262,7 +3303,8 @@
 									"query": [
 										{
 											"key": "bookingState",
-											"value": "RESERVED"
+											"value": "RESERVED",
+											"description": "RESERVED ou CANCELED ou CLOSED"
 										},
 										{
 											"key": "startBookingDate",
@@ -3270,7 +3312,7 @@
 										},
 										{
 											"key": "endBookingDate",
-											"value": "2024-03-19T21:00:00"
+											"value": "2024-03-22T21:00:00"
 										}
 									]
 								}
@@ -3283,11 +3325,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8080/restaurants/1aBc/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-18T21:00:00",
+									"raw": "{{url}}/restaurants/1aBc/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-23T21:00:00",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"1aBc",
@@ -3304,7 +3345,7 @@
 										},
 										{
 											"key": "endBookingDate",
-											"value": "2024-03-18T21:00:00"
+											"value": "2024-03-23T21:00:00"
 										}
 									]
 								}
@@ -3317,14 +3358,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8080/restaurants/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-18T21:00:00",
+									"raw": "{{url}}/restaurants/{{non-existent-user-id}}/booking?bookingState=RESERVED&startBookingDate=2024-03-18T20:00:00&endBookingDate=2024-03-23T21:00:00",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
-										"41aa0b37-978b-4482-b9c7-cc78aa1d99cd",
+										"{{non-existent-user-id}}",
 										"booking"
 									],
 									"query": [
@@ -3338,7 +3378,7 @@
 										},
 										{
 											"key": "endBookingDate",
-											"value": "2024-03-18T21:00:00"
+											"value": "2024-03-23T21:00:00"
 										}
 									]
 								}
@@ -3351,11 +3391,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8080/restaurants/{{restaurantId}}/booking?bookingState=RESERVED&startBookingDate=2024-03-19T20:00:00&endBookingDate=2024-03-19T21:00:00",
+									"raw": "{{url}}/restaurants/{{restaurantId}}/booking?bookingState=RESERVED&startBookingDate=2024-03-19T20:00:00&endBookingDate=2024-03-19T21:00:00",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"restaurants",
 										"{{restaurantId}}",
@@ -3364,7 +3403,8 @@
 									"query": [
 										{
 											"key": "bookingState",
-											"value": "RESERVED"
+											"value": "RESERVED",
+											"description": "RESERVED ou CANCELED ou CLOSED"
 										},
 										{
 											"key": "startBookingDate",
@@ -3389,7 +3429,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/cancel"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/{{bookingId}}/cancel"
 							},
 							"response": []
 						},
@@ -3398,7 +3438,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/1Ab/booking/{{bookingId}}/cancel"
+								"url": "{{url}}/restaurants/1Ab/booking/{{bookingId}}/cancel"
 							},
 							"response": []
 						},
@@ -3407,7 +3447,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/booking/{{bookingId}}/cancel"
+								"url": "{{url}}/restaurants/{{non-existent-user-id}}/booking/{{bookingId}}/cancel"
 							},
 							"response": []
 						},
@@ -3416,7 +3456,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/1aB/cancel"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/1aB/cancel"
 							},
 							"response": []
 						},
@@ -3425,7 +3465,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/cancel"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/cancel"
 							},
 							"response": []
 						},
@@ -3434,7 +3474,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/cancel"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/{{bookingId}}/cancel"
 							},
 							"response": []
 						}
@@ -3448,7 +3488,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/close"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/{{bookingIdToClose}}/close"
 							},
 							"response": []
 						},
@@ -3457,16 +3497,16 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/1Ab/booking/{{bookingId}}/close"
+								"url": "{{url}}/restaurants/1Ab/booking/{{bookingId}}/close"
 							},
 							"response": []
 						},
 						{
-							"name": "03 - Return bad request status when close restaurant booking by non existent restaurant id",
+							"name": "03 - Return not found status when close restaurant booking by non existent restaurant id",
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/booking/{{bookingId}}/close"
+								"url": "{{url}}/restaurants/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/booking/{{bookingId}}/close"
 							},
 							"response": []
 						},
@@ -3475,16 +3515,16 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/1aB/close"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/1aB/close"
 							},
 							"response": []
 						},
 						{
-							"name": "05 - Return bad request status when close restaurant booking by non existent booking id",
+							"name": "05 - Return not found status when close restaurant booking by non existent booking id",
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/41aa0b37-978b-4482-b9c7-cc78aa1d99cd/close"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/{{non-existent-booking-id}}/close"
 							},
 							"response": []
 						},
@@ -3493,7 +3533,7 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
-								"url": "localhost:8080/restaurants/{{restaurantId}}/booking/{{bookingId}}/close"
+								"url": "{{url}}/restaurants/{{restaurantId}}/booking/{{bookingId}}/close"
 							},
 							"response": []
 						}
@@ -3538,53 +3578,6 @@
 		{
 			"key": "auth_token",
 			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "restaurantId",
-			"value": "5bcb4a6f-811a-4f65-ba4c-8f3c94652c9f"
-		},
-		{
-			"key": "userId",
-			"value": "3a406452-e16a-4eb1-8245-7416a79721fe"
-		},
-		{
-			"key": "restaurantName",
-			"value": "Restaurant",
-			"type": "string"
-		},
-		{
-			"key": "typeOfCuisine",
-			"value": "Brasileira"
-		},
-		{
-			"key": "latitude",
-			"value": "-23.5691",
-			"type": "string"
-		},
-		{
-			"key": "longitude",
-			"value": "-46.65239",
-			"type": "string"
-		},
-		{
-			"key": "invalid-restaurant-id",
-			"value": "0f449700-cc88-4f03-8cfc-9adc77d0c591",
-			"type": "string"
-		},
-		{
-			"key": "invalid-user-id",
-			"value": "0f449700-cc88-4f03-8cfc-9adc77d0c591",
-			"type": "string"
-		},
-		{
-			"key": "current-date-time",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "bookingId",
-			"value": "3ddf135e-ed35-4df2-a8a8-51893942de51",
 			"type": "string"
 		}
 	]

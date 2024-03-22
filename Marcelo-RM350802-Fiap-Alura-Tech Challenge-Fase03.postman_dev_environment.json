@@ -1,0 +1,178 @@
+{
+	"id": "5c599907-6423-42cb-aebf-6f0237ac7d73",
+	"name": "Dev",
+	"values": [
+		{
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "restaurantId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userId",
+			"value": "7eee61b4-caa9-40b1-a41d-e653a8471b2a",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "restaurantName",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "typeOfCuisine",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "latitude",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "longitude",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "invalid-restaurant-id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "invalid-user-id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "bookingId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "current-date-time",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "userEmail",
+			"value": "thomas.anderson@itcompany.com",
+			"enabled": true
+		},
+		{
+			"key": "userName",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "cpf",
+			"value": "95962710088",
+			"enabled": true
+		},
+		{
+			"key": "current_timestamp",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "restaurantCnpj",
+			"value": "\"57584844000144\"",
+			"enabled": true
+		},
+		{
+			"key": "invalidCnpj",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "invalidRestaurantOpenAt",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "invalidRestaurantCloseAt",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "restaurantTypeOfCuisine",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "restaurantStreet",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "restaurantNumber",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "restaurantNeighborhood",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "restaurantCity",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "non-existent-restaurant-id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "non-existent-user-id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "bookingIdToClose",
+			"value": "0ba1a507-0770-4805-a386-3a5c25164f24",
+			"enabled": true
+		},
+		{
+			"key": "non-existent-booking-id",
+			"value": "41aa0b37-978b-4482-b9c7-cc78aa1d99cd",
+			"enabled": true
+		},
+		{
+			"key": "restaurantIdForBookingException",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2024-03-21T20:09:26.041Z",
+	"_postman_exported_using": "Postman/10.24.6"
+}

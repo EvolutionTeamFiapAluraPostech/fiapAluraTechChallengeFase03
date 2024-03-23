@@ -17,7 +17,7 @@ public interface RestaurantsApi {
 
   @Operation(summary = "Cadastro de restaurantes",
       description = "Endpoint para cadastrar novos restaurantes. O nome, CNPJ, tipo de cozinha, endereço, capacidade, horário de abertura e fechamento são obrigatórios. O CNPJ será único na base de dados.",
-      tags = "RestaurantApi")
+      tags = "RestaurantsApi")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "successful operation",
           content = {
@@ -28,7 +28,7 @@ public interface RestaurantsApi {
 
   @Operation(summary = "Lista de restaurantes",
       description = "Endpoint para recuperar uma lista de restaurantes, filtrada por nome ou coordenadas (latitude e longitude) ou tipo de cozinha, ordenada por nome",
-      tags = {"RestaurantApi"})
+      tags = {"RestaurantsApi"})
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "successful operation", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = RestaurantOutputDto.class))}),
@@ -39,7 +39,7 @@ public interface RestaurantsApi {
 
   @Operation(summary = "Atualiza restaurante",
       description = "Endpoint para atualizar dados do restaurante",
-      tags = {"RestaurantApi"})
+      tags = {"RestaurantsApi"})
   @ApiResponses(value = {
       @ApiResponse(responseCode = "202", description = "successful operation", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = RestaurantOutputDto.class))}),
@@ -76,6 +76,5 @@ public interface RestaurantsApi {
       @ApiResponse(responseCode = "404", description = "not found para restaurante não encontrado", content = {
           @Content(schema = @Schema(hidden = true))})})
   void deleteRestaurant(@Parameter(description = "UUID do restaurante válido") String userUuid);
-
 
 }

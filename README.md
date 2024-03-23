@@ -54,12 +54,23 @@ Content-Length: 76
 "password": "@Bcd1234"
 }
 
-# Documentação da API
-http://localhost:8080/swagger-ui/index.html
-
-# Documentação do PROJETO
-https://www.notion.so/Evolution-Team-Digital-Parking-96c5767bc5ac4506b4497998f261fef9?pvs=4
-
 # Collection do Postman
 * Marcelo-RM350802-Fiap-Alura-Arq-Dev-Java-Tech-Challenge-Fase-03.postman_collection.json
 * Esta collection está salva na raiz do projeto.
+
+# Environments do Postman
+* Cloud
+    * Marcelo-RM350802-Fiap-Alura-Tech Challenge-Fase03.postman_cloud_environment.json
+* Local dev
+    * Marcelo-RM350802-Fiap-Alura-Tech Challenge-Fase03.postman_dev_environment
+* Estas environments estão salvas na raiz do projeto.
+
+# Documentação da API
+* Cloud
+    * https://fiaprestaurant-tc03.onrender.com/swagger-ui/index.html#/
+* Local dev
+  * http://localhost:8080/swagger-ui/index.html
+
+# Documentação do PROJETO
+* PDF
+

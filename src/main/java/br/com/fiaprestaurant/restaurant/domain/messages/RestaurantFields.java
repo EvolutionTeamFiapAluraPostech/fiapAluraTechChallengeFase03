@@ -13,6 +13,7 @@ public final class RestaurantFields {
   public static final String RESTAURANT_BOOKING_PEOPLE_CAPACITY_FIELD = "booking people capacity";
   public static final String RESTAURANT_BOOKING_STATE_FIELD = "booking state";
   public static final String RESTAURANT_BOOKING_ID_FIELD = "booking id";
+  public static final String RESTAURANT_BOOKING_DESCRIPTION_FIELD = "booking description";
 
   private RestaurantFields() {
   }

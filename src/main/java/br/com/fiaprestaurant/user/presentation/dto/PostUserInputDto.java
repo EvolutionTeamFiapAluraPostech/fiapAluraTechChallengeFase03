@@ -21,7 +21,7 @@ public record PostUserInputDto(
     String email,
     @Schema(example = "92477979000", description = "CPF do usuário do aplicativo")
     @NotBlank(message = "cpf is required.")
-    @Length(max = 14, message = "Max cpf length is 14 characters.")
+    @Length(max = 11, message = "Max cpf length is 11 characters.")
     @CPF
     String cpf,
     @Schema(example = "@Admin123", description = "Senha do usuário do aplicativo")

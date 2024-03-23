@@ -15,6 +15,7 @@ public final class RestaurantMessages {
   public static final String RESTAURANT_BOOKING_NOT_FOUND_WITH_ID = "Restaurant booking not found with ID: %s.";
   public static final String RESTAURANT_BOOKING_ALREADY_CLOSED = "Restaurant booking is already closed.";
   public static final String RESTAURANT_BOOKING_ALREADY_CANCELED = "Restaurant booking is already canceled.";
+  public static final String RESTAURANT_BOOKING_DESCRIPTION_LENGTH_MUST_HAVE_BETWEEN_3_AND_500_CHARACTERS = "Restaurant booking description must have between 3 and 500 characters. It has %s.";
   public static final String ENTER_THE_RESTAURANT_ID = "Enter the restaurant ID.";
   public static final String ENTER_THE_RESTAURANT_NAME = "Enter the restaurant name.";
   public static final String ENTER_RESTAURANT_OPENING_HOURS = "Enter opening hours.";

@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import br.com.fiaprestaurant.restaurant.domain.valueobject.BookingState;
 import br.com.fiaprestaurant.shared.domain.exception.ValidatorException;
+import br.com.fiaprestaurant.shared.util.StringUtil;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
@@ -39,4 +40,13 @@ class BookingTest {
         .isInstanceOf(ValidatorException.class);
   }
 
+  @Test
+  void shouldThrowExceptionWhenBookingDescriptionIsGreaterThan500Characters() {
+    var bookingDate = LocalDateTime.now().plusDays(1);
+    var descriptionBiggerThan500Characters = StringUtil.generateStringLength(501);
+    assertThatThrownBy(
+        () -> createRestaurantBooking(DEFAULT_RESTAURANT_ID_STRING, DEFAULT_USER_UUID_FROM_STRING,
+            descriptionBiggerThan500Characters, bookingDate.toString()))
+        .isInstanceOf(ValidatorException.class);
+  }
 }

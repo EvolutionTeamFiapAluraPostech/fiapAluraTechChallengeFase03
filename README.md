@@ -72,5 +72,5 @@ Content-Length: 76
   * http://localhost:8080/swagger-ui/index.html
 
 # Documentação do PROJETO
-* PDF
-
+* TechChallengeFase03-RM350802-MarceloAkioNishimoriV2.pdf
+* PDF salvo na pasta documents deste projeto.
